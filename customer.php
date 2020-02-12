@@ -26,7 +26,7 @@ $connection = DB();
 </head>
 
 <body>
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <nav class="navbar navbar-inverse">
@@ -48,13 +48,13 @@ $connection = DB();
     <br>
 
     <!-- vertical Menu -->
-    <div id="first" class="container-fluid">
+    <div id="first" class="container">
         <div class="row">
             <!-- 3 ไว้แสดง Menu -->
             <div class="mt-4 col-md-3">
                 <div class="row">
                     <div class="col-6">
-                        <a href="contact.php">
+                        <a href="">
                             <i class="fas fa-2x fa-file-signature"></i>
                             ทำสัญญา</a>
                     </div>
@@ -72,26 +72,26 @@ $connection = DB();
 
                     <div class="mt-4 col-md-6">
                         <a href="">
-                        <i class="fas fa-2x fa-file-invoice"></i>
-                        บิล</a>
+                            <i class="fas fa-2x fa-file-invoice"></i>
+                            บิล</a>
                     </div>
 
                     <div class="mt-4 col-md-6">
                         <a href="">
-                        <i class="fas fa-2x fa-database"></i>
-                        ข้อมูล</a>
+                            <i class="fas fa-2x fa-database"></i>
+                            ข้อมูล</a>
                     </div>
 
                     <div class="mt-4 col-md-6">
                         <a href="">
-                        <i class="far fa-2x fa-sticky-note"></i>
-                        รายงาน</a>
+                            <i class="far fa-2x fa-sticky-note"></i>
+                            รายงาน</a>
                     </div>
 
                     <div class="mt-4 col-md-6">
                         <a href="">
-                        <i class="fas fa-2x fa-users-cog"></i>
-                        แอดมิน</a>
+                            <i class="fas fa-2x fa-users-cog"></i>
+                            แอดมิน</a>
                     </div>
 
 
@@ -99,53 +99,55 @@ $connection = DB();
             </div>
 
 
-            <!-- 5 ไว้แสดง Content -->
-            <div id="md11" class="mt-4 col-md-5">
+            <!-- 9 ไว้แสดง Content -->
+            <div id="md11" class="mt-4 col-md-9">
                 <h3 class="text-center">สัญญา</h3>
                 <div class="container">
-                    <table class="table table-bordered table-striped" style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th>ห้อง</th>
-                                <th>สถานะ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>ห้องแรก</td>
-                                <td>ว่าง</td>
-                            </tr>
-                            <tr>
-                                <td>ห้องสอง</td>
-                                <td>ก็ยังว่าง</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>              
+                    <form action="" method="">
+                        
+                        <label for="fname"> ชื่อ </label>
+                        <input type="text" id="firstname" name="firstname" placeholder="ชื่อ">
+
+                        <label for="lname"> นามสกุล </label>
+                        <input type="text" id="lastname" name="lastname" placeholder="นามสกุล"><br><br>
+
+                        <label for="address"> ที่อยู่ </label>
+                        <textarea name="address" id="address" cols="30" rows="2"></textarea> <br><br>
+
+                        <label for="amphur">อำเภอ</label>
+                        <input type="text" id="amphur" name="amphur" placeholder="อำเภอ">
+
+                        <label for="district">ตำบล</label>
+                        <input type="text" id="district" name="district" placeholder="ตำบล"> 
+
+                        <label for="province">จังหวัด</label>
+                        <input type="text" name="province" id="province" placeholder="จังหวัด"> <br><br>
+
+                        <label for="postcode">รหัสไปรษณีย์</label>
+                        <input type="number" name="postcode" id="postcode" placeholder="รหัสไปรษณีย์"> <br><br>
+
+                        <label for="phone">เบอร์โทรศัพท์</label>
+                        <input type="number" name="phone" id="phone" placeholder="เบอร์โทรศัพท์"> <br><br>
+
+                        <label for="birthdate">วันเกิด</label>
+                        <input type="date" name="birthdate" id="birthdate"> <br><br>
+
+                        <label for="idcardno"> เลขบัตรประชาชน </label>
+                        <input type="number" id="idcardno" name="idcardno" placeholder="เลขบัตรประชาชน"> <br><br>
+
+                        <input type="submit" class="float-right btn btn-primary" name="savecus" id="savecus">
+
+                        
+
+
+
+
+
+                    </form>
+                </div>
             </div>
 
-            <!-- ค้างชำระ -->
-            <div class="mt-4 col-md-4">
-                <h3 class="text-center">ห้องที่ค้างชำระ</h3>
-                <table class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                    <th>ห้องที่ยังไม่ได้ทำการชำระ</th>
-                    <th>จำนวนเงิน</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>ห้องแรก</td>
-                            <td>5ล้าน</td>
-                        </tr>
-                        <tr>
-                            <td>ห้องสอง</td>
-                            <td>3ล้าน</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+
 
 
         </div>

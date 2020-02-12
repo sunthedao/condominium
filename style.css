@@ -1,10 +1,4 @@
-#first{
-    margin-left: 10px;
-    margin-top: 50px;
+input[placeholder]{
+    text-align: center;
 }
 
-button{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
