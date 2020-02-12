@@ -1,0 +1,10 @@
+#first{
+    margin-left: 10px;
+    margin-top: 50px;
+}
+
+button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
