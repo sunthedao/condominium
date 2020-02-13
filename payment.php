@@ -73,27 +73,26 @@ $connection = DB();
 
                     <div class="mt-4 col-md-6">
                         <a href="bill.php">
-                        <i class="fas fa-2x fa-file-invoice"></i>
-                        บิล</a>
+                            <i class="fas fa-2x fa-file-invoice"></i>
+                            บิล</a>
                     </div>
 
                     <div class="mt-4 col-md-6">
-                        <a href="">
-                        <i class="fas fa-2x fa-database"></i>
-                        ข้อมูล</a>
+                        <a href="data.php">
+                            <i class="fas fa-2x fa-database"></i>
+                            ข้อมูล</a>
                     </div>
 
                     <div class="mt-4 col-md-6">
                         <a href="report.php">
-                        <i class="far fa-2x fa-sticky-note"></i>
-                        รายงาน</a>
+                            <i class="far fa-2x fa-sticky-note"></i>
+                            รายงาน</a>
                     </div>
 
-                    <!-- มีเฉพาะหัวหน้าเท่านั้น -->
                     <div class="mt-4 col-md-6">
                         <a href="">
-                        <i class="fas fa-2x fa-users-cog"></i>
-                        แอดมิน</a>
+                            <i class="fas fa-2x fa-users-cog"></i>
+                            แอดมิน</a>
                     </div>
 
 
@@ -101,56 +100,52 @@ $connection = DB();
             </div>
 
 
-            <!-- 5 ไว้แสดง Content -->
-            <div id="md11" class="mt-4 col-md-5">
-                <h3 class="text-center">สัญญา</h3>
+            <!-- 9 ไว้แสดง Content -->
+            <div id="md11" class="mt-4 col-md-9">
+                <h3 class="text-center">ค่าใช้จ่าย</h3>
+                <div class="form-group">
+                    <label for="room"></label>
+                    <select class="form-control" id="room">
+                        <option>ห้อง 1001</option>
+                        <option>ห้อง 1002</option>
+                        <option>ห้อง 1003</option>
+                        <option>ห้อง 1004</option>
+                    </select>
+                </div>
                 <div class="container">
                     <table class="table table-bordered table-striped" style="width: 100%">
                         <thead>
                             <tr>
-                                <th>ห้อง</th>
-                                <th>สถานะ</th>
+                                <th style="text-align: center">ห้อง</th>
+                                <th style="text-align: center">รายละเอียด</th>
+                                <th style="text-align: center">จำนวน</th>
+                                <th style="text-align: center">ราคา</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>ห้องแรก</td>
-                                <td>ว่าง</td>
-                            </tr>
-                            <tr>
-                                <td>ห้องสอง</td>
-                                <td>ก็ยังว่าง</td>
+                                <td>ห้อง 1001</td>
+                                <td>ค่าเช่า</td>
+                                <td>1</td>
+                                <td>8000</td>
                             </tr>
                         </tbody>
                     </table>
-                </div>              
+                    <button style="float: right;" class="btn btn-danger">ลบ</button>
+                    <button style="float: right;" class="btn btn-wanring">แก้ไข</button>
+                    <button style="float: right;" class="btn btn-primary">เพิ่ม</button>
+                    
+                    
+                    
+                </div>
             </div>
-
-            <!-- ค้างชำระ -->
-            <div class="mt-4 col-md-4">
-                <h3 class="text-center">ห้องที่ค้างชำระ</h3>
-                <table class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                    <th>ห้องที่ยังไม่ได้ทำการชำระ</th>
-                    <th>จำนวนเงิน</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>ห้องแรก</td>
-                            <td>5ล้าน</td>
-                        </tr>
-                        <tr>
-                            <td>ห้องสอง</td>
-                            <td>3ล้าน</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
 
         </div>
+
+
+
+
+    </div>
     </div>
 
 
