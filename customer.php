@@ -101,7 +101,7 @@ $connection = DB();
 
             <!-- 9 ไว้แสดง Content -->
             <div id="md11" class="mt-4 col-md-9">
-                <h3 class="text-center">สัญญา</h3>
+                <h3 class="text-center">เพิ่มข้อมูลลูกค้า</h3> <br>
                 <div class="container">
                     <form action="" method="">
                         

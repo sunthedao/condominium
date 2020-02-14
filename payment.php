@@ -111,33 +111,42 @@ $connection = DB();
                         <option>ห้อง 1003</option>
                         <option>ห้อง 1004</option>
                     </select>
-                </div>
+                </div><br>
                 <div class="container">
-                    <table class="table table-bordered table-striped" style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th style="text-align: center">ห้อง</th>
-                                <th style="text-align: center">รายละเอียด</th>
-                                <th style="text-align: center">จำนวน</th>
-                                <th style="text-align: center">ราคา</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>ห้อง 1001</td>
-                                <td>ค่าเช่า</td>
-                                <td>1</td>
-                                <td>8000</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <button style="float: right;" class="btn btn-danger">ลบ</button>
-                    <button style="float: right;" class="btn btn-wanring">แก้ไข</button>
-                    <button style="float: right;" class="btn btn-primary">เพิ่ม</button>
-                    
-                    
-                    
-                </div>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#MyModal">เพิ่มค่าบริการ</button>
+                </div><br>
+                
+                    <div class="container">
+                        <table class="table table-bordered table-striped" style="width: 100%">
+                            <thead>
+                                <tr style="text-align: center" class="font-weight-bolder">
+                                    <th style="font-size: 20px">ห้อง</th>
+                                    <th style="font-size: 20px">รายละเอียด</th>
+                                    <th style="font-size: 20px">จำนวน</th>
+                                    <th style="font-size: 20px">ราคา</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr style="text-align: center">
+                                    <td style="font-size: 20px">ห้อง 1001</td>
+                                    <td style="font-size: 20px">ค่าเช่า</td>
+                                    <td style="font-size: 20px">1</td>
+                                    <td style="font-size: 20px">8000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <br>
+                        
+                        <div class="container">
+                            <button style="float: right;" class="btn btn-danger">ลบ</button>
+                            <button style="float: right;" class="btn btn-wanring">แก้ไข</button>
+                            <button style="float: right;" class="btn btn-primary">เพิ่ม</button>
+                        </div>
+
+
+                    </div>
             </div>
 
         </div>
@@ -150,7 +159,58 @@ $connection = DB();
 
 
 
+    <!-- modal -->
+    <div class="modal fade" id="MyModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
 
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h1 class="modal-title">ค่าบริการ</h1><br>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+
+                <!-- modal body -->
+                <form action="" method="" id="forservice">
+                    <div class="modal-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>รายการ</th>
+                                    <th>จำนวน</th>
+                                    <th>ราคา</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td><select class="form-control" name="type" id="type">
+                                            <option value="">ค่ามัดจำ</option>
+                                            <option value="">ค่าซ่อมบำรุง</option>
+                                            <option value="">ล้างรถ</option>
+                                        </select></td>
+                                    <td><input type="number" name="unit" id="unit"></td>
+                                    <td><input type="number" name="price" id="price"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+
+                    </div>
+                </form>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="submit" value="submit" class="btn btn-primary">เพิ่ม</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 
 

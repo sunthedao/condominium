@@ -2,3 +2,11 @@ input[placeholder]{
     text-align: center;
 }
 
+
+.modal-dialog{
+    width:  800px;
+}
+
+.first{
+    border: 10px;
+}

@@ -103,31 +103,31 @@ $connection = DB();
             <!-- 9 ไว้แสดง Content -->
             <div id="md11" class="mt-4 col-md-9">
 
-
-                <table class="table table-bordered table-striped">
-
-                    <thead>
-                        <tr style="text-align: center" class="font-weight-bolder">
-                            <th>ห้อง</th>
-                            <th>บิล</th>
-                            <th>Print</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr>
-                            <td>1001</td>
-                            <td>111.pdf</td>
-                            <td><button type="submit" name="print" id="print" class="btn btn-success">ปริ้น</button></td>
-                        </tr>
-                    </tbody>
-
-
-                </table>
-
-                <div class="container">
-                    <button style="float: right;" class="btn btn-primary">ปริ้นทั้งหมด</button>
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="">
+                        <i class="fas fa-2x fa-user-friends">ข้อมูลพนักงาน</i>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                    <a href="">
+                        <i class="fas fa-2x fa-user-friends">ข้อมูลลูกค้า</i>
+                        </a>
+                    </div>
+                    
+                    <div class="mt-4 col-md-6">
+                        <a href="">
+                        <i class="fas fa-2x fa-building">ข้อมูลตึก</i>
+                        </a>
+                    </div>
+                    <div class="mt-4 col-md-6">
+                    <a href="">
+                    <i class="fas fa-2x fa-person-booth">ข้อมูลห้องพัก</i>
+                        </a>
+                    </div>
                 </div>
+            
+            
 
 
             </div>
@@ -136,11 +136,11 @@ $connection = DB();
 
 
 
-            <!-- Optional JavaScript -->
-            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-            <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 
 
