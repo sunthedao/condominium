@@ -1,5 +1,78 @@
 <?php require_once './connect.php';
 $connection = DB();
+if (isset($_GET['name'])) {
+    //! define how many results you want per page
+    $results_per_page = 10;
+
+    $valueSearch = $_GET['name'];
+    // !determine which page number visitor is currently on
+    if (!isset($_GET['page'])) {
+        $page = 1;
+    } else {
+        $page = $_GET['page'];
+    }
+
+    //! determine the sql LIMIT starting number for the results on the displaying page
+    // page 1 10 results per page , LIMIT 0,10
+    // page 2 10 results per page , LIMIT 10,10
+    // page 3 10 results per page , LIMIT 20,10
+    // starting_limit_number = (page1-1)*10
+    $this_page_first_result = ($page - 1) * $results_per_page;
+
+    //! find out the number of Searchresults rows in database
+    //  $sql1 = "SELECT * FROM users";
+    // $result = mysqli_query($connection, $sql);
+    $sql1 = "SELECT * from customers WHERE firstname LIKE '%$valueSearch%'";
+    // . $this_page_first_result . ',' . $results_per_page;
+    $SearchResult = mysqli_query($connection, $sql1);
+
+
+    //! check how many rows with mysqli_num_rows
+    $number_of_results = mysqli_num_rows($SearchResult);
+
+
+    //! determine number of total pages available
+    // number of page = result / 10;
+    $number_of_pages = ceil($number_of_results / $results_per_page);
+
+    $sql = "SELECT * from customers WHERE firstname LIKE '%$valueSearch%' ORDER BY id DESC LIMIT " . $this_page_first_result . ',' . $results_per_page;
+    $result = mysqli_query($connection, $sql);
+} else {
+    // $sql = "SELECT * from users LIMIT 10";
+    // $result = mysqli_query($connection, $sql);
+
+    //! define how many results you want per page
+    $results_per_page = 10;
+
+    //! find out the number of results rows in database
+    $sql1 = "SELECT * FROM customers";
+    $result = mysqli_query($connection, $sql1);
+    //! check how many rows with mysqli_num_rows
+    $number_of_results = mysqli_num_rows($result);
+
+    //! determine number of total pages available
+    // number of page = result / 10;
+    $number_of_pages = ceil($number_of_results / $results_per_page);
+
+    // !determine which page number visitor is currently on
+    if (!isset($_GET['page'])) {
+        $page = 1;
+    } else {
+        $page = $_GET['page'];
+    }
+
+    //! determine the sql LIMIT starting number for the results on the displaying page
+    // page 1 10 results per page , LIMIT 0,10
+    // page 2 10 results per page , LIMIT 10,10
+    // page 3 10 results per page , LIMIT 20,10
+    // starting_limit_number = (page1-1)*10
+    $this_page_first_result = ($page - 1) * $results_per_page;
+    // retrieve selected results from database and display them on page
+    $sql = "SELECT * from customers ORDER BY id DESC LIMIT " . $this_page_first_result .  ',' . $results_per_page;
+    $result = mysqli_query($connection, $sql);
+}
+
+
 ?>
 
 
@@ -73,27 +146,27 @@ $connection = DB();
 
                     <div class="mt-4 col-md-6">
                         <a href="bill.php">
-                        <i class="fas fa-2x fa-file-invoice"></i>
-                        บิล</a>
+                            <i class="fas fa-2x fa-file-invoice"></i>
+                            บิล</a>
                     </div>
 
                     <div class="mt-4 col-md-6">
                         <a href="data.php">
-                        <i class="fas fa-2x fa-database"></i>
-                        ข้อมูล</a>
+                            <i class="fas fa-2x fa-database"></i>
+                            ข้อมูล</a>
                     </div>
 
                     <div class="mt-4 col-md-6">
                         <a href="report.php">
-                        <i class="far fa-2x fa-sticky-note"></i>
-                        รายงาน</a>
+                            <i class="far fa-2x fa-sticky-note"></i>
+                            รายงาน</a>
                     </div>
 
                     <!-- มีเฉพาะหัวหน้าเท่านั้น -->
                     <div class="mt-4 col-md-6">
                         <a href="">
-                        <i class="fas fa-2x fa-users-cog"></i>
-                        แอดมิน</a>
+                            <i class="fas fa-2x fa-users-cog"></i>
+                            แอดมิน</a>
                     </div>
 
 
@@ -103,8 +176,59 @@ $connection = DB();
 
             <!-- 9 ไว้แสดง Content -->
             <div id="md11" class="mt-4 col-md-9">
-                <h3 class="text-center">ข้อมูลลูกค้า</h3>
-                        
+                <div class="row">
+
+                    <!-- Search -->
+                    <div class="col-md-6">
+                        <div class="float-left">
+                            <div class="col">
+                                <form class="form-inline md-form form-sm active-cyan-2 mt-2" action="" method="GET">
+                                    <input name="name" class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search" aria-label="Search" <?php echo ((isset($_GET['name'])) ? 'value= ' . $_GET['name'] : '') . '' ?>>
+                                    <!-- Eco แบบมีเงื่อนไข -->
+                                    <i class="fas fa-search" aria-hidden="true"></i>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Icon ADD -->
+                    <div class="col-md-6">
+                        <div class="float-right">
+                            <button type="button" class="btn btn-sm btn-light color-green" value="1">
+                                <i class="fas fa-2x fa-plus" id="icon" data-toggle="modal" data-target="#myModal"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div> <br>
+                <h3 class="text-center">ข้อมูลพนักงาน</h3>
+                <table class="table table-bordered table-striped" style="width: 100%">
+                    <thead style="text-align: center" class="">
+                        <tr>
+                            <th style="font-size: 20px">ชื่อพนักงาน</th>
+                            <th style="font-size: 20px">นามสกุล</th>
+                            <th style="font-size: 20px">ที่อยู่</th>
+                            <th style="font-size: 20px">หมายเลขโทรศัพท์</th>
+                            <th style="font-size: 20px">หมายเหตุ</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <?php
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            echo "<tr>";
+                            echo "<td>" . $row["firstname"] . "</td>";
+                            echo "<td>" . $row["lastname"] . "</td>";
+                            echo "<td>" . $row["address"] . "</td>";
+                            echo "<td>" . $row["phone"] . "</td>";
+                            echo "<td>" . '<a style="color:green;" href="cusEdit.php?id=' . $row["id"] . '"> แก้ไข </a>'
+                                . '<a style="color:red;" onclick="deleteAlert(' . $row["id"] . ')"> ลบ </a>' . "</td>";
+                            echo "</tr>";
+                        }
+
+                        ?>
+                    </tbody>
+                </table>
+
             </div>
 
 
@@ -112,10 +236,87 @@ $connection = DB();
         </div>
     </div>
 
+    <!-- pagination -->
+    <div class="container">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
 
 
+                <?php
+                for ($page = 1; $page <= $number_of_pages; $page++) {
+                    echo '<li class="page-item"><a class="page-link" href="emp.php?page=' . $page .
+                        ((isset($_GET['name'])) ? "&name=" . $_GET['name'] : '') . '">'  .  $page   .  ' </a></li>  ';
+                    //! &name ถ้าให้มันแสดงออกไป url (www.gdsf.com/id=12&name=)  ใส่double quote แต่ถ้าให้มันแสดงเป็น Code ใส่ Single quote '<li>'
+
+                }
+
+                ?>
 
 
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Create Users</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <form action="cussav.php" method="POST" name="save" class="MyForm">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">ชื่อ</label>
+                            <input type="text" class="form-control" id="firstname" name="firstname">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">นามสกุล</label>
+                            <input type="text" class="form-control" id="lastname" name="lastname">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">ที่อยู่</label>
+                            <textarea class="form-control" rows="3" name="address" id="address"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="amphur">อำเภอ</label>
+                            <input type="text" class="form-control" id="amphur" name="amphur" placeholder="อำเภอ">
+                        </div>
+                        <div class="form-group">
+                            <label for="district">ตำบล</label>
+                            <input type="text" class="form-control" id="district" name="district" placeholder="ตำบล">
+                        </div>
+                        <div class="form-group">
+                            <label for="province">จังหวัด</label>
+                            <input type="text" class="form-control" name="province" id="province" placeholder="จังหวัด">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">เลขไปษณีย์</label>
+                            <input type="number" class="form-control" name="postcode">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">หมายเลขโทรศัพท์</label>
+                            <input type="number" class="form-control" name="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">วันเกิด</label>
+                            <input type="date" class="form-control" name="birthdate" id="birthdate">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">เลขบัตรประชาชน</label>
+                            <input type="number" class="form-control" id="idcardno" name="idcardno">
+                        </div>
+                       
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+                        <button type="submit" class="btn btn-success" name="insertcus" value="submit">เพิ่มข้อมูลพนักงาน</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -126,7 +327,15 @@ $connection = DB();
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
+<script>
+    function deleteAlert(id) {
+        if (confirm('Are you sure to delete ?')) {
+            window.location.href = 'cusDel.php?id=' + id;
+        }
 
+        return false;
+    }
+</script>
 
 
 <?php

@@ -103,7 +103,7 @@ $connection = DB();
             <div id="md11" class="mt-4 col-md-9">
                 <h3 class="text-center">เพิ่มข้อมูลลูกค้า</h3> <br>
                 <div class="container">
-                    <form action="" method="">
+                    <form action="cussav.php" method="POST">
                         
                         <label for="fname"> ชื่อ </label>
                         <input type="text" id="firstname" name="firstname" placeholder="ชื่อ">
@@ -136,13 +136,6 @@ $connection = DB();
                         <input type="number" id="idcardno" name="idcardno" placeholder="เลขบัตรประชาชน"> <br><br>
 
                         <input type="submit" class="float-right btn btn-primary" name="savecus" id="savecus">
-
-                        
-
-
-
-
-
                     </form>
                 </div>
             </div>
