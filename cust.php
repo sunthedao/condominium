@@ -73,26 +73,27 @@ $connection = DB();
 
                     <div class="mt-4 col-md-6">
                         <a href="bill.php">
-                            <i class="fas fa-2x fa-file-invoice"></i>
-                            บิล</a>
+                        <i class="fas fa-2x fa-file-invoice"></i>
+                        บิล</a>
                     </div>
 
                     <div class="mt-4 col-md-6">
                         <a href="data.php">
-                            <i class="fas fa-2x fa-database"></i>
-                            ข้อมูล</a>
+                        <i class="fas fa-2x fa-database"></i>
+                        ข้อมูล</a>
                     </div>
 
                     <div class="mt-4 col-md-6">
                         <a href="report.php">
-                            <i class="far fa-2x fa-sticky-note"></i>
-                            รายงาน</a>
+                        <i class="far fa-2x fa-sticky-note"></i>
+                        รายงาน</a>
                     </div>
 
+                    <!-- มีเฉพาะหัวหน้าเท่านั้น -->
                     <div class="mt-4 col-md-6">
                         <a href="">
-                            <i class="fas fa-2x fa-users-cog"></i>
-                            แอดมิน</a>
+                        <i class="fas fa-2x fa-users-cog"></i>
+                        แอดมิน</a>
                     </div>
 
 
@@ -102,35 +103,18 @@ $connection = DB();
 
             <!-- 9 ไว้แสดง Content -->
             <div id="md11" class="mt-4 col-md-9">
-
-                <div class="row">
-                    <div class="mb-4 col-md-6">
-                        <a href="emp.php">
-                        <i class="fas fa-2x fa-user-friends">ข้อมูลพนักงาน</i>
-                        </a>
-                    </div>
-                    <div class="mb-4 col-md-6">
-                    <a href="cust.php">
-                        <i class="fas fa-2x fa-user-friends">ข้อมูลลูกค้า</i>
-                        </a>
-                    </div>
-                    
-                    <div class="mt-4 col-md-6">
-                        <a href="building.php">
-                        <i class="fas fa-2x fa-building">ข้อมูลตึก</i>
-                        </a>
-                    </div>
-                    <div class="mt-4 col-md-6">
-                    <a href="room.php">
-                    <i class="fas fa-2x fa-person-booth">ข้อมูลห้องพัก</i>
-                        </a>
-                    </div>
-                </div>
-            
-            
-
-
+                <h3 class="text-center">ข้อมูลลูกค้า</h3>
+                        
             </div>
+
+
+
+        </div>
+    </div>
+
+
+
+
 
 
 

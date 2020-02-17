@@ -26,7 +26,6 @@ $connection = DB();
 </head>
 
 <body>
-    <!-- menu -->
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -46,7 +45,6 @@ $connection = DB();
             </div>
         </div>
     </div>
-    <!-- end menu -->
     <br>
 
     <!-- vertical Menu -->
@@ -56,7 +54,7 @@ $connection = DB();
             <div class="mt-4 col-md-3">
                 <div class="row">
                     <div class="col-6">
-                        <a href="">
+                        <a href="contact.php">
                             <i class="fas fa-2x fa-file-signature"></i>
                             ทำสัญญา</a>
                     </div>
@@ -96,88 +94,66 @@ $connection = DB();
                             แอดมิน</a>
                     </div>
 
+
                 </div>
             </div>
 
 
             <!-- 9 ไว้แสดง Content -->
             <div id="md11" class="mt-4 col-md-9">
-                <h3 class="text-center">สัญญา</h3>
+                <h3 class="text-center">เพิ่มข้อมูลลูกค้า</h3> <br>
                 <div class="container">
                     <form action="" method="">
-                        <div class="form-group">
-                            <a href="custAdd.php" class="btn btn-success" title="กรณีที่ยังไม่มีข้อมูลของลูกค้า">กรอกข้อมูลลูกค้า</a><br>
-                            <label for="cus" class="btn btn-primary">ลูกค้า</label>
-                            <select class="form-control" name="cus" id="cus">
-                                <option value="">ลูกค้าคนที่ 1</option>
-                                <option value="">ลูกค้าคนที่ 2</option>
-                                <option value="">ลูกค้าคนที่ 3</option>
-                                <option value="">ลูกค้าคนที่ 4</option>
-                            </select> <br>
+                        
+                        <label for="fname"> ชื่อ </label>
+                        <input type="text" id="firstname" name="firstname" placeholder="ชื่อ">
 
-                            <label for="buiding" class="btn btn-primary">ตึก</label>
-                            <select class="form-control" id="buiding">
-                                <option>ตึก 1</option>
-                                <option>ตึก 2</option>
-                            </select>  <br>
+                        <label for="lname"> นามสกุล </label>
+                        <input type="text" id="lastname" name="lastname" placeholder="นามสกุล"><br><br>
 
-                            <label for="room" class="btn btn-primary">ห้อง</label>
-                            <select class="form-control" id="room">
-                                <option>ห้อง 1001</option>
-                                <option>ห้อง 1002</option>
-                                <option>ห้อง 1003</option>
-                                <option>ห้อง 1004</option>
-                            </select>  <br>
+                        <label for="address"> ที่อยู่ </label>
+                        <textarea name="address" id="address" cols="30" rows="2"></textarea> <br><br>
 
-                            <label for="con" class="btn btn-primary">เลขที่สัญญา</label>
-                            <input type="number" name="con" id="con"> <br> <br>
-                            
-                            <label for="datebegin" class="btn btn-primary">วันที่สัญญา</label>
-                            <input type="date" name="datebegin" id="datebegin">
+                        <label for="amphur">อำเภอ</label>
+                        <input type="text" id="amphur" name="amphur" placeholder="อำเภอ">
 
-                            <label for="dateend" class="btn btn-primary">วันที่สิ้นสุดสัญญา</label>
-                            <input type="date" name="dateend" id="dateend"> <br><br>
+                        <label for="district">ตำบล</label>
+                        <input type="text" id="district" name="district" placeholder="ตำบล"> 
 
-                            <label for="price" class="btn btn-primary">ราคาห้อง</label>
-                            <input type="number" size="100" min="0" max="1000000" step="1" name="price" id="price" required="required"> <br><br>
+                        <label for="province">จังหวัด</label>
+                        <input type="text" name="province" id="province" placeholder="จังหวัด"> <br><br>
 
-                            <label for="earnest" class="btn btn-primary">ค่ามัดจำ</label>
-                            <input type="number" min="0" max="1000000" step="1" name="earnest" id="earnest" required="required"> <br><br>
+                        <label for="postcode">รหัสไปรษณีย์</label>
+                        <input type="number" name="postcode" id="postcode" placeholder="รหัสไปรษณีย์"> <br><br>
 
-                            <label for="status" class="btn btn-primary">สถานะ</label>
-                            <select class="form-control" name="status" id="status">
-                                <option value="">รออนุมัติ</option>
-                                <option value="">ยกเลิก</option>
-                            </select>
+                        <label for="phone">เบอร์โทรศัพท์</label>
+                        <input type="number" name="phone" id="phone" placeholder="เบอร์โทรศัพท์"> <br><br>
 
-                            <label for="type" class="btn btn-primary">ประเภท</label>
-                            <select class="form-control" name="type" id="type">
-                                <option value="">เช่า</option>
-                                <option value="">ซื้อ</option>
-                            </select>
+                        <label for="birthdate">วันเกิด</label>
+                        <input type="date" name="birthdate" id="birthdate"> <br><br>
 
-                            <label for="user" class="btn btn-primary">พนักงาน</label>
-                            <select class="form-control" name="user" id="user">
-                                <option value="">พนักงานคนแรก</option>
-                                <option value="">พนักงานคนที่สอง</option>
-                            </select>
+                        <label for="idcardno"> เลขบัตรประชาชน </label>
+                        <input type="number" id="idcardno" name="idcardno" placeholder="เลขบัตรประชาชน"> <br><br>
 
-                            <br><br><br>
+                        <input type="submit" class="float-right btn btn-primary" name="savecus" id="savecus">
 
-                            <a href="" class="btn btn-success" style="float: right;">ยืนยัน</a>
+                        
 
 
 
-                        </div>
+
+
                     </form>
                 </div>
-
-
-
-
             </div>
+
+
+
+
         </div>
     </div>
+
+
 
 
 

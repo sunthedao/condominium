@@ -10,3 +10,7 @@ input[placeholder]{
 .first{
     border: 10px;
 }
+
+.btn.btn-light.color-green{
+    background-color: green;
+}

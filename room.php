@@ -26,6 +26,7 @@ $connection = DB();
 </head>
 
 <body>
+
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -54,44 +55,45 @@ $connection = DB();
             <div class="mt-4 col-md-3">
                 <div class="row">
                     <div class="col-6">
-                        <a href="">
+                        <a href="contact.php">
                             <i class="fas fa-2x fa-file-signature"></i>
                             ทำสัญญา</a>
                     </div>
                     <div class="col-md-6">
-                        <a href="">
+                        <a href="payment.php">
                             <i class="fas fa-2x fa-clipboard"></i>
                             บันทึกค่าใช้จ่าย</a><br>
                     </div>
 
                     <div class="mt-4 col-md-6">
-                        <a href="">
+                        <a href="water.php">
                             <i class="fas fa-2x fa-tint"></i>
                             บันทึกค่าน้ำ</a>
                     </div>
 
                     <div class="mt-4 col-md-6">
-                        <a href="">
-                            <i class="fas fa-2x fa-file-invoice"></i>
-                            บิล</a>
+                        <a href="bill.php">
+                        <i class="fas fa-2x fa-file-invoice"></i>
+                        บิล</a>
                     </div>
 
                     <div class="mt-4 col-md-6">
-                        <a href="">
-                            <i class="fas fa-2x fa-database"></i>
-                            ข้อมูล</a>
+                        <a href="data.php">
+                        <i class="fas fa-2x fa-database"></i>
+                        ข้อมูล</a>
                     </div>
 
                     <div class="mt-4 col-md-6">
-                        <a href="">
-                            <i class="far fa-2x fa-sticky-note"></i>
-                            รายงาน</a>
+                        <a href="report.php">
+                        <i class="far fa-2x fa-sticky-note"></i>
+                        รายงาน</a>
                     </div>
 
+                    <!-- มีเฉพาะหัวหน้าเท่านั้น -->
                     <div class="mt-4 col-md-6">
                         <a href="">
-                            <i class="fas fa-2x fa-users-cog"></i>
-                            แอดมิน</a>
+                        <i class="fas fa-2x fa-users-cog"></i>
+                        แอดมิน</a>
                     </div>
 
 
@@ -101,52 +103,9 @@ $connection = DB();
 
             <!-- 9 ไว้แสดง Content -->
             <div id="md11" class="mt-4 col-md-9">
-                <h3 class="text-center">เพิ่มข้อมูลลูกค้า</h3> <br>
-                <div class="container">
-                    <form action="" method="">
+                <h3 class="text-center">ข้อมูลห้อง</h3>
                         
-                        <label for="fname"> ชื่อ </label>
-                        <input type="text" id="firstname" name="firstname" placeholder="ชื่อ">
-
-                        <label for="lname"> นามสกุล </label>
-                        <input type="text" id="lastname" name="lastname" placeholder="นามสกุล"><br><br>
-
-                        <label for="address"> ที่อยู่ </label>
-                        <textarea name="address" id="address" cols="30" rows="2"></textarea> <br><br>
-
-                        <label for="amphur">อำเภอ</label>
-                        <input type="text" id="amphur" name="amphur" placeholder="อำเภอ">
-
-                        <label for="district">ตำบล</label>
-                        <input type="text" id="district" name="district" placeholder="ตำบล"> 
-
-                        <label for="province">จังหวัด</label>
-                        <input type="text" name="province" id="province" placeholder="จังหวัด"> <br><br>
-
-                        <label for="postcode">รหัสไปรษณีย์</label>
-                        <input type="number" name="postcode" id="postcode" placeholder="รหัสไปรษณีย์"> <br><br>
-
-                        <label for="phone">เบอร์โทรศัพท์</label>
-                        <input type="number" name="phone" id="phone" placeholder="เบอร์โทรศัพท์"> <br><br>
-
-                        <label for="birthdate">วันเกิด</label>
-                        <input type="date" name="birthdate" id="birthdate"> <br><br>
-
-                        <label for="idcardno"> เลขบัตรประชาชน </label>
-                        <input type="number" id="idcardno" name="idcardno" placeholder="เลขบัตรประชาชน"> <br><br>
-
-                        <input type="submit" class="float-right btn btn-primary" name="savecus" id="savecus">
-
-                        
-
-
-
-
-
-                    </form>
-                </div>
             </div>
-
 
 
 
