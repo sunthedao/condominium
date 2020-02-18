@@ -133,7 +133,7 @@ $connection = DB();
                         <input type="date" name="birthdate" id="birthdate"> <br><br>
 
                         <label for="idcardno"> เลขบัตรประชาชน </label>
-                        <input type="number" id="idcardno" name="idcardno" placeholder="เลขบัตรประชาชน"> <br><br>
+                        <input type="text" pattern="\d*" maxlength="13" onKeyPress="if(this.value.length==13) return false;" id="idcardno" name="idcardno" placeholder="เลขบัตรประชาชน"> <br><br>
 
                         <input type="submit" class="float-right btn btn-primary" name="savecus" id="savecus">
                     </form>

@@ -200,11 +200,11 @@ if (isset($_GET['name'])) {
                         </div>
                     </div>
                 </div> <br>
-                <h3 class="text-center">ข้อมูลพนักงาน</h3>
+                <h3 class="text-center">ข้อมูลลูกค้า</h3>
                 <table class="table table-bordered table-striped" style="width: 100%">
                     <thead style="text-align: center" class="">
                         <tr>
-                            <th style="font-size: 20px">ชื่อพนักงาน</th>
+                            <th style="font-size: 20px">ชื่อ</th>
                             <th style="font-size: 20px">นามสกุล</th>
                             <th style="font-size: 20px">ที่อยู่</th>
                             <th style="font-size: 20px">หมายเลขโทรศัพท์</th>
@@ -229,6 +229,28 @@ if (isset($_GET['name'])) {
                     </tbody>
                 </table>
 
+
+                <!-- pagination -->
+                <div class="container">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+
+
+                            <?php
+                            for ($page = 1; $page <= $number_of_pages; $page++) {
+                                echo '<li class="page-item"><a class="page-link" href="cust.php?page=' . $page .
+                                    ((isset($_GET['name'])) ? "&name=" . $_GET['name'] : '') . '">'  .  $page   .  ' </a></li>  ';
+                                //! &name ถ้าให้มันแสดงออกไป url (www.gdsf.com/id=12&name=)  ใส่double quote แต่ถ้าให้มันแสดงเป็น Code ใส่ Single quote '<li>'
+
+                            }
+                            ?>
+
+
+                        </ul>
+                    </nav>
+                </div>
+
+
             </div>
 
 
@@ -236,36 +258,16 @@ if (isset($_GET['name'])) {
         </div>
     </div>
 
-    <!-- pagination -->
-    <div class="container">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-
-
-                <?php
-                for ($page = 1; $page <= $number_of_pages; $page++) {
-                    echo '<li class="page-item"><a class="page-link" href="emp.php?page=' . $page .
-                        ((isset($_GET['name'])) ? "&name=" . $_GET['name'] : '') . '">'  .  $page   .  ' </a></li>  ';
-                    //! &name ถ้าให้มันแสดงออกไป url (www.gdsf.com/id=12&name=)  ใส่double quote แต่ถ้าให้มันแสดงเป็น Code ใส่ Single quote '<li>'
-
-                }
-
-                ?>
-
-
-            </ul>
-        </nav>
-    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Create Users</h4>
+                    <h4 class="modal-title" id="myModalLabel">เพิ่มข้อมูลลูกค้า</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
-                <form action="cussav.php" method="POST" name="save" class="MyForm">
+                <form action="buildingSave.php" method="POST" name="save" class="MyForm">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="exampleFormControlInput1">ชื่อ</label>
@@ -307,7 +309,7 @@ if (isset($_GET['name'])) {
                             <label for="exampleFormControlInput1">เลขบัตรประชาชน</label>
                             <input type="number" class="form-control" id="idcardno" name="idcardno">
                         </div>
-                       
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>

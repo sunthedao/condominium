@@ -103,7 +103,7 @@ $connection = DB();
 
             <!-- 5 ไว้แสดง Content -->
             <div id="md11" class="mt-4 col-md-5">
-                <h3 class="text-center">สัญญา</h3>
+                <h3 class="text-center">ห้อง</h3>
                 <div class="container">
                     <table class="table table-bordered table-striped" style="width: 100%">
                         <thead>

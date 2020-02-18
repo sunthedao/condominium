@@ -229,6 +229,28 @@ if (isset($_GET['name'])) {
                     </tbody>
                 </table>
 
+
+                <!-- pagination -->
+                <div class="container">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+
+
+                            <?php
+                            for ($page = 1; $page <= $number_of_pages; $page++) {
+                                echo '<li class="page-item"><a class="page-link" href="emp.php?page=' . $page .
+                                    ((isset($_GET['name'])) ? "&name=" . $_GET['name'] : '') . '">'  .  $page   .  ' </a></li>  ';
+                                //! &name ถ้าให้มันแสดงออกไป url (www.gdsf.com/id=12&name=)  ใส่double quote แต่ถ้าให้มันแสดงเป็น Code ใส่ Single quote '<li>'
+
+                            }
+
+                            ?>
+
+
+                        </ul>
+                    </nav>
+                </div>
+
             </div>
 
 
@@ -236,33 +258,14 @@ if (isset($_GET['name'])) {
         </div>
     </div>
 
-    <!-- pagination -->
-    <div class="container">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
 
-
-                <?php
-                for ($page = 1; $page <= $number_of_pages; $page++) {
-                    echo '<li class="page-item"><a class="page-link" href="emp.php?page=' . $page .
-                        ((isset($_GET['name'])) ? "&name=" . $_GET['name'] : '') . '">'  .  $page   .  ' </a></li>  ';
-                    //! &name ถ้าให้มันแสดงออกไป url (www.gdsf.com/id=12&name=)  ใส่double quote แต่ถ้าให้มันแสดงเป็น Code ใส่ Single quote '<li>'
-
-                }
-
-                ?>
-
-
-            </ul>
-        </nav>
-    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Create Users</h4>
+                    <h4 class="modal-title" id="myModalLabel">เพิ่ม พนักงาน</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <form action="empsav.php" method="POST" name="save" class="MyForm">
@@ -289,7 +292,7 @@ if (isset($_GET['name'])) {
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlInput1">เลขบัตรประชาชน</label>
-                            <input type="number" class="form-control" name="idcardno">
+                            <input type="text" pattern="\d*" maxlength="13" onKeyPress="if(this.value.length==13) return false;" class="form-control" name="idcardno">
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlInput1">หมายเลขโทรศัพท์</label>
