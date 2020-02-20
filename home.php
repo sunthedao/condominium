@@ -1,5 +1,6 @@
 <?php require_once './connect.php';
 $connection = DB();
+
 ?>
 
 
@@ -73,27 +74,27 @@ $connection = DB();
 
                     <div class="mt-4 col-md-6">
                         <a href="bill.php">
-                        <i class="fas fa-2x fa-file-invoice"></i>
-                        บิล</a>
+                            <i class="fas fa-2x fa-file-invoice"></i>
+                            บิล</a>
                     </div>
 
                     <div class="mt-4 col-md-6">
                         <a href="">
-                        <i class="fas fa-2x fa-database"></i>
-                        ข้อมูล</a>
+                            <i class="fas fa-2x fa-database"></i>
+                            ข้อมูล</a>
                     </div>
 
                     <div class="mt-4 col-md-6">
                         <a href="report.php">
-                        <i class="far fa-2x fa-sticky-note"></i>
-                        รายงาน</a>
+                            <i class="far fa-2x fa-sticky-note"></i>
+                            รายงาน</a>
                     </div>
 
                     <!-- มีเฉพาะหัวหน้าเท่านั้น -->
                     <div class="mt-4 col-md-6">
                         <a href="">
-                        <i class="fas fa-2x fa-users-cog"></i>
-                        แอดมิน</a>
+                            <i class="fas fa-2x fa-users-cog"></i>
+                            แอดมิน</a>
                     </div>
 
 
@@ -123,7 +124,7 @@ $connection = DB();
                             </tr>
                         </tbody>
                     </table>
-                </div>              
+                </div>
             </div>
 
             <!-- ค้างชำระ -->
@@ -131,10 +132,10 @@ $connection = DB();
                 <h3 class="text-center">ห้องที่ค้างชำระ</h3>
                 <table class="table table-bordered table-striped">
                     <thead>
-                    <tr>
-                    <th>ห้องที่ยังไม่ได้ทำการชำระ</th>
-                    <th>จำนวนเงิน</th>
-                    </tr>
+                        <tr>
+                            <th>ห้องที่ยังไม่ได้ทำการชำระ</th>
+                            <th>จำนวนเงิน</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr>

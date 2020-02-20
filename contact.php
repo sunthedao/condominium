@@ -1,5 +1,15 @@
 <?php require_once './connect.php';
 $connection = DB();
+
+$sql = "SELECT c.building_id as cont_room , b.name as build_name , r.name as room_name , cus.firstname as cus_name 
+FROM contracts as c right JOIN buildings as b 
+ON c.building_id = b.id RIGHT join rooms as r 
+ON c.room_id = r.id left join customers as cus 
+ON c.customer_id = cus.id
+WHERE r.customer_id = 0";
+
+$query = mysqli_query($connection,$sql);
+
 ?>
 
 
@@ -133,8 +143,8 @@ $connection = DB();
                             <input type="number" name="con" id="con"> <br> <br>
                             
                             <label for="datebegin" class="btn btn-primary">วันที่สัญญา</label>
-                            <input type="date" name="datebegin" id="datebegin">
-
+                            <input type="date" name="datebegin" id="datebegin" value="<?php echo date("Y-m-d");?>">
+                            <!-- date("Y/m/d") -->
                             <label for="dateend" class="btn btn-primary">วันที่สิ้นสุดสัญญา</label>
                             <input type="date" name="dateend" id="dateend"> <br><br>
 
@@ -157,10 +167,7 @@ $connection = DB();
                             </select>
 
                             <label for="user" class="btn btn-primary">พนักงาน</label>
-                            <select class="form-control" name="user" id="user">
-                                <option value="">พนักงานคนแรก</option>
-                                <option value="">พนักงานคนที่สอง</option>
-                            </select>
+                            <input type="text" name="user" id="user" value="พนักงานที่ LOGIN">
 
                             <br><br><br>
 

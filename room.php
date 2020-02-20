@@ -22,7 +22,7 @@ if (isset($_GET['name'])) {
     //! find out the number of Searchresults rows in database
     //  $sql1 = "SELECT * FROM users";
     // $result = mysqli_query($connection, $sql);
-    $sql1 = "SELECT * from rooms WHERE firstname LIKE '%$valueSearch%'";
+    $sql1 = "SELECT * from rooms WHERE name LIKE '%$valueSearch%'";
     // . $this_page_first_result . ',' . $results_per_page;
     $SearchResult = mysqli_query($connection, $sql1);
 
@@ -35,7 +35,11 @@ if (isset($_GET['name'])) {
     // number of page = result / 10;
     $number_of_pages = ceil($number_of_results / $results_per_page);
 
-    $sql = "SELECT * from rooms WHERE name LIKE '%$valueSearch%' ORDER BY id DESC LIMIT " . $this_page_first_result . ',' . $results_per_page;
+    $sql = "SELECT r.id ,r.name as room_name, r.floor as room_floor,r.meter_serial as room_meter, b.name as building_name , c.firstname as cus_name
+            FROM rooms as r LEFT JOIN buildings as b
+            ON r.building_id = b.id LEFT JOIN customers as c
+            ON r.customer_id = c.id
+            WHERE r.name LIKE '%$valueSearch%' ORDER BY id DESC LIMIT " . $this_page_first_result . ',' . $results_per_page;
     $result = mysqli_query($connection, $sql);
 } else {
     // $sql = "SELECT * from users LIMIT 10";
@@ -68,7 +72,16 @@ if (isset($_GET['name'])) {
     // starting_limit_number = (page1-1)*10
     $this_page_first_result = ($page - 1) * $results_per_page;
     // retrieve selected results from database and display them on page
-    $sql = "SELECT * from rooms ORDER BY id DESC LIMIT " . $this_page_first_result .  ',' . $results_per_page;
+    $sql = "SELECT r.id ,r.name as room_name, r.floor as room_floor,r.meter_serial as room_meter, b.name as building_name , c.firstname as cus_name
+            FROM rooms as r LEFT JOIN buildings as b
+            ON r.building_id = b.id LEFT JOIN customers as c
+            ON r.customer_id = c.id 
+            ORDER BY r.id ASC LIMIT " . $this_page_first_result .  ',' . $results_per_page;
+    // SELECT r.name as room_name, r.floor as room_floor , b.name as building_name , c.firstname as cus_name
+    // FROM rooms as r LEFT JOIN buildings as b
+    // ON r.building_id = b.id LEFT JOIN customers as c
+    // on r.customer_id = c.id
+    // ORDER BY r.id ASC LIMIT 0,10
     $result = mysqli_query($connection, $sql);
 }
 
@@ -205,23 +218,24 @@ if (isset($_GET['name'])) {
                     <thead style="text-align: center" class="">
                         <tr>
                             <th style="font-size: 20px">ห้อง</th>
-                            <th style="font-size: 20px">รายละเอียดห้อง</th>
                             <th style="font-size: 20px">ชั้น</th>
-                            <th style="font-size: 20px">รหัสลูกค้า</th>
-                            <th style="font-size: 20px">เลขมิเตอร์น้ำ</th>
-                            <th style="font-size: 20px">หมายเหตุ</th>
+                            <th style="font-size: 20px">อาคาร</th>
+                            <th style="font-size: 20px">ชื่อลูกค้า</th>
+                            <th style="font-size: 20px">เลข มิเตอร์น้ำ</th>
+                            <th style="font-size: 20px">แก้ไขหรือลบ</th>
                         </tr>
                     </thead>
 
                     <tbody>
+
                         <?php
                         while ($row = mysqli_fetch_assoc($result)) {
                             echo "<tr>";
-                            echo "<td>" . $row["name"] . "</td>";
-                            echo "<td>" . $row["floor"] . "</td>";
-                            echo "<td>" . $row["customer_id"] . "</td>";
-                            echo "<td>" . $row["meter_serial"] . "</td>";
-                            echo "<td>" . $row["detail"] . "</td>";
+                            echo "<td>" . $row["room_name"] . "</td>";
+                            echo "<td>" . $row["room_floor"] . "</td>";
+                            echo "<td>" . $row["building_name"] . "</td>";
+                            echo "<td>" . $row["cus_name"] . "</td>";
+                            echo "<td>" . $row["room_meter"] . "</td>";
                             echo "<td>" . '<a style="color:green;" href="roomEdit.php?id=' . $row["id"] . '"> แก้ไข </a>'
                                 . '<a style="color:red;" onclick="deleteAlert(' . $row["id"] . ')"> ลบ </a>' . "</td>";
                             echo "</tr>";
@@ -291,12 +305,13 @@ if (isset($_GET['name'])) {
                             <input type="text" class="form-control" id="size" name="size">
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlTextarea1"> รหัสตึก </label>
-                            <input type="text" class="form-control" id="building_id" name="building_id">
+                            <php $sql="SELECT name FROM buildings" ; ?>
+                                <label for="exampleFormControlTextarea1"> รหัสตึก </label>
+                                <input type="text" class="form-control" id="building_id" name="building_id">
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlTextarea1"> รหัสลูกค้า </label>
-                            <input type="text" class="form-control" id="customer_id" name="customer_id">
+                            <input type="number" class="form-control" id="customer_id" name="customer_id">
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlTextarea1"> S/N มิเตอร์ </label>
@@ -310,7 +325,7 @@ if (isset($_GET['name'])) {
                             <label for="exampleFormControlTextarea1"> ค่าน้ำมาตรฐาน </label>
                             <input type="text" class="form-control" id="water_price" name="water_price" value="12">
                         </div>
-                       
+
 
                     </div>
                     <div class="modal-footer">
