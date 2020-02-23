@@ -1,14 +1,35 @@
 <?php require_once './connect.php';
 $connection = DB();
+session_start();
 
-$sql = "SELECT c.building_id as cont_room , b.name as build_name , r.name as room_name , cus.firstname as cus_name 
-FROM contracts as c right JOIN buildings as b 
-ON c.building_id = b.id RIGHT join rooms as r 
-ON c.room_id = r.id left join customers as cus 
-ON c.customer_id = cus.id
-WHERE r.customer_id = 0";
+// query CUstomers
+$sqlCus = "select  id , firstname from customers ORDER BY customers.id DESC";
+$queryCus = mysqli_query($connection, $sqlCus);
 
-$query = mysqli_query($connection,$sql);
+// Query Buildings
+$sqlBuild = "SELECT id , name from buildings";
+$qrBuild = mysqli_query($connection, $sqlBuild);
+// Query Rooms
+$sqlR = "SELECT id , name from rooms WHERE customer_id = 0";
+$qrRooms = mysqli_query($connection, $sqlR);
+
+// Contact types
+$sqlConT = "SELECT id , description from contract_types";
+$qrConT = mysqli_query($connection, $sqlConT);
+
+// Contact Status
+// $sqlConS = "SELECT status from contracts";
+// $qrConS = mysqli_query($connection,$sqlConS);
+
+// Contact No.
+$number = 1;
+$pad = str_pad($number, 3, "0", STR_PAD_LEFT);
+$date = date("Ymd") . $pad;
+// echo $date;
+
+// $sqlConno = "SELECT contract_no from contracts";
+// $queryConno = mysqli_query($connection,$sqlConno);
+
 
 ?>
 
@@ -49,7 +70,8 @@ $query = mysqli_query($connection,$sql);
                             <li class="active"><a href="home.php">Home</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                            <li><a href="index.php"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                            <li class="name"><span> ยินดีต้อนรับ <?= $_SESSION['name'] ?> </span></li>
                         </ul>
                     </div>
                 </nav>
@@ -114,39 +136,43 @@ $query = mysqli_query($connection,$sql);
             <div id="md11" class="mt-4 col-md-9">
                 <h3 class="text-center">สัญญา</h3>
                 <div class="container">
-                    <form action="" method="">
+                    <form action="contactSave.php" method="POST">
                         <div class="form-group">
                             <a href="custAdd.php" class="btn btn-success" title="กรณีที่ยังไม่มีข้อมูลของลูกค้า">กรอกข้อมูลลูกค้า</a><br>
+
+                            <!-- Customer -->
                             <label for="cus" class="btn btn-primary">ลูกค้า</label>
                             <select class="form-control" name="cus" id="cus">
-                                <option value="">ลูกค้าคนที่ 1</option>
-                                <option value="">ลูกค้าคนที่ 2</option>
-                                <option value="">ลูกค้าคนที่ 3</option>
-                                <option value="">ลูกค้าคนที่ 4</option>
+                                <?php while ($row = mysqli_fetch_assoc($queryCus)) : ?>
+                                    <option value="<?= $row['id'] ?>"><?= $row['firstname'] ?></option>
+                                <?php endwhile; ?>
                             </select> <br>
 
-                            <label for="buiding" class="btn btn-primary">ตึก</label>
-                            <select class="form-control" id="buiding">
-                                <option>ตึก 1</option>
-                                <option>ตึก 2</option>
-                            </select>  <br>
+                            <!-- Building -->
+                            <label for="building" class="btn btn-primary">ตึก</label>
+                            <select class="form-control" name="building" id="building">
+                                <?php while ($row = mysqli_fetch_assoc($qrBuild)) : ?>
+                                    <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                                <?php endwhile; ?>
+                            </select> <br>
 
+                            <!-- ROOM -->
                             <label for="room" class="btn btn-primary">ห้อง</label>
-                            <select class="form-control" id="room">
-                                <option>ห้อง 1001</option>
-                                <option>ห้อง 1002</option>
-                                <option>ห้อง 1003</option>
-                                <option>ห้อง 1004</option>
-                            </select>  <br>
+                            <select class="form-control" name="room" id="room">
+                                <?php while ($row = mysqli_fetch_assoc($qrRooms)) : ?>
+                                    <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                                <?php endwhile; ?>
+                            </select> <br>
 
                             <label for="con" class="btn btn-primary">เลขที่สัญญา</label>
-                            <input type="number" name="con" id="con"> <br> <br>
-                            
+                            <input type="text" name="con" id="con" value="<?= $date ?>"> <br> <br>
+
                             <label for="datebegin" class="btn btn-primary">วันที่สัญญา</label>
-                            <input type="date" name="datebegin" id="datebegin" value="<?php echo date("Y-m-d");?>">
+                            <input type="date" name="datebegin" id="datebegin" value="<?php echo date("Y-m-d"); ?>">
                             <!-- date("Y/m/d") -->
+
                             <label for="dateend" class="btn btn-primary">วันที่สิ้นสุดสัญญา</label>
-                            <input type="date" name="dateend" id="dateend"> <br><br>
+                            <input type="date" name="dateend" id="dateend" required="required" title="d"> <br><br>
 
                             <label for="price" class="btn btn-primary">ราคาห้อง</label>
                             <input type="number" size="100" min="0" max="1000000" step="1" name="price" id="price" required="required"> <br><br>
@@ -156,22 +182,25 @@ $query = mysqli_query($connection,$sql);
 
                             <label for="status" class="btn btn-primary">สถานะ</label>
                             <select class="form-control" name="status" id="status">
-                                <option value="">รออนุมัติ</option>
-                                <option value="">ยกเลิก</option>
+                                <option value="1">อนุมัติ</option>
+                                <option value="0">รออนุมัติ</option>
                             </select>
 
+                            <!-- contact type -->
                             <label for="type" class="btn btn-primary">ประเภท</label>
                             <select class="form-control" name="type" id="type">
-                                <option value="">เช่า</option>
-                                <option value="">ซื้อ</option>
-                            </select>
+                                <?php while ($row = mysqli_fetch_assoc($qrConT)) : ?>
+                                    <option value="<?= $row['id'] ?>"><?= $row['description'] ?></option>
+                                <?php endwhile; ?>
+                            </select> <br>
 
                             <label for="user" class="btn btn-primary">พนักงาน</label>
-                            <input type="text" name="user" id="user" value="พนักงานที่ LOGIN">
+                            <input type="hidden" name="iduser" id="iduser" value="<?= $_SESSION['id'] ?>">
+                            <input type="text" name="user" id="user" placeholder="<?= $_SESSION['name'] ?>">
 
                             <br><br><br>
 
-                            <a href="" class="btn btn-success" style="float: right;">ยืนยัน</a>
+                            <button type="submit" class="btn btn-success float-right" name="insertCont" value="submit">ยืนยัน</button>
 
 
 

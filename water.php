@@ -1,5 +1,6 @@
 <?php require_once './connect.php';
 $connection = DB();
+session_start();
 ?>
 
 
@@ -39,7 +40,8 @@ $connection = DB();
                             <li class="active"><a href="home.php">Home</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                            <li><a href="index.php"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                            <li class="name"><span> ยินดีต้อนรับ <?=$_SESSION['name'] ?> </span></li>
                         </ul>
                     </div>
                 </nav>

@@ -1,5 +1,7 @@
 <?php require_once './connect.php';
 $connection = DB();
+session_start();
+
 if (isset($_GET['name'])) {
     //! define how many results you want per page
     $results_per_page = 10;
@@ -112,7 +114,8 @@ if (isset($_GET['name'])) {
                             <li class="active"><a href="home.php">Home</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                            <li><a href="index.php"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                            <li class="name"><span> ยินดีต้อนรับ <?=$_SESSION['name'] ?> </span></li>
                         </ul>
                     </div>
                 </nav>

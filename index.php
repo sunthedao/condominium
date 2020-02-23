@@ -1,13 +1,19 @@
 <?php require_once './connect.php';
 $con = DB();
 
+
+session_start();
+
 if (isset($_POST['submit'])) {
     $username = isset($_POST['username']) ? $_POST['username'] : '';
     $password = isset($_POST['password']) ? $_POST['password'] : '';
     $sql = "SELECT * FROM users WHERE password='" . $password . "'";
     $result = mysqli_query($con, $sql);
     if ($row = mysqli_fetch_array($result)) {
+        
         if ($password == $row['password']) {
+            $_SESSION['id'] = $row['id'];
+            $_SESSION['name'] = $row['name'];
             header("location:home.php");
             exit();
         } else{
