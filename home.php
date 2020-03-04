@@ -2,6 +2,8 @@
 $connection = DB();
 session_start();
 
+$sqlR = "SELECT id , name FROM rooms WHERE customer_id = 0 Order by id";
+$qrR = mysqli_query($connection, $sqlR);
 ?>
 
 
@@ -42,7 +44,7 @@ session_start();
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="index.php"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-                            <li class="name"><span> ยินดีต้อนรับ <?=$_SESSION['name'] ?> </span></li>
+                            <li class="name"><span> ยินดีต้อนรับ <?= $_SESSION['name'] ?> </span></li>
                         </ul>
                     </div>
                 </nav>
@@ -81,7 +83,7 @@ session_start();
                     </div>
 
                     <div class="mt-4 col-md-6">
-                        <a href="">
+                        <a href="data.php">
                             <i class="fas fa-2x fa-database"></i>
                             ข้อมูล</a>
                     </div>
@@ -109,22 +111,25 @@ session_start();
                 <h3 class="text-center">ห้อง</h3>
                 <div class="container">
                     <table class="table table-bordered table-striped" style="width: 100%">
-                        <thead>
+
+                        <thead style="text-align: center">
                             <tr>
                                 <th>ห้อง</th>
                                 <th>สถานะ</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>ห้องแรก</td>
-                                <td>ว่าง</td>
-                            </tr>
-                            <tr>
-                                <td>ห้องสอง</td>
-                                <td>ก็ยังว่าง</td>
-                            </tr>
+
+                        <tbody style="text-align: center">
+                            <?php while ($row = mysqli_fetch_assoc($qrR)) {
+                                echo "<tr>";
+                                echo "<td>" . $row['name'] . "</td>";
+                                echo "<td>" . "ว่าง" . "</td>";
+                                echo "</tr>";
+                            }
+
+                            ?>
                         </tbody>
+
                     </table>
                 </div>
             </div>

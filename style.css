@@ -14,3 +14,7 @@ input[placeholder]{
 .btn.btn-light.color-green{
     background-color: green;
 }
+
+input{
+    text-align: center;
+}

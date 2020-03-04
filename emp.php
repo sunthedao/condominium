@@ -97,7 +97,7 @@ if (isset($_GET['name'])) {
     <script src="https://kit.fontawesome.com/c1e251547b.js" crossorigin="anonymous"></script>
 
 
-    <title>Home</title>
+    <title>Employee</title>
 </head>
 
 <body>

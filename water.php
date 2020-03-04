@@ -1,8 +1,29 @@
 <?php require_once './connect.php';
 $connection = DB();
 session_start();
-?>
 
+$month = date('d m Y');
+
+// $year = date("F", strtotime(date("F-m") . "-1 month"));
+// $yearnmonth = (isset($_POST['yearnmonth']) ? '' : '');
+
+
+if (isset($_POST['okie'])) {
+    $floor = $_POST['floor'];
+
+    $sqlFl = "SELECT R.id , R.name , ml.meter_current 
+                FROm rooms as R right join meter_logs as ml 
+                ON r.meter_logs_id = ml.id 
+                WHERE r.floor = '$floor'";
+    $qrFl = mysqli_query($connection, $sqlFl);
+} else {
+    $sqlFl = "SELECT R.id , R.name , ml.meter_current 
+                FROm rooms as R right join meter_logs as ml 
+                ON r.meter_logs_id = ml.id 
+                WHERE r.floor = 1";
+    $qrFl = mysqli_query($connection, $sqlFl);
+}
+?>
 
 
 <!doctype html>
@@ -23,7 +44,7 @@ session_start();
     <script src="https://kit.fontawesome.com/c1e251547b.js" crossorigin="anonymous"></script>
 
 
-    <title>Home</title>
+    <title>Water</title>
 </head>
 
 <body>
@@ -41,7 +62,7 @@ session_start();
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="index.php"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-                            <li class="name"><span> ยินดีต้อนรับ <?=$_SESSION['name'] ?> </span></li>
+                            <li class="name"><span> ยินดีต้อนรับ <?= $_SESSION['name'] ?> </span></li>
                         </ul>
                     </div>
                 </nav>
@@ -107,64 +128,90 @@ session_start();
                 <h1 class="text-center">บันทึกค่าน้ำ</h1>
                 <br>
 
-                
-                <label for="building">ตึก</label>
-                <select name="building" id="building">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                </select>
+                <form action="" method="POST">
+                    <label for="floor">ชั้น</label>
+                    <select name="floor" id="floor">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <input type='submit' name="okie" value="ตกลง"></input>
+                </form>
 
-                <label for="floor">ชั้น</label>
-                <select name="floor" id="floor">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                </select>
+                <form action="waterS.php" method="POST">
+                    <div style="float: right">
+                        <label for="month">เดือน / วัน / ปี</label>
+                        <input type="date" id="month" name="month" value="<?= date("Y-m-d") ?>" readonly>
+                    </div>
+                    <div style="float: left">
+                        <label for="yearnmonth"> เดือนสำหรับที่จะคิดค่าน้ำ </label>
+                        <select name="yearnmonth" id="yearnmonth">
+                        <option value="January">มกราคม</option>
+                        <option value="February">กุมพาพันธ์</option>
+                        <option value="March">มีนาคม</option>
+                        <option value="April">เมษายน</option>
+                        <option value="May">พฤษภาคม</option>
+                        <option value="June">มิถุนายน</option>
+                        <option value="July">กรกฏาคม</option>
+                        <option value="August">สิงหาคม</option>
+                        <option value="September">กันายน</option>
+                        <option value="Octomer">ตุลาคม</option>
+                        <option value="November">พฤศจิกายน</option>
+                        <option value="December">ธันวาคม</option>
+                    </select>
+                    </div>
+                    <div style="float: center">
+                        <label for="year"> ปี </label>
+                        <select name="year" id="year">
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
 
-                <div style="float: right">
-                <label for="month">ประจำเดือน</label>
-                <select name="month" id="month">
-                    <option value="">มกราคม</option>
-                    <option value="">กุมภาพันธ์</option>
-                    <option value="">มีนาคม</option>
-                    <option value="">เมษา</option>
-                    <option value="">พฤษภา</option>
-                    <option value="">มิถุนา</option>
-                    <option value="">กรกฏา</option>
-                    <option value="">สิงหา</option>
-                    <option value="">กันยา</option>
-                    <option value="">ตุลา</option>
-                    <option value="">พฤศจิกา</option>
-                    <option value="">ธันวา</option>
-                </select>
-                </div>
-                <br><br>
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr style="text-align: center">
-                            <th>ห้อง</th>
-                            <th>เลขมิตเตอร์เก่า</th>
-                            <th>เลขมิตเตอร์ใหม่</th>
-                            <th>จำนวน</th>
-                        </tr>
-                    </thead>
+                    </select>
+                    </div>
 
-                    <tbody>
-                        <tr>
-                            <td>1001</td>
-                            <td>100</td>
-                            <td>150</td>
-                            <td>(100-150)*12</td>
-                        </tr>
-                    </tbody>
-                </table>
                 <br><br>
 
-                <div class="container">
-                            <button style="float: right;" class="btn btn-success">บันทึก</button>
-            
-                        </div>
+
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr style="text-align: center">
+                                <th>ห้อง</th>
+                                <th>เลขมิตเตอร์เก่า</th>
+                                <th>เลขมิตเตอร์ใหม่</th>
+                                <!-- <th>จำนวน</th> -->
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php while ($row = mysqli_fetch_assoc($qrFl)) : ?>
+                                <tr style="text-align: center">
+                                    <input type="hidden" id="wid" name="wid[]" value="<?= $row['id'] ?>">
+                                    <input type="hidden" id="ynm" name="ynm" value="<? $yearnmonth ?>">
+                                    <td> <input type="number" id="wname" name="wname" value="<?= $row['name'] ?>" readonly> </td>
+                                    <td> <input type="number" id="oldnum" name="oldnum[]" value="<?= $row['meter_current'] ?>" readonly> </td>
+                                    <td> <input type="number"  id="newnum" name="newnum[]" value=""> </td>
+                                    <!-- <td> <input type="number" id="result" name="result" value="<?= ($row['new_number'] - $row['old_number']) ?>"  readonly>   </td>      -->
+                                    <!-- <td> <input type="button" id="result" name="result" onclick="add_number()">   </td>       -->
+                                </tr>
+                            <?php endwhile; ?>
+
+                        </tbody>
+                    </table>
+                    <br><br>
 
 
+                    <div class="container">
+                        <button type="submit" style="float: right;" class="btn btn-primary" id="savewater" name="savewater">บันทึก</button>
+
+                    </div>
+
+                </form>
             </div>
 
 
@@ -177,6 +224,11 @@ session_start();
             <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
+<script>
+
+
+
+</script>
 
 
 

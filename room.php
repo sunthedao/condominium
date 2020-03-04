@@ -75,7 +75,7 @@ if (isset($_GET['name'])) {
     // starting_limit_number = (page1-1)*10
     $this_page_first_result = ($page - 1) * $results_per_page;
     // retrieve selected results from database and display them on page
-    $sql = "SELECT r.id ,r.name as room_name, r.floor as room_floor,r.meter_serial as room_meter, b.name as building_name , c.firstname as cus_name
+    $sql = "SELECT r.id ,r.name as room_name, r.floor as room_floor,r.water_number as room_waternum, b.name as building_name , c.firstname as cus_name
             FROM rooms as r LEFT JOIN buildings as b
             ON r.building_id = b.id LEFT JOIN customers as c
             ON r.customer_id = c.id 
@@ -239,7 +239,7 @@ if (isset($_GET['name'])) {
                             echo "<td>" . $row["room_floor"] . "</td>";
                             echo "<td>" . $row["building_name"] . "</td>";
                             echo "<td>" . $row["cus_name"] . "</td>";
-                            echo "<td>" . $row["room_meter"] . "</td>";
+                            echo "<td>" . $row["room_waternum"] . "</td>";
                             echo "<td>" . '<a style="color:green;" href="roomEdit.php?id=' . $row["id"] . '"> แก้ไข </a>'
                                 . '<a style="color:red;" onclick="deleteAlert(' . $row["id"] . ')"> ลบ </a>' . "</td>";
                             echo "</tr>";
@@ -311,19 +311,15 @@ if (isset($_GET['name'])) {
                         <div class="form-group">
                             <php $sql="SELECT name FROM buildings" ; ?>
                                 <label for="exampleFormControlTextarea1"> รหัสตึก </label>
-                                <input type="text" class="form-control" id="building_id" name="building_id">
+                                <input type="text" class="form-control" id="building_id" name="building_id" value="1">
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlTextarea1"> รหัสลูกค้า </label>
                             <input type="number" class="form-control" id="customer_id" name="customer_id">
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlTextarea1"> S/N มิเตอร์ </label>
-                            <input type="text" class="form-control" id="meter_serial" name="meter_serial">
-                        </div>
-                        <div class="form-group">
                             <label for="exampleFormControlTextarea1"> เลขมิเตอร์น้ำ </label>
-                            <input type="text" class="form-control" id="water_number" name="water_number">
+                            <input type="text" class="form-control" id="water_number" name="water_number" value="0">
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlTextarea1"> ค่าน้ำมาตรฐาน </label>
@@ -334,7 +330,7 @@ if (isset($_GET['name'])) {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
-                        <button type="submit" class="btn btn-success" name="insertroom" value="submit">เพิ่มข้อมูลพนักงาน</button>
+                        <button type="submit" class="btn btn-success" name="insertroom" value="submit">เพิ่มข้อมูลห้องพัก</button>
                     </div>
                 </form>
             </div>

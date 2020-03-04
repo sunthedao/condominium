@@ -72,10 +72,6 @@ if (isset($_GET['id'])) {
                     <input type="text" class="form-control" id="customer_id" name="customer_id" value="<?= $row['customer_id'] ?>">
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1"> S/N มิเตอร์ </label>
-                    <input type="text" class="form-control" id="meter_serial" name="meter_serial" value="<?= $row['meter_serial'] ?>">
-                </div>
-                <div class="form-group">
                     <label for="exampleFormControlTextarea1"> เลขมิเตอร์น้ำ </label>
                     <input type="text" class="form-control" id="water_number" name="water_number" value="<?= $row['water_number'] ?>">
                 </div>
