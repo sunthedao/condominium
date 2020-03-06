@@ -17,6 +17,8 @@ if (isset($_POST['insertCont'])) {
     $status = $_POST['status'];
     $type = $_POST['type'];
 
+    
+
     $sql1 = "INSERT into contracts(room_id,contract_no,create_date,end_date,price,earnest,status,type_id,customer_id,user_id,building_id) 
             VALUES ('$room','$con','$datebegin','$dateend','$price','$earnest','$status','$type','$cus','$iduser','$building')";
 

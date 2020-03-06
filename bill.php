@@ -2,6 +2,8 @@
 $connection = DB();
 session_start();
 
+
+
 ?>
 
 
@@ -42,7 +44,7 @@ session_start();
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="index.php"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-                            <li class="name"><span> ยินดีต้อนรับ <?=$_SESSION['name'] ?> </span></li>
+                            <li class="name"><span> ยินดีต้อนรับ <?= $_SESSION['name'] ?> </span></li>
                         </ul>
                     </div>
                 </nav>
@@ -108,21 +110,83 @@ session_start();
 
 
                 <table class="table table-bordered table-striped">
+                    <form action="" method="POST">
+
+                        <!-- month -->
+                        <label for="month"> เดือน </label>
+                        <select name="month" id="month">
+                            <option value="January">มกราคม</option>
+                            <option value="February">กุมพาพันธ์</option>
+                            <option value="March">มีนาคม</option>
+                            <option value="April">เมษายน</option>
+                            <option value="May">พฤษภาคม</option>
+                            <option value="June">มิถุนายน</option>
+                            <option value="July">กรกฏาคม</option>
+                            <option value="August">สิงหาคม</option>
+                            <option value="September">กันายน</option>
+                            <option value="Octomer">ตุลาคม</option>
+                            <option value="November">พฤศจิกายน</option>
+                            <option value="December">ธันวาคม</option>
+                        </select>
+
+                        <!-- year  -->
+                        <label for="year"> ปี </label>
+                        <select name="year" id="year">
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                        </select>
+
+                        <br><br>
+
+                        <button type="submit" name="subbill">ตกลง</button>
+                    </form>
+
+                    <br><br>
 
                     <thead>
                         <tr style="text-align: center" class="font-weight-bolder">
                             <th>ห้อง</th>
-                            <th>บิล</th>
+                            <th>สถานะ</th>
                             <th>Print</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <tr>
+                        <?php
+                        if (isset($_POST['subbill'])) {
+                            $year = $_POST['year'];
+                            $month = $_POST['month'];
+
+                            $sqlBill = "SELECT r.name , ord.status , ord.month , ord.year
+                                        FROM rooms as r left join orders as ord
+                                        ON r.id = ord.room_id
+                                        WHERE ord.month = '$month' and year = '$year'";
+
+                            $qrBill = mysqli_query($connection, $sqlBill);
+                            while ($row = mysqli_fetch_assoc($qrBill)) {
+                            
+                                echo "<tr>";
+                                echo "<td>" . $row['name'] . "</td>";
+                                if ($row['status'] == 0){
+                                     $notpay ="ยังไม่ชำระ";
+                                } else 
+                                   $notpay = "ชำระเงินแล้ว";
+                                echo "<td>" . $notpay . "</td>";
+                                echo "<td>" . '<button type="submit" name="print" id="print" class="btn btn-success">' . "ปริ้น" . '</button>' . "</td>";
+                                echo "</tr>";
+                            }
+                        }
+
+                        ?>
+                        <!-- <tr>
                             <td>1001</td>
-                            <td>111.pdf</td>
+                            <td>ยังไม่จ่าย</td>
                             <td><button type="submit" name="print" id="print" class="btn btn-success">ปริ้น</button></td>
-                        </tr>
+                        </tr> -->
                     </tbody>
 
 

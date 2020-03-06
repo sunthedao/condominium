@@ -1,7 +1,47 @@
-<?php require_once './connect.php';
+<?php
+
+require_once './connect.php';
 $connection = DB();
 session_start();
+
+// sql for rooms
+$sqlr = "SELECT id , name from ROOMS WHERE customer_id != 0";
+$qrR = mysqli_query($connection, $sqlr);
+
+
+// sql for Service
+$sqlservice = "SELECT id , name from services";
+$qrService = mysqli_query($connection, $sqlservice);
+
+
+
+if (isset($_POST['Fsubmit'])){
+   $ord_id = $_POST['test'];
+    $Stype = $_POST['Stype'];
+    $unit = $_POST['unit'];
+    $price = $_POST['price'];
+
+    $sql = "INSERT into order_details (service_id,amount,unit,price,total,order_id) VALUES ('$Stype','$unit','$price','$price','$price','$ord_id')";
+    
+    $qr = mysqli_query($connection,$sql);
+
+    if($qr){
+        echo "เสร็จแล้ว";
+    }else{
+        echo "ไม่สำเร็จ" . mysqli_errno($connection);
+    }
+}
+
+
+
+
+
+
+
+
+
 ?>
+
 
 
 
@@ -41,7 +81,7 @@ session_start();
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="index.php"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-                            <li class="name"><span> ยินดีต้อนรับ <?=$_SESSION['name'] ?> </span></li>
+                            <li class="name"><span> ยินดีต้อนรับ <?= $_SESSION['name'] ?> </span></li>
                         </ul>
                     </div>
                 </nav>
@@ -106,49 +146,147 @@ session_start();
             <div id="md11" class="mt-4 col-md-9">
                 <h3 class="text-center">ค่าใช้จ่าย</h3>
                 <div class="form-group">
-                    <label for="room"></label>
-                    <select class="form-control" id="room">
-                        <option>ห้อง 1001</option>
-                        <option>ห้อง 1002</option>
-                        <option>ห้อง 1003</option>
-                        <option>ห้อง 1004</option>
-                    </select>
+                    <form action="" method="POST">
+                        <label for="room"></label>
+                        <select class="form-control" name="room" id="room">
+                            <?php while ($row = mysqli_fetch_assoc($qrR)) : ?>
+                                <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                            <?php endwhile; ?>
+                        </select><br>
+
+                        <!-- month -->
+                        <label for="month"> เดือน </label>
+                        <select name="month" id="month">
+                            <option value="January">มกราคม</option>
+                            <option value="February">กุมพาพันธ์</option>
+                            <option value="March">มีนาคม</option>
+                            <option value="April">เมษายน</option>
+                            <option value="May">พฤษภาคม</option>
+                            <option value="June">มิถุนายน</option>
+                            <option value="July">กรกฏาคม</option>
+                            <option value="August">สิงหาคม</option>
+                            <option value="September">กันายน</option>
+                            <option value="Octomer">ตุลาคม</option>
+                            <option value="November">พฤศจิกายน</option>
+                            <option value="December">ธันวาคม</option>
+                        </select>
+
+                        <!-- year  -->
+                        <label for="year"> ปี </label>
+                        <select name="year" id="year">
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                        </select>
+
+
+                        <button type="submit" name="subroom">ตกลง</button>
+                    </form>
                 </div><br>
                 <div class="container">
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#MyModal">เพิ่มค่าบริการ</button>
                 </div><br>
-                
+
+                <div class="container">
+                    <table class="table table-bordered table-striped" style="width: 100%">
+                        <thead>
+                            <tr style="text-align: center" class="font-weight-bolder">
+
+                                <th style="font-size: 20px">ห้อง</th>
+                                <th style="font-size: 20px">รายละเอียด</th>
+                                <th style="font-size: 20px">จำนวน</th>
+                                <th style="font-size: 20px">ราคา</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php
+                            if (isset($_POST['subroom'])) {
+
+                                $month = isset($_POST['month']) ? $_POST['month'] : '';
+                                $year = isset($_POST['year']) ? $_POST['year'] : '';
+                                $room = isset($_POST['room']) ? $_POST['room'] : '';
+
+                                // $checkmonth_year = "SELECT r.id , r.name as room_name , ord.room_id ,ord.month,ord.year, od.amount , od.price , ser.name as service_name
+                                //                     FROM rooms as r left join orders as ord
+                                //                     ON r.id = ord.room_id left join order_details as od
+                                //                     ON ord.id = od.order_id left join services as ser
+                                //                     ON od.service_id = ser.id
+                                //                     WHERE r.id = '$room' and ord.month = '$month' and ord.year = '$year'";
+                                // $result = mysqli_query($connection,$checkmonth_year);
+                                // $num = mysqli_num_rows($result);
+                                //     if ($num > 0){
+                                //         echo "<script>";
+                                //         echo "alert('เดือนนี้ได้ทำการบันทึกไปแล้วครับ');";
+                                //         echo "window.location = 'payment.php'; ";
+                                //         echo  "</script>";
+                                //     }else{
+
+
+
+                                $sql = "SELECT r.id , r.name as room_name , ord.room_id, ord.id as ord_id , od.amount , od.price , ser.name as service_name
+                                            FROM rooms as r left join orders as ord
+                                            ON r.id = ord.room_id left join order_details as od
+                                            ON ord.id = od.order_id left join services as ser
+                                            ON od.service_id = ser.id
+                                            WHERE r.id = '$room' and ord.month = '$month' and ord.year = '$year'";
+
+                                $qrRoom = mysqli_query($connection, $sql);
+
+                                // print_r($qrRoom);
+
+                                while ($row = mysqli_fetch_assoc($qrRoom)) {
+                                    echo "<tr style='text-align: center'>";
+                                    echo "<td style='font-size: 20px'>" . $row["room_name"] . "</td>";
+                                    echo "<td style='font-size: 20px'>" . $row["service_name"] . "</td>";
+                                    echo "<td style='font-size: 20px'>" . $row["amount"] . "</td>";
+                                    echo "<td style='font-size: 20px'>" . $row["price"] . "</td>";
+
+                                    echo "</tr>";
+
+                                    $test = $row["ord_id"];
+                                }
+                                // echo $test;
+                            }
+
+
+                            
+
+                            ?>
+
+                            <!-- 
+                                // echo "<td style='font-size: 20px'>" .$room."</td>";
+                                // echo "<td style='font-size: 20px'>" .$type."</td>";
+                                // echo "<td style='font-size: 20px'>" .$type."</td>";
+                                // echo "<td style='font-size: 20px'>" .$type."</td>";
+
+                                // 
+
+
+
+                                // echo "<td style='font-size: 20px'>" .$type."</td>"; -->
+
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <br>
+                    <br>
+
                     <div class="container">
-                        <table class="table table-bordered table-striped" style="width: 100%">
-                            <thead>
-                                <tr style="text-align: center" class="font-weight-bolder">
-                                    <th style="font-size: 20px">ห้อง</th>
-                                    <th style="font-size: 20px">รายละเอียด</th>
-                                    <th style="font-size: 20px">จำนวน</th>
-                                    <th style="font-size: 20px">ราคา</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <tr style="text-align: center">
-                                    <td style="font-size: 20px">ห้อง 1001</td>
-                                    <td style="font-size: 20px">ค่าเช่า</td>
-                                    <td style="font-size: 20px">1</td>
-                                    <td style="font-size: 20px">8000</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <br>
-                        <br>
-                        
-                        <div class="container">
-                            <button style="float: right;" class="btn btn-danger">ลบ</button>
-                            <button style="float: right;" class="btn btn-wanring">แก้ไข</button>
-                            <button style="float: right;" class="btn btn-primary">เพิ่ม</button>
-                        </div>
-
-
+                        <button style="float: right;" class="btn btn-danger">ลบ</button>
+                        <button style="float: right;" class="btn btn-wanring">แก้ไข</button>
                     </div>
+
+
+                </div>
             </div>
 
         </div>
@@ -174,7 +312,7 @@ session_start();
 
 
                 <!-- modal body -->
-                <form action="" method="" id="forservice">
+                <form action="" method="POST" id="forservice">
                     <div class="modal-body">
                         <table class="table table-bordered table-striped">
                             <thead>
@@ -187,32 +325,44 @@ session_start();
 
                             <tbody>
                                 <tr>
-                                    <td><select class="form-control" name="type" id="type">
-                                            <option value="">ค่ามัดจำ</option>
-                                            <option value="">ค่าซ่อมบำรุง</option>
-                                            <option value="">ล้างรถ</option>
+                                    <td>
+                                        <select class="form-control" name="Stype" id="Stype">
+                                            <?php while ($row = mysqli_fetch_assoc($qrService)) : ?>
+                                                <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                                            <?php endwhile; ?>
                                         </select></td>
                                     <td><input type="number" name="unit" id="unit"></td>
                                     <td><input type="number" name="price" id="price"></td>
+                                    <input type="hidden" name="test" id="test" value="<?= $test ?>">
+                                    <?= $test; ?>
+                                     <!-- <? $_POST['test'] = $test; ?> -->
                                 </tr>
                             </tbody>
+
                         </table>
 
 
 
                     </div>
+
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <?php if (isset($_POST['room'])) : ?>
+                            <input type="hidden" name="subroom" value="<?= $_POST['room'] ?>">
+                        <?php endif ?>
+
+                        <!-- <input type="hidden" name="room1" value="<? $room ?>"> -->
+                        <button type="submit" name="Fsubmit" class="btn btn-primary">เพิ่ม</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
+                    </div>
                 </form>
-
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                    <button type="submit" value="submit" class="btn btn-primary">เพิ่ม</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
-
-                </div>
-
             </div>
         </div>
     </div>
+
+
+
 
 
 

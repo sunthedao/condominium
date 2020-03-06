@@ -4,6 +4,12 @@ session_start();
 
 $month = date('d m Y');
 
+
+
+// $floor1 = isset($_POST['floor']) ? '1' : $_POST['floor'];
+
+// echo $floor1;
+
 // $year = date("F", strtotime(date("F-m") . "-1 month"));
 // $yearnmonth = (isset($_POST['yearnmonth']) ? '' : '');
 
@@ -11,13 +17,13 @@ $month = date('d m Y');
 if (isset($_POST['okie'])) {
     $floor = $_POST['floor'];
 
-    $sqlFl = "SELECT R.id , R.name , ml.meter_current 
+    $sqlFl = "SELECT R.id , R.name,R.floor , ml.meter_current 
                 FROm rooms as R right join meter_logs as ml 
                 ON r.meter_logs_id = ml.id 
                 WHERE r.floor = '$floor'";
     $qrFl = mysqli_query($connection, $sqlFl);
 } else {
-    $sqlFl = "SELECT R.id , R.name , ml.meter_current 
+    $sqlFl = "SELECT R.id , R.name ,R.floor , ml.meter_current 
                 FROm rooms as R right join meter_logs as ml 
                 ON r.meter_logs_id = ml.id 
                 WHERE r.floor = 1";
@@ -148,34 +154,34 @@ if (isset($_POST['okie'])) {
                     <div style="float: left">
                         <label for="yearnmonth"> เดือนสำหรับที่จะคิดค่าน้ำ </label>
                         <select name="yearnmonth" id="yearnmonth">
-                        <option value="January">มกราคม</option>
-                        <option value="February">กุมพาพันธ์</option>
-                        <option value="March">มีนาคม</option>
-                        <option value="April">เมษายน</option>
-                        <option value="May">พฤษภาคม</option>
-                        <option value="June">มิถุนายน</option>
-                        <option value="July">กรกฏาคม</option>
-                        <option value="August">สิงหาคม</option>
-                        <option value="September">กันายน</option>
-                        <option value="Octomer">ตุลาคม</option>
-                        <option value="November">พฤศจิกายน</option>
-                        <option value="December">ธันวาคม</option>
-                    </select>
+                            <option value="January">มกราคม</option>
+                            <option value="February">กุมพาพันธ์</option>
+                            <option value="March">มีนาคม</option>
+                            <option value="April">เมษายน</option>
+                            <option value="May">พฤษภาคม</option>
+                            <option value="June">มิถุนายน</option>
+                            <option value="July">กรกฏาคม</option>
+                            <option value="August">สิงหาคม</option>
+                            <option value="September">กันายน</option>
+                            <option value="Octomer">ตุลาคม</option>
+                            <option value="November">พฤศจิกายน</option>
+                            <option value="December">ธันวาคม</option>
+                        </select>
                     </div>
                     <div style="float: center">
                         <label for="year"> ปี </label>
                         <select name="year" id="year">
-                        <option value="2020">2020</option>
-                        <option value="2021">2021</option>
-                        <option value="2022">2022</option>
-                        <option value="2023">2023</option>
-                        <option value="2024">2024</option>
-                        <option value="2025">2025</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
 
-                    </select>
+                        </select>
                     </div>
 
-                <br><br>
+                    <br><br>
 
 
                     <table class="table table-bordered table-striped">
@@ -191,11 +197,12 @@ if (isset($_POST['okie'])) {
                         <tbody>
                             <?php while ($row = mysqli_fetch_assoc($qrFl)) : ?>
                                 <tr style="text-align: center">
+                                    <input type="hidden" id="test" name="test" value="<?= $row['floor'] ?>">
                                     <input type="hidden" id="wid" name="wid[]" value="<?= $row['id'] ?>">
                                     <input type="hidden" id="ynm" name="ynm" value="<? $yearnmonth ?>">
                                     <td> <input type="number" id="wname" name="wname" value="<?= $row['name'] ?>" readonly> </td>
                                     <td> <input type="number" id="oldnum" name="oldnum[]" value="<?= $row['meter_current'] ?>" readonly> </td>
-                                    <td> <input type="number"  id="newnum" name="newnum[]" value=""> </td>
+                                    <td> <input type="number" id="newnum" name="newnum[]" value=""> </td>
                                     <!-- <td> <input type="number" id="result" name="result" value="<?= ($row['new_number'] - $row['old_number']) ?>"  readonly>   </td>      -->
                                     <!-- <td> <input type="button" id="result" name="result" onclick="add_number()">   </td>       -->
                                 </tr>
