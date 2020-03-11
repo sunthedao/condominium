@@ -17,6 +17,7 @@ $qrRooms = mysqli_query($connection, $sqlR);
 $sqlConT = "SELECT id , description from contract_types";
 $qrConT = mysqli_query($connection, $sqlConT);
 
+
 // Contact Status
 // $sqlConS = "SELECT status from contracts";
 // $qrConS = mysqli_query($connection,$sqlConS);
@@ -25,6 +26,34 @@ $qrConT = mysqli_query($connection, $sqlConT);
 $number = 1;
 $pad = str_pad($number, 3, "0", STR_PAD_LEFT);
 $date = date("Ymd") . $pad;
+// $newd = '';
+
+$sqlconno = "SELECT MAX(contract_no) as maxid FROM contracts";
+$qrconno = mysqli_query($connection,$sqlconno);
+
+while ($row = mysqli_fetch_assoc($qrconno)){
+    $maxid = $row['maxid'].'<br>';
+    // echo (int)$maxid.'<br>';
+    // echo $date;
+ if ($date < $maxid){
+   
+     $maxmax = (int)$maxid + 1;
+    // echo ($date += 1).'<br>';
+
+ } else{
+    $maxmax = $date;
+ }
+   
+
+}
+
+
+// $check_row = mysqli_num_rows($qrconno);
+// if($check_row > 0){
+//     $date += 1 ;
+//     $newd = $date ;
+//     // echo $newd.'<br>';
+// }
 // echo $date;
 
 // $sqlConno = "SELECT contract_no from contracts";
@@ -111,6 +140,12 @@ $date = date("Ymd") . $pad;
                     </div>
 
                     <div class="mt-4 col-md-6">
+                        <a href="billCreate.php">
+                            <i class="fas fa-2x fa-file-invoice"></i>
+                            สร้างบิล</a>
+                    </div>
+
+                    <div class="mt-4 col-md-6">
                         <a href="data.php">
                             <i class="fas fa-2x fa-database"></i>
                             ข้อมูล</a>
@@ -121,12 +156,12 @@ $date = date("Ymd") . $pad;
                             <i class="far fa-2x fa-sticky-note"></i>
                             รายงาน</a>
                     </div>
-
+<!-- 
                     <div class="mt-4 col-md-6">
                         <a href="">
                             <i class="fas fa-2x fa-users-cog"></i>
                             แอดมิน</a>
-                    </div>
+                    </div> -->
 
                 </div>
             </div>
@@ -165,7 +200,7 @@ $date = date("Ymd") . $pad;
                             </select> <br>
 
                             <label for="con" class="btn btn-primary">เลขที่สัญญา</label>
-                            <input type="text" name="con" id="con" value="<?= $date ?>"> <br> <br>
+                            <input type="text" name="con" id="con" value="<?= $maxmax ?>"> <br> <br>
 
                             <label for="datebegin" class="btn btn-primary">วันที่สัญญา</label>
                             <input type="date" name="datebegin" id="datebegin" value="<?php echo date("Y-m-d"); ?>">

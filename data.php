@@ -80,6 +80,12 @@ session_start();
                     </div>
 
                     <div class="mt-4 col-md-6">
+                        <a href="billCreate.php">
+                            <i class="fas fa-2x fa-file-invoice"></i>
+                            สร้างบิล</a>
+                    </div>
+
+                    <div class="mt-4 col-md-6">
                         <a href="data.php">
                             <i class="fas fa-2x fa-database"></i>
                             ข้อมูล</a>
@@ -91,11 +97,11 @@ session_start();
                             รายงาน</a>
                     </div>
 
-                    <div class="mt-4 col-md-6">
+                    <!-- <div class="mt-4 col-md-6">
                         <a href="">
                             <i class="fas fa-2x fa-users-cog"></i>
                             แอดมิน</a>
-                    </div>
+                    </div> -->
 
 
                 </div>

@@ -20,13 +20,13 @@ if (isset($_POST['okie'])) {
     $sqlFl = "SELECT R.id , R.name,R.floor , ml.meter_current 
                 FROm rooms as R right join meter_logs as ml 
                 ON r.meter_logs_id = ml.id 
-                WHERE r.floor = '$floor'";
+                WHERE r.floor = '$floor' and r.customer_id > 0";
     $qrFl = mysqli_query($connection, $sqlFl);
 } else {
     $sqlFl = "SELECT R.id , R.name ,R.floor , ml.meter_current 
                 FROm rooms as R right join meter_logs as ml 
                 ON r.meter_logs_id = ml.id 
-                WHERE r.floor = 1";
+                WHERE r.floor = 1 and r.customer_id > 0";
     $qrFl = mysqli_query($connection, $sqlFl);
 }
 ?>
@@ -107,6 +107,12 @@ if (isset($_POST['okie'])) {
                     </div>
 
                     <div class="mt-4 col-md-6">
+                        <a href="billCreate.php">
+                            <i class="fas fa-2x fa-file-invoice"></i>
+                            สร้างบิล</a>
+                    </div>
+
+                    <div class="mt-4 col-md-6">
                         <a href="data.php">
                             <i class="fas fa-2x fa-database"></i>
                             ข้อมูล</a>
@@ -118,11 +124,11 @@ if (isset($_POST['okie'])) {
                             รายงาน</a>
                     </div>
 
-                    <div class="mt-4 col-md-6">
+                    <!-- <div class="mt-4 col-md-6">
                         <a href="">
                             <i class="fas fa-2x fa-users-cog"></i>
                             แอดมิน</a>
-                    </div>
+                    </div> -->
 
 
                 </div>

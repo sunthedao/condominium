@@ -3,6 +3,17 @@ $connection = DB();
 session_start();
 
 
+// user id
+$usid = $_SESSION['id'];
+
+
+$sql = "SELECT r.id , r.name , ct.price , ct.earnest , ct.customer_id ,bd.juristic_id , cus.firstname ,cus.id as cus_id
+        FROM rooms as R left join contracts as ct 
+        ON r.id = ct.room_id left join buildings as bd 
+        ON r.building_id = bd.id left join customers as cus
+        ON r.customer_id = cus.id
+        WHERE r.customer_id != '0'";
+$qrsql = mysqli_query($connection, $sql);
 
 ?>
 
@@ -116,7 +127,7 @@ session_start();
 
 
                 <table class="table table-bordered table-striped">
-                    <form action="" method="POST">
+                    <form action="billsave.php" method="POST">
 
                         <!-- month -->
                         <label for="month"> เดือน </label>
@@ -145,63 +156,64 @@ session_start();
                             <option value="2024">2024</option>
                             <option value="2025">2025</option>
                         </select>
+                        <div style="float: right">
+                            <label for="month"> วันกำหนดชำระเงิน (เดือน / วัน / ปี) </label>
+                            <input type="date" id="paydate" name="paydate" value="" required="required">
+                        </div>
 
                         <br><br>
 
-                        <button type="submit" name="subbill">ตกลง</button>
-                    </form>
 
-                    <br><br>
+                        
 
-                    <thead>
-                        <tr style="text-align: center" class="font-weight-bolder">
-                            <th>ห้อง</th>
-                            <th>สถานะ</th>
-                            <th>Print</th>
-                        </tr>
-                    </thead>
+                        <!-- <br><br> -->
 
-                    <tbody>
-                        <?php
-                        if (isset($_POST['subbill'])) {
-                            $year = $_POST['year'];
-                            $month = $_POST['month'];
+                        <thead>
+                            <tr style="text-align: center" class="font-weight-bolder">
+                                <th>ห้อง</th>
+                                <th>ชื่อลูกค้า</th>
 
-                            $sqlBill = "SELECT r.name , ord.status , ord.month , ord.year
-                                        FROM rooms as r left join orders as ord
-                                        ON r.id = ord.room_id
-                                        WHERE ord.month = '$month' and year = '$year'";
+                            </tr>
+                        </thead>
 
-                            $qrBill = mysqli_query($connection, $sqlBill);
-                            while ($row = mysqli_fetch_assoc($qrBill)) {
-                            
-                                echo "<tr>";
-                                echo "<td>" . $row['name'] . "</td>";
-                                if ($row['status'] == 0){
-                                     $notpay ="ยังไม่ชำระ";
-                                } else 
-                                   $notpay = "ชำระเงินแล้ว";
-                                echo "<td>" . $notpay . "</td>";
-                                echo "<td>" . '<button type="submit" name="print" id="print" class="btn btn-success">' . "ปริ้น" . '</button>' . "</td>";
-                                echo "</tr>";
-                            }
-                        }
+                        <tbody>
+                            <?php while ($row = mysqli_fetch_assoc($qrsql)) : ?>
+                                <tr style="text-align: center">
+                                    <input type="hidden" id="test" name="empid" value="<?= $usid ?>">
+                                    <input type="hidden" id="test" name="id[]" value="<?= $row['id'] ?>">
+                                    <input type="hidden" id="test" name="name[]" value="<?= $row['name'] ?>">
+                                    <input type="hidden" id="test" name="price[]" value="<?= $row['price'] ?>">
+                                    <input type="hidden" id="test" name="earnest[]" value="<?= $row['earnest'] ?>">
+                                    <input type="hidden" id="test" name="cus[]" value="<?= $row['customer_id'] ?>">
+                                    <input type="hidden" id="test" name="juris[]" value="<?= $row['juristic_id'] ?>">
 
-                        ?>
+
+                                    <td> <?= $row['name']  ?> </td>
+                                    <td> <?= $row['firstname']  ?> </td>
+
+
+
+                                <?php endwhile; ?>
+
+                        </tbody>
                         <!-- <tr>
                             <td>1001</td>
                             <td>ยังไม่จ่าย</td>
                             <td><button type="submit" name="print" id="print" class="btn btn-success">ปริ้น</button></td>
                         </tr> -->
-                    </tbody>
-
 
                 </table>
 
                 <div class="container">
-                    <button style="float: right;" class="btn btn-primary">ปริ้นทั้งหมด</button>
+                    <!-- <button  class="btn btn-primary">ปริ้นทั้งหมด</button> -->
+                    <button style="float: right;" class="btn btn-success" type="submit" name="savebill">ตกลง</button>
                 </div>
 
+
+
+
+
+                </form>
 
             </div>
 

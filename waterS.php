@@ -22,6 +22,8 @@ if (isset($_POST['savewater'])) {
     // check row if row > 0 cant insert cuz same value
 
     $num = mysqli_num_rows($result);
+
+   
     if ($num > 0) {
         echo "<script>";
         echo "alert('เดือนนี้ได้ทำการบันทึกไปแล้วครับ');";
@@ -36,13 +38,26 @@ if (isset($_POST['savewater'])) {
                     WHERE id = '$wid[$i]'";
 
             // meter_log_details
-
-            $sql1 = "INSERT INTO meter_log_details (meter_log_id,old_number,new_number,date_check,month,year)
-                    VALUES ('$wid[$i]','$oldnum[$i]','$newnum[$i]','$month','$yearnmonth','$year')";
+            $water = 12 ;
+            $total = ($newnum[$i] - $oldnum[$i]) * $water ;
+            $newtotal = abs($total);
+            $sql1 = "INSERT INTO meter_log_details (meter_log_id,old_number,new_number,date_check,price_water,month,year)
+                    VALUES ('$wid[$i]','$oldnum[$i]','$newnum[$i]','$month','$newtotal','$yearnmonth','$year')";
 
             $qr = mysqli_query($connection, $sql);
             $qr2 = mysqli_query($connection, $sql1);
+
+            // take meter_log_details to order >> meter_log_id
+            $updateorder = "UPDATE orders SET meterlog_details_id = $wid[$i] 
+                            WHERE  room_id = $wid[$i] and month ='$yearnmonth' and year = '$year'";
+            $qrupdate = mysqli_query($connection,$updateorder);
+            // echo $updateorder .'<br>';
+ 
         }
         header('location: water.php');
     }
+
+
+
+
 }

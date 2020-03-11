@@ -83,6 +83,12 @@ $qrR = mysqli_query($connection, $sqlR);
                     </div>
 
                     <div class="mt-4 col-md-6">
+                        <a href="billCreate.php">
+                            <i class="fas fa-2x fa-file-invoice"></i>
+                            สร้างบิล</a>
+                    </div>
+
+                    <div class="mt-4 col-md-6">
                         <a href="data.php">
                             <i class="fas fa-2x fa-database"></i>
                             ข้อมูล</a>
@@ -123,10 +129,10 @@ $qrR = mysqli_query($connection, $sqlR);
                             <?php while ($row = mysqli_fetch_assoc($qrR)) {
                                 echo "<tr>";
                                 echo "<td>" . $row['name'] . "</td>";
-                                echo "<td>" . "ว่าง" . "</td>";
+                                echo "<td>" .'<button type="submit" name="empty" id="empty" class="btn btn-success">' . "ว่าง" . '</button>' . "</td>";
                                 echo "</tr>";
                             }
-
+                                
                             ?>
                         </tbody>
 
