@@ -152,7 +152,7 @@ session_start();
                     </form>
 
                     <br><br>
-
+                
                     <thead>
                         <tr style="text-align: center" class="font-weight-bolder">
                             <th>ห้อง</th>
@@ -167,7 +167,7 @@ session_start();
                             $year = $_POST['year'];
                             $month = $_POST['month'];
 
-                            $sqlBill = "SELECT r.name , ord.status , ord.month , ord.year
+                            $sqlBill = "SELECT r.id ,r.name , ord.status , ord.month , ord.year ,ord.id as ord_id
                                         FROM rooms as r left join orders as ord
                                         ON r.id = ord.room_id
                                         WHERE ord.month = '$month' and year = '$year'";
@@ -182,9 +182,11 @@ session_start();
                                 } else 
                                    $notpay = "ชำระเงินแล้ว";
                                 echo "<td>" . $notpay . "</td>";
-                                echo "<td>" . '<button type="submit" name="print" id="print" class="btn btn-success">' . "ปริ้น" . '</button>' . "</td>";
+                                echo "<td>" . '<a href="billPrint.php?id=' . $row['ord_id'] .'" class="btn btn-success">' . "ปริ้น" . '</a>'  . "</td>";
                                 echo "</tr>";
                             }
+                    
+                            
                         }
 
                         ?>
@@ -202,7 +204,7 @@ session_start();
                     <button style="float: right;" class="btn btn-primary">ปริ้นทั้งหมด</button>
                 </div>
 
-
+                            
             </div>
 
 

@@ -18,3 +18,7 @@ input[placeholder]{
 input{
     text-align: center;
 }
+
+th {
+    text-align: inherit
+}
