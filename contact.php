@@ -173,6 +173,33 @@ while ($row = mysqli_fetch_assoc($qrconno)){
                 <div class="container">
                     <form action="contactSave.php" method="POST">
                         <div class="form-group">
+                        <label for="month"> เดือน </label>
+                        <select name="month" id="month">
+                            <option value="January">มกราคม</option>
+                            <option value="February">กุมพาพันธ์</option>
+                            <option value="March">มีนาคม</option>
+                            <option value="April">เมษายน</option>
+                            <option value="May">พฤษภาคม</option>
+                            <option value="June">มิถุนายน</option>
+                            <option value="July">กรกฏาคม</option>
+                            <option value="August">สิงหาคม</option>
+                            <option value="September">กันายน</option>
+                            <option value="Octomer">ตุลาคม</option>
+                            <option value="November">พฤศจิกายน</option>
+                            <option value="December">ธันวาคม</option>
+                        </select>
+
+                        <!-- year  -->
+                        <label for="year"> ปี </label>
+                        <select name="year" id="year">
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                        </select>
+                        <br>
                             <a href="custAdd.php" class="btn btn-success" title="กรณีที่ยังไม่มีข้อมูลของลูกค้า">กรอกข้อมูลลูกค้า</a><br>
 
                             <!-- Customer -->
@@ -231,7 +258,7 @@ while ($row = mysqli_fetch_assoc($qrconno)){
 
                             <label for="user" class="btn btn-primary">พนักงาน</label>
                             <input type="hidden" name="iduser" id="iduser" value="<?= $_SESSION['id'] ?>">
-                            <input type="text" name="user" id="user" placeholder="<?= $_SESSION['name'] ?>">
+                            <input type="text" name="user" id="user" value="<?= $_SESSION['name'] ?>">
 
                             <br><br><br>
 

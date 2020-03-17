@@ -101,11 +101,11 @@ $qrR = mysqli_query($connection, $sqlR);
                     </div>
 
                     <!-- มีเฉพาะหัวหน้าเท่านั้น -->
-                    <div class="mt-4 col-md-6">
+                    <!-- <div class="mt-4 col-md-6">
                         <a href="">
                             <i class="fas fa-2x fa-users-cog"></i>
                             แอดมิน</a>
-                    </div>
+                    </div> -->
 
 
                 </div>
@@ -144,21 +144,37 @@ $qrR = mysqli_query($connection, $sqlR);
             <div class="mt-4 col-md-4">
                 <h3 class="text-center">ห้องที่ค้างชำระ</h3>
                 <table class="table table-bordered table-striped">
-                    <thead>
+                    <thead style="text-align: center">
                         <tr>
                             <th>ห้องที่ยังไม่ได้ทำการชำระ</th>
                             <th>จำนวนเงิน</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>ห้องแรก</td>
-                            <td>5ล้าน</td>
-                        </tr>
-                        <tr>
-                            <td>ห้องสอง</td>
-                            <td>3ล้าน</td>
-                        </tr>
+                    <tbody style="text-align: center">
+
+
+                    <?php
+
+                    $sqlino = "SELECT r.id ,r.name , ord.status , ord.month , ord.year ,ord.id as ord_id , ord.total_price
+                    FROM rooms as r left join orders as ord
+                    ON r.id = ord.room_id
+                    WHERE ord.status = '0'";
+                    $qrino = mysqli_query($connection,$sqlino);
+                    
+                    while ($row = mysqli_fetch_assoc($qrino)){
+                        $tprice = $row['total_price'];
+                        $ttprice = number_format($tprice);
+
+                        echo "<tr>" ;  
+                        echo "<td>" . $row['name'] . "</td>";
+                        echo "<td>" .'<button type="submit" name="empty" id="empty" class="btn btn-danger">' . $ttprice . '</button>' . "</td>";
+                        echo "</tr>" ;  
+
+
+                    }
+
+
+                        ?>
                     </tbody>
                 </table>
             </div>

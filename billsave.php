@@ -69,7 +69,7 @@ if (isset($_POST['savebill'])) {
 
           
         }
-        if ($qr1 && $qr2 && $qr3) {
+        if ($qr1 && $qr2) {
             header('location: billCreate.php');
         } else {
             echo "Something Wrong" . mysqli_error($connection);

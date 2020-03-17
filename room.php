@@ -225,7 +225,7 @@ if (isset($_GET['name'])) {
                             <th style="font-size: 20px">ชั้น</th>
                             <th style="font-size: 20px">อาคาร</th>
                             <th style="font-size: 20px">ชื่อลูกค้า</th>
-                            <th style="font-size: 20px">เลข มิเตอร์น้ำ</th>
+                            <!-- <th style="font-size: 20px">เลข มิเตอร์น้ำ</th> -->
                             <th style="font-size: 20px">แก้ไขหรือลบ</th>
                         </tr>
                     </thead>
@@ -239,7 +239,7 @@ if (isset($_GET['name'])) {
                             echo "<td>" . $row["room_floor"] . "</td>";
                             echo "<td>" . $row["building_name"] . "</td>";
                             echo "<td>" . $row["cus_name"] . "</td>";
-                            echo "<td>" . $row["room_waternum"] . "</td>";
+                            // echo "<td>" . $row["room_waternum"] . "</td>";
                             echo "<td>" . '<a style="color:green;" href="roomEdit.php?id=' . $row["id"] . '"> แก้ไข </a>'
                                 . '<a style="color:red;" onclick="deleteAlert(' . $row["id"] . ')"> ลบ </a>' . "</td>";
                             echo "</tr>";

@@ -5,35 +5,13 @@ session_start();
 // $sqlR = "SELECT id , name FROM rooms WHERE customer_id = 0 Order by id";
 // $qrR = mysqli_query($connection, $sqlR);
 
-// $row = mysqli_fetch_assoc($qrR);
-require_once __DIR__ . '/vendor/autoload.php';
-$defaultConfig = (new Mpdf\Config\ConfigVariables())->getDefaults();
-$fontDirs = $defaultConfig['fontDir'];
 
-$defaultFontConfig = (new Mpdf\Config\FontVariables())->getDefaults();
-$fontData = $defaultFontConfig['fontdata'];
-
-$mpdf = new \Mpdf\Mpdf([
-    'fontDir' => array_merge($fontDirs, [
-        __DIR__ . '/tmp',
-    ]),
-    'fontdata' => $fontData + [
-        'sarabun' => [
-            'R' => 'THSarabunNew.ttf',
-            'I' => 'THSarabunNew Italic.ttf',
-            'B' => 'THSarabunNew Bold.ttf',
-            'BI' => 'THSarabunNew BoldItalic.ttf'
-        ]
-    ],
-    'default_font' => 'sarabun'
-]);
-ob_start();
 
 
 if (isset($_GET['id'])) {
     $ord_id = $_GET['id'];
     // echo $ord_id;
-
+    // ค่าห้อง บลา บลา
     $sqlord = "SELECT ord.id,ord.month, ord.year, r.name as room_name ,ordt.amount ,ordt.unit  , ordt.price , sv.name as sv_name
     FROm orders as ord left join order_details as ordt
     ON ord.id = ordt.order_id left JOIN services as sv
@@ -44,11 +22,24 @@ if (isset($_GET['id'])) {
 
     $qrord = mysqli_query($connection, $sqlord);
 
-    $row1 = mysqli_fetch_assoc($qrord);
+
+    $sqtest =   $sqlord = "SELECT ord.id,ord.month, ord.year, r.name as room_name ,ordt.amount ,ordt.unit  , ordt.price , sv.name as sv_name
+    FROm orders as ord left join order_details as ordt
+    ON ord.id = ordt.order_id left JOIN services as sv
+    ON ordt.service_id = sv.id left join meter_log_details as mld
+    ON ord.meterlog_details_id = mld.meter_log_id left join rooms as r
+    ON ord.room_id = r.id
+    WHERE ord.id = '$ord_id'";
+
+    $qrtest = mysqli_query($connection,$sqtest);
+
+    $row1 = mysqli_fetch_assoc($qrtest);
     $rname = $row1['room_name'];
     $month = $row1['month'];
     $year = $row1['year'];
 
+
+    //  ค่าน้ำ
     $sqlwater = "SELECT mld.old_number , mld.new_number , mld.price_water , ods.id as order_id , ods.room_id 
    FROM meter_log_details as mld left join orders as ods 
    ON mld.meter_log_id = ods.meterlog_details_id
@@ -89,7 +80,7 @@ if (isset($_GET['id'])) {
 
 <body>
     <div class="container">
-        <h2 class="mt-4" align="center"> บิล </h2>
+        <h2 class="mt-4" align="center"> บิลห้อง <?=$rname?> </h2>
         <div class="row">
 
             <div class="mt-4 col-md-12">
@@ -104,12 +95,9 @@ if (isset($_GET['id'])) {
                     </thead>
 
                     <tbody>
+
                         <?php while ($row = mysqli_fetch_assoc($qrord)) {
-
-                            // $fnum = number_format($row['price']).'<br>';
-                            // echo $fnum;
-
-                            echo "<tr>";
+                            echo    "<tr>";
                             echo   "<td>" . $row['sv_name']  .   "</td>";
                             echo    "<td>" . $row['amount']  .   "</td>";
                             echo    "<td>" . number_format($row['price'])  .   "</td>";
@@ -122,8 +110,8 @@ if (isset($_GET['id'])) {
                         // print_r($a);
 
                         ?>
+                        
                         <?php
-
                         while ($row = mysqli_fetch_assoc($qrwater)) {
                             $oldnum = $row['old_number'];
                             $newnum = $row['new_number'];
@@ -154,18 +142,19 @@ if (isset($_GET['id'])) {
                 </table>
                 <?php
                 //  <!-- take contents to html value -->
-                $html = ob_get_contents();
-                // take html to pdf with Write html function
-                $mpdf->WriteHTML($html);
-                // Output
-                $mpdf->Output("bill $rname$month$year.pdf");
-                ob_end_flush();
+                // $html = ob_get_contents();
+                // // take html to pdf with Write html function
+                // $mpdf->WriteHTML($html);
+                // // Output
+                // $mpdf->Output("bill $rname$month$year.pdf");
+                // ob_end_flush();
                 // <title><?= "บิลห้อง" . $row1['room_name'] . ' / ' . $row1['month'] . ' / ' . $row1['year']
                 ?>
                 <!-- '<a href="billPrint.php?id=' . $row['ord_id'] .'" class="btn btn-success">' -->
-                <a style="float: right" href="bill <?=$rname.$month.$year ?>.pdf" class="btn btn-primary">ดาวน์โหลด</a>
-                <a style="float: right" href="home.php" class="btn btn-primary">กลับหน้าหลัก</a>
-                <a style="float: right" href="bill.php" class="btn btn-success">กลับไปหน้าบิล</a>
+                <button id="btbill" style="float: right"class="btn btn-primary" onclick="printbill()">พิมพ์ใบเสร็จ</button>
+                <!-- <a  href="bill <?=$rname.$month.$year ?>.pdf" </a> -->
+                <a id="bhome" style="float: right" href="home.php" class="btn btn-primary">กลับหน้าหลัก</a>
+                <a id="bbill" style="float: right" href="bill.php" class="btn btn-success">กลับไปหน้าบิล</a>
 
             </div>
         </div>
@@ -196,3 +185,31 @@ if (isset($_GET['id'])) {
 <!--  -->
 
 </html>
+
+
+<script>
+    function printbill() {
+
+        var btbill = document.getElementById("btbill");
+        var bhome = document.getElementById("bhome");
+        var bbill = document.getElementById("bbill");
+
+        btbill.style.visibility = 'hidden';
+        bhome.style.visibility = 'hidden';
+        bbill.style.visibility = 'hidden';
+
+        window.print();
+
+        btbill.style.visibility = 'visible';
+        bhome.style.visibility = 'visible';
+        bbill.style.visibility = 'visible';
+
+
+    }
+
+            
+
+
+   
+
+</script>

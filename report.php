@@ -110,12 +110,12 @@ session_start();
             <div id="md11" class="mt-4 col-md-9">
                 <div class="row">
                     <div class="mb-4 col-md-6">
-                        <a href="">
+                        <a href="reportroom.php">
                         <i class="far fa-2x fa-file">รายงานค่าห้อง</i>
                         </a>
                     </div>
 
-                    <div class="mb-4 col-md-6">
+                    <!-- <div class="mb-4 col-md-6">
                         <a href="">
                         <i class="far fa-2x fa-file">รายงานค่าซ่อมบำรุง</i>
                         </a>
@@ -133,7 +133,7 @@ session_start();
                         </a>
                     </div>
 
-                </div>
+                </div> -->
 
 
 

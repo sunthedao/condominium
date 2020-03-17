@@ -2,22 +2,26 @@
 $connection = DB();
 session_start();
 
+if(isset($_POST['rproom'])){
+    $month = $_POST['month'];
+    $year = $_POST['year'];
 
-// user id
-$usid = $_SESSION['id'];
+    // echo $mont .''. $year;
+
+    $sqlorder = "SELECT od.id , r.id , r.name , cus.firstname , cus.lastname , odt.total , sv.name 
+    from orders as od left join rooms as r 
+    ON od.room_id = r.id left join order_details as odt 
+    ON od.id = odt.order_id left join services as sv 
+    ON odt.service_id = sv.id left join customers as cus
+    ON od.customer_id = cus.id
+    WHERE sv.type = '1' and od.month = '$month' and od.year = '$year'";
+$qrorder = mysqli_query($connection,$sqlorder);
+
+}
 
 
-$sql = "SELECT r.id , r.name , ct.price , ct.earnest , ct.customer_id ,bd.juristic_id , cus.firstname ,cus.id as cus_id
-        FROM rooms as R left join contracts as ct 
-        ON r.id = ct.room_id left join buildings as bd 
-        ON r.building_id = bd.id left join customers as cus
-        ON r.customer_id = cus.id
-        WHERE r.customer_id != '0'";
-$qrsql = mysqli_query($connection, $sql);
 
 ?>
-
-
 
 <!doctype html>
 <html lang="en">
@@ -124,13 +128,11 @@ $qrsql = mysqli_query($connection, $sql);
 
             <!-- 9 ไว้แสดง Content -->
             <div id="md11" class="mt-4 col-md-9">
+                <h1 class="text-center"> รายงานค่าห้อง </h1>
 
-
-                <table class="table table-bordered table-striped">
-                    <form action="billsave.php" method="POST">
-
-                        <!-- month -->
-                        <label for="month"> เดือน </label>
+                <form action="" method="POST">
+                    <div style="float: left">
+                        <label for="month"> เดือนสำหรับรายงาน </label>
                         <select name="month" id="month">
                             <option value="January">มกราคม</option>
                             <option value="February">กุมพาพันธ์</option>
@@ -141,12 +143,12 @@ $qrsql = mysqli_query($connection, $sql);
                             <option value="July">กรกฏาคม</option>
                             <option value="August">สิงหาคม</option>
                             <option value="September">กันายน</option>
-                            <option value="Octomer">ตุลาคม</option>
+                            <option value="October">ตุลาคม</option>
                             <option value="November">พฤศจิกายน</option>
                             <option value="December">ธันวาคม</option>
                         </select>
-
-                        <!-- year  -->
+                    </div>
+                    <div style="float: center">
                         <label for="year"> ปี </label>
                         <select name="year" id="year">
                             <option value="2020">2020</option>
@@ -155,67 +157,47 @@ $qrsql = mysqli_query($connection, $sql);
                             <option value="2023">2023</option>
                             <option value="2024">2024</option>
                             <option value="2025">2025</option>
+
                         </select>
-                        <div style="float: right">
-                            <label for="month"> วันกำหนดชำระเงิน (เดือน / วัน / ปี) </label>
-                            <input type="date" id="paydate" name="paydate" value="" required="required">
-                        </div>
+                    </div>
 
-                        <br><br>
+                    <button type="submit" id="rproom" name="rproom" class="btn btn-primary" >ตกลง</button>
+                </form>
 
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ห้อง</th>
+                            <th>ชื่อผู้เช่า</th>
+                            <th>ราคาห้อง</th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while($row = mysqli_fetch_assoc($qrorder)) : ?>
+                        <tr>
+                            <?php $total = number_format($row['total']) ?>
+                            <td><?= $row['name'] ?></td>
+                            <td><?= $row['firstname'] . ' ' . $row['lastname'] ?></td>
+                            <td><?= $total ?></td>
+                             <?php $a[] = $row['total']; ?>
+                        </tr>
+                        <?php endwhile; ?>
+                        <?php $c = array_sum($a)  ?>
+
+                        <tr>
+                            <td></td>
+                            <td>รวมค่าห้อง</td>
+                            <td> <?= number_format($c)  ?>  </td>
+                        </tr>
+                    </tbody>
 
                         
-
-                        <!-- <br><br> -->
-
-                        <thead>
-                            <tr style="text-align: center" class="font-weight-bolder">
-                                <!-- <th>ID</th> -->
-                                <th>ห้อง</th>
-                                <th>ชื่อลูกค้า</th>
-
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <?php while ($row = mysqli_fetch_assoc($qrsql)) : ?>
-                                <tr style="text-align: center">
-                                    <input type="hidden" id="test" name="empid" value="<?= $usid ?>">
-                                    <input type="hidden" id="test" name="id[]" value="<?= $row['id'] ?>">
-                                    
-                                    <input type="hidden" id="test" name="name[]" value="<?= $row['name'] ?>">
-                                    <input type="hidden" id="test" name="price[]" value="<?= $row['price'] ?>">
-                                    <input type="hidden" id="test" name="earnest[]" value="<?= $row['earnest'] ?>">
-                                    <input type="hidden" id="test" name="cus[]" value="<?= $row['customer_id'] ?>">
-                                    <input type="hidden" id="test" name="juris[]" value="<?= $row['juristic_id'] ?>">
-
-                                     <!-- <td></td> -->
-                                    <td> <?= $row['name']  ?> </td>
-                                    <td> <?= $row['firstname']  ?> </td>
-
-                                </tr>
-
-                                <?php endwhile; ?>
-
-                        </tbody>
-                        <!-- <tr>
-                            <td>1001</td>
-                            <td>ยังไม่จ่าย</td>
-                            <td><button type="submit" name="print" id="print" class="btn btn-success">ปริ้น</button></td>
-                        </tr> -->
-
                 </table>
 
-                <div class="container">
-                    <!-- <button  class="btn btn-primary">ปริ้นทั้งหมด</button> -->
-                    <button style="float: right;" class="btn btn-success" type="submit" name="savebill">ตกลง</button>
-                </div>
-
-
-
-
-
-                </form>
+                
+                <button style="float: right" onclick="print()" class="btn btn-success" > ปริ้น </button>
+                <a href="home.php" class="btn btn-primary" style="float:right" > กลับหน้าหลัก</a>
 
             </div>
 
@@ -230,6 +212,9 @@ $qrsql = mysqli_query($connection, $sql);
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 
+<script>
+    
+</script>
 
 
 <?php
