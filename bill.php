@@ -152,7 +152,7 @@ session_start();
                     </form>
 
                     <br><br>
-                
+
                     <thead>
                         <tr style="text-align: center" class="font-weight-bolder">
                             <th>ห้อง</th>
@@ -174,38 +174,54 @@ session_start();
 
                             $qrBill = mysqli_query($connection, $sqlBill);
                             while ($row = mysqli_fetch_assoc($qrBill)) {
-                            
-                                echo "<tr>";
+
+                                echo "<tr style='text-align: center'>";
                                 echo "<td>" . $row['name'] . "</td>";
-                                if ($row['status'] == 0){
-                                     $notpay ="ยังไม่ชำระ";
-                                } else 
-                                   $notpay = "ชำระเงินแล้ว";
+                                if ($row['status'] == 0) {
+                                    $notpay = "ยังไม่ชำระ";
+                                } else
+                                    $notpay = "ชำระเงินแล้ว";
                                 echo "<td>" . $notpay . "</td>";
-                                echo "<td>" . '<a href="billPrint.php?id=' . $row['ord_id'] .'" class="btn btn-success">' . "ชำระ" . '</a>'  ;
-                                                // '<iframe src="billPrint.php?id=' . $row['ord_id'] .'" frameborder="0">'  ."ปริ้นบิล". '</iframe>';
+                                echo "<td>" . '<a href="billPrint.php?id=' . $row['ord_id'] . '"  class="btn btn-success">' . "ชำระ" . '</a>' .
+                                    '<iframe src="bprint.php?id=' . $row['ord_id'] . '" style="display:none;" name="frame">' . '</iframe>' .
+                                    '<button type="submit" class="btn btn-primary" onclick=' . "frames['frame'].print()" . '>' . "ปริ้นบิล" . '</button>';
+                                // '<input type="button" class="btn btn-primary" onclick='."frames['frame'].print()".' value="ปริ้นบิล">';
+
+                                // '<iframe src="billPrint.php?id=1"  name="test">'.'</iframe>'.
+                                //         '<input type="button" class="btn btn-primary" onclick="frames["test"].print()" value="printletter">';
+
+
+
                                 echo "</tr>";
                             }
-                    
                             
                         }
 
                         ?>
+
+                        
+                        <!-- <iframe src="billPrint.php?id=1" style="display:none;" name="frame"></iframe>
+                        <input type="button" class="btn btn-primary" onclick="frames['frame'].print()" value="printletter"> -->
+
+
                         <!-- <tr>
+                              '<iframe src="billPrint.php?id=' . $row['ord_id'] .'" style="display:none;" name="frame" >' ;
+                            '<input type="button" onclick="frames['frame'].print()"  value="printletter">' ."ปุ่ม" ;
                             <td>1001</td>
                             <td>ยังไม่จ่าย</td>
                             <td><button type="submit" name="print" id="print" class="btn btn-success">ปริ้น</button></td>
                         </tr> -->
                     </tbody>
+                    
 
-
+                    
                 </table>
 
                 <!-- <div class="container">
                     <button style="float: right;" class="btn btn-primary">ปริ้นทั้งหมด</button>
                 </div> -->
 
-                            
+                
             </div>
 
 

@@ -2,22 +2,12 @@
 $connection = DB();
 session_start();
 
-if(isset($_POST['rproom'])){
-    $month = $_POST['month'];
-    $year = $_POST['year'];
 
-    // echo $mont .''. $year;
 
-    $sqlorder = "SELECT od.id , r.id , r.name , cus.firstname , cus.lastname , odt.total , sv.name 
-    from orders as od left join rooms as r 
-    ON od.room_id = r.id left join order_details as odt 
-    ON od.id = odt.order_id left join services as sv 
-    ON odt.service_id = sv.id left join customers as cus
-    ON od.customer_id = cus.id
-    WHERE sv.type = '1' and od.month = '$month' and od.year = '$year'";
-$qrorder = mysqli_query($connection,$sqlorder);
 
-}
+
+
+
 
 
 
@@ -161,7 +151,7 @@ $qrorder = mysqli_query($connection,$sqlorder);
                         </select>
                     </div>
 
-                    <button type="submit" id="rproom" name="rproom" class="btn btn-primary" >ตกลง</button>
+                    <button type="submit" id="rproom" name="rproom" class="btn btn-primary">ตกลง</button>
                 </form>
 
                 <table class="table table-bordered table-striped">
@@ -170,34 +160,63 @@ $qrorder = mysqli_query($connection,$sqlorder);
                             <th>ห้อง</th>
                             <th>ชื่อผู้เช่า</th>
                             <th>ราคาห้อง</th>
-                          
+
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while($row = mysqli_fetch_assoc($qrorder)) : ?>
-                        <tr>
-                            <?php $total = number_format($row['total']) ?>
-                            <td><?= $row['name'] ?></td>
-                            <td><?= $row['firstname'] . ' ' . $row['lastname'] ?></td>
-                            <td><?= $total ?></td>
-                             <?php $a[] = $row['total']; ?>
-                        </tr>
-                        <?php endwhile; ?>
-                        <?php $c = array_sum($a)  ?>
+                        <?php
+                        if (isset($_POST['rproom'])) {
+                            $month = isset($_POST['month']) ? $_POST['month'] : '';
+                            $year = isset($_POST['year']) ? $_POST['year'] : '';
+
+                            // echo $mont .''. $year;
+
+                            $sqlorder = "SELECT od.id , r.id , r.name , cus.firstname , cus.lastname , odt.total , sv.name 
+                                            from orders as od left join rooms as r 
+                                            ON od.room_id = r.id left join order_details as odt 
+                                            ON od.id = odt.order_id left join services as sv 
+                                            ON odt.service_id = sv.id left join customers as cus
+                                            ON od.customer_id = cus.id
+                                            WHERE sv.type = '1' and od.month = '$month' and od.year = '$year'";
+
+                            $qrorder = mysqli_query($connection, $sqlorder);
+
+
+                            while ($row = mysqli_fetch_assoc($qrorder)) {
+                                $total = number_format($row['total']);
+
+                                echo "<tr>";
+                                echo "<td>" . $row['name'] . "</td>";
+                                echo "<td>" . $row['firstname'] . "</td>";
+                                echo "<td>" . $total . "</td>";
+                                echo "</tr>";
+                                $a[] = $row['total'];
+                            }
+                            $c = array_sum($a);
+
+                            echo "<tr>";
+                            echo "<td>" . "</td>";
+                            echo "<td>" . "รวมค่าห้อง" . "</td>";
+                            echo "<td>" . number_format($c) . "</td>";
+                            echo  "</tr>";
+                        }
+                        ?>
+
+                        <!--                  
 
                         <tr>
                             <td></td>
                             <td>รวมค่าห้อง</td>
-                            <td> <?= number_format($c)  ?>  </td>
-                        </tr>
+                            <td> <?= number_format($c)  ?> </td>
+                        </tr> -->
                     </tbody>
 
-                        
+
                 </table>
 
-                
-                <button style="float: right" onclick="print()" class="btn btn-success" > ปริ้น </button>
-                <a href="home.php" class="btn btn-primary" style="float:right" > กลับหน้าหลัก</a>
+
+                <button style="float: right" onclick="print()" class="btn btn-success"> ปริ้น </button>
+                <a href="home.php" class="btn btn-primary" style="float:right"> กลับหน้าหลัก</a>
 
             </div>
 
@@ -213,7 +232,7 @@ $qrorder = mysqli_query($connection,$sqlorder);
 </body>
 
 <script>
-    
+
 </script>
 
 
