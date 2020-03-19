@@ -45,7 +45,7 @@ $connection = DB();
 
                           echo "<td>" . '<iframe src="bprint.php?id='. $row['ord_id'] .'" name="frame'. $row['ord_id'] .'">' . '</iframe>'  ."</td>";
 
-                          echo "<td>" . '<button type="submit" class="btn btn-primary" onclick=' . "frames['frame".$row['ord_id']."'.print()" . '>' . "ปริ้นบิล" . '</button>' . "</td>" ;
+                          echo "<td>" . '<button type="submit" class="btn btn-primary" onclick=' . "frames['frame".$row['ord_id']."'].print()" . '>' . "ปริ้นบิล" . '</button>' . "</td>" ;
                                
 
 

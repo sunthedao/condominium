@@ -183,8 +183,8 @@ session_start();
                                     $notpay = "ชำระเงินแล้ว";
                                 echo "<td>" . $notpay . "</td>";
                                 echo "<td>" . '<a href="billPrint.php?id=' . $row['ord_id'] . '"  class="btn btn-success">' . "ชำระ" . '</a>' .
-                                    '<iframe src="bprint.php?id=' . $row['ord_id'] . '" style="display:none;" name="frame">' . '</iframe>' .
-                                    '<button type="submit" class="btn btn-primary" onclick=' . "frames['frame'].print()" . '>' . "ปริ้นบิล" . '</button>';
+                                    '<iframe src="bprint.php?id=' . $row['ord_id'] . '" style="display:none;" name="frame'. $row['ord_id'] .'">' . '</iframe>' .
+                                    '<button type="submit" class="btn btn-primary" onclick=' . "frames['frame".$row['ord_id']."'].print()" . '>' . "ปริ้นบิล" . '</button>';
                                 // '<input type="button" class="btn btn-primary" onclick='."frames['frame'].print()".' value="ปริ้นบิล">';
 
                                 // '<iframe src="billPrint.php?id=1"  name="test">'.'</iframe>'.
