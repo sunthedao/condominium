@@ -220,6 +220,7 @@ if (isset($_POST['okie'])) {
 
 
                     <div class="container">
+                        <a href="waterEdit.php" class="btn btn-danger"> แก้ไขค่าน้ำ </a>
                         <button type="submit" style="float: right;" class="btn btn-primary" id="savewater" name="savewater">บันทึก</button>
 
                     </div>

@@ -57,7 +57,7 @@ if (isset($_GET['id'])) {
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlTextarea1">ที่อยู่</label>
-                            <textarea class="form-control" rows="3" name="address" id="address">v<?= $row['address'] ?></textarea>
+                            <textarea class="form-control" rows="3" name="address" id="address"><?= $row['address'] ?></textarea>
                         </div>
                         <div class="form-group">
                             <label for="amphur">อำเภอ</label>
@@ -92,7 +92,7 @@ if (isset($_GET['id'])) {
         <!-- footer -->
         <div class="modal-footer">
 
-            <a class="btn btn-danger"  href="cus.php">ปิด</a>
+            <a class="btn btn-danger"  href="cust.php">ปิด</a>
             
             <input button type="submit" class="btn btn-primary" name="editcus" value="บันทึก"></input>
 

@@ -18,10 +18,10 @@ $qrService = mysqli_query($connection, $sqlservice);
 if (isset($_POST['Fsubmit'])){
    $ord_id = $_POST['test'];
     $Stype = $_POST['Stype'];
-    $unit = $_POST['unit'];
+    $amount = $_POST['amount'];
     $price = $_POST['price'];
 
-    $sql = "INSERT into order_details (service_id,amount,unit,price,total,order_id) VALUES ('$Stype','$unit','$price','$price','$price','$ord_id')";
+    $sql = "INSERT into order_details (service_id,amount,price,total,order_id) VALUES ('$Stype','$amount','$price','$price','$ord_id')";
     
     $qr = mysqli_query($connection,$sql);
 
@@ -227,7 +227,8 @@ if (isset($_POST['Fsubmit'])){
                                             ON r.id = ord.room_id left join order_details as od
                                             ON ord.id = od.order_id left join services as ser
                                             ON od.service_id = ser.id
-                                            WHERE r.id = '$room' and ord.month = '$month' and ord.year = '$year'";
+                                            WHERE r.id = '$room' and ord.month = '$month' and ord.year = '$year' and od.price != 0";
+                                            // 
 
                                 $qrRoom = mysqli_query($connection, $sql);
 
@@ -375,7 +376,7 @@ if (isset($_POST['Fsubmit'])){
                                                 <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                             <?php endwhile; ?>
                                         </select></td>
-                                    <td><input type="number" name="unit" id="unit"></td>
+                                    <td><input type="number" name="amount" id="amount"></td>
                                     <td><input type="number" name="price" id="price"></td>
                                     <input type="hidden" name="test" id="test" value="<?= $test ?>">
                                     <input type="hidden" name="month" id="month" value="<?= $month ?>">

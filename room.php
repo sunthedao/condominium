@@ -38,7 +38,7 @@ if (isset($_GET['name'])) {
     // number of page = result / 10;
     $number_of_pages = ceil($number_of_results / $results_per_page);
 
-    $sql = "SELECT r.id ,r.name as room_name, r.floor as room_floor,r.meter_serial as room_meter, b.name as building_name , c.firstname as cus_name
+    $sql = "SELECT r.id ,r.name as room_name, r.floor as room_floor, b.name as building_name , c.firstname as cus_name
             FROM rooms as r LEFT JOIN buildings as b
             ON r.building_id = b.id LEFT JOIN customers as c
             ON r.customer_id = c.id
@@ -144,7 +144,7 @@ if (isset($_GET['name'])) {
             <!-- 3 ไว้แสดง Menu -->
             <div class="mt-4 col-md-3">
                 <div class="row">
-                    <div class="col-6">
+                <div class="col-6">
                         <a href="contact.php">
                             <i class="fas fa-2x fa-file-signature"></i>
                             ทำสัญญา</a>
@@ -168,6 +168,12 @@ if (isset($_GET['name'])) {
                     </div>
 
                     <div class="mt-4 col-md-6">
+                        <a href="billCreate.php">
+                            <i class="fas fa-2x fa-file-invoice"></i>
+                            สร้างบิล</a>
+                    </div>
+
+                    <div class="mt-4 col-md-6">
                         <a href="data.php">
                             <i class="fas fa-2x fa-database"></i>
                             ข้อมูล</a>
@@ -177,13 +183,6 @@ if (isset($_GET['name'])) {
                         <a href="report.php">
                             <i class="far fa-2x fa-sticky-note"></i>
                             รายงาน</a>
-                    </div>
-
-                    <!-- มีเฉพาะหัวหน้าเท่านั้น -->
-                    <div class="mt-4 col-md-6">
-                        <a href="">
-                            <i class="fas fa-2x fa-users-cog"></i>
-                            แอดมิน</a>
                     </div>
 
 

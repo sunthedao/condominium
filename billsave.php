@@ -2,6 +2,7 @@
 require_once './connect.php';
 $connection = DB();
 
+// from bill creat
 if (isset($_POST['savebill'])) {
     // room ID
     $id = $_POST['id'];
@@ -76,4 +77,51 @@ if (isset($_POST['savebill'])) {
         }
     }
    
+}
+
+
+
+// from BIll EDIT
+if(isset($_POST['esub'])){
+    $oid = $_POST['odid'];
+    $ordtid = $_POST['ordtid'];
+    // $svid = $_POST['svid'];
+    $amt = $_POST['amt'];
+    $prc = $_POST['prc'];
+    $val = count($ordtid);
+
+    // echo $oid. '<br>'  ;
+
+    // echo $val . '<br>'  ;
+    // print_r($ordtid);
+    // print_r($amt);
+    // print_r($prc);
+
+    for ($i = 0 ; $i < $val ; $i++){
+        $svsql = "UPDATE order_details SET amount = '$amt[$i]' , 
+        unit = '$prc[$i]' ,
+        price = '$prc[$i]' , 
+        total = '$prc[$i]'
+        WHERE id = '$ordtid[$i]'";
+
+        $qrsv = mysqli_query($connection,$svsql);
+
+    }
+
+  
+        header("location: billPrint.php?id=$oid");
+
+}
+
+// from Bill Print for change status
+
+if(isset($_GET['id'])){
+    $idt = $_GET['id'];
+    $date = date('Y-m-d');
+    $sqlstatus = "UPDATE orders SET status = '1' , payment_at = '$date' WHERE id = '$idt'";
+    $qrstatus = mysqli_query($connection,$sqlstatus);
+    // 
+    if($qrstatus){
+        header("location: home.php");
+    }
 }

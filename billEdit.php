@@ -1,7 +1,31 @@
 <?php require_once './connect.php';
 $connection = DB();
 
+if (isset($_GET['id'])) {
+    $aid = $_GET['id'];
 
+    $sqlord = "SELECT ord.id,ord.month, ord.year, r.name as room_name ,ordt.amount ,ordt.unit  , ordt.price , ordt.id as ordt_id , sv.name as sv_name
+    FROm orders as ord left join order_details as ordt
+    ON ord.id = ordt.order_id left JOIN services as sv
+    ON ordt.service_id = sv.id left join meter_log_details as mld
+    ON ord.meterlog_details_id = mld.meter_log_id left join rooms as r
+    ON ord.room_id = r.id
+    WHERE ord.id = '$aid' and ordt.price != 0";
+
+    $qrord = mysqli_query($connection, $sqlord);
+
+    $sqq = "SELECT ord.id,ord.month, ord.year, r.name as room_name ,ordt.amount ,ordt.unit  , ordt.price , sv.name as sv_name
+    FROm orders as ord left join order_details as ordt
+    ON ord.id = ordt.order_id left JOIN services as sv
+    ON ordt.service_id = sv.id left join meter_log_details as mld
+    ON ord.meterlog_details_id = mld.meter_log_id left join rooms as r
+    ON ord.room_id = r.id
+    WHERE ord.id = '$aid'";
+
+    $qrq = mysqli_query($connection, $sqq);
+
+    $row1 = mysqli_fetch_assoc($qrq);
+}
 
 ?>
 
@@ -36,12 +60,13 @@ $connection = DB();
 
 <body>
 
-    <form action="">
+    <form action="billsave.php" method="POST">
         <div class="container">
             <div class="row">
 
                 <div class="mt-4 col-md-12">
                     <input type="hidden" id="odid" name="odid" value="<?= $aid ?>">
+                    
                     <h1>แก้ไขบิลห้อง <?= $row1['room_name'] ?></h1>
                     <table class="table table-bordered table-striped">
                         <thead>
@@ -56,14 +81,17 @@ $connection = DB();
                             <?php while ($row = mysqli_fetch_assoc($qrord)) : ?>
                                 <tr>
                                     <td><?= $row['sv_name']  ?></td>
-                                    <td><input type="number" id="amt" name="amt" value="<?= $row['amount']  ?>"></td>
-                                    <td><input type="number" id="prc" name="prc" value="<?= $row['price']  ?>"></td>
+                                    <input type="hidden" id="ordtid" name="ordtid[]" value="<?= $row['ordt_id'] ?>">
+                                    <td><input type="number" id="amt" name="amt[]" value="<?= $row['amount']  ?>"></td>
+                                    <td><input type="number" id="prc" name="prc[]" value="<?= $row['price']  ?>"></td>
                                 </tr>
                             <?php endwhile; ?>
                         </tbody>
 
 
                     </table>
+
+                    <button type="submit" id="esub" name="esub" class="btn btn-success" style="float: right">บันทึกการแก้ไข</button>
 
                 </div>
             </div>

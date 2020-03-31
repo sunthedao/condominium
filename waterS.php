@@ -57,7 +57,54 @@ if (isset($_POST['savewater'])) {
         header('location: water.php');
     }
 
+}
 
 
 
+
+// from water Edit
+
+
+if (isset($_POST['Editsave'])) {
+    $mc = $_POST['mc'];
+    $mld = $_POST ['mld'];
+    // $rname = $_POST['r']
+    $cnumber = $_POST['cnumber'];
+    
+    $val = count($mc);
+    // $val2 = count($mld);
+
+    //    print_r($mc);
+    //     echo '<br>';
+    //     print_r($mld).'<br>';
+    //     echo '<br>';
+    //     print_r($cnumber);
+   
+
+    
+    for ($i = 0 ; $i < $val ; $i ++ ) {
+
+        $wp = $cnumber[$i] * 12 ;
+        $nwp = abs($wp);
+        
+        // update meter_current
+        $mcsql = "UPDATE meter_logs SET meter_current = '$cnumber[$i]' WHERE id = '$mc[$i]'";
+        $qrmcsql = mysqli_query($connection,$mcsql);
+
+        // update to meter_log_details
+        $mldsql = "UPDATE meter_log_details SET new_number = '$cnumber[$i]',
+        price_water = '$nwp'
+         WHERE id ='$mld[$i]'";
+        $qrmld = mysqli_query($connection,$mldsql);
+
+        if($qrmcsql && $qrmld){
+            echo "done";
+        } else{
+            echo "can not save  " .mysqli_error($connection);
+        }
+
+    }
+
+    header('location: water.php');
+ 
 }

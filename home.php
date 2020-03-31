@@ -128,7 +128,7 @@ $qrR = mysqli_query($connection, $sqlR);
                         <tbody style="text-align: center">
                             <?php while ($row = mysqli_fetch_assoc($qrR)) {
                                 echo "<tr>";
-                                echo "<td>" . $row['name'] . "</td>";
+                                echo "<td>" . '<button type="submit" name="empty" id="empty" class="btn btn-info">' . $row['name'] . '</button>' . "</td>";
                                 echo "<td>" .'<button type="submit" name="empty" id="empty" class="btn btn-success">' . "ว่าง" . '</button>' . "</td>";
                                 echo "</tr>";
                             }
@@ -166,7 +166,8 @@ $qrR = mysqli_query($connection, $sqlR);
                         $ttprice = number_format($tprice);
 
                         echo "<tr>" ;  
-                        echo "<td>" . $row['name'] . "</td>";
+                        // echo "<td>" . $row['name'] . "</td>";
+                        echo "<td>" . '<button type="submit" name="empty" id="empty" class="btn btn-info">' . $row['name'] . '</button>'. "</td>";
                         echo "<td>" .'<button type="submit" name="empty" id="empty" class="btn btn-danger">' . $ttprice . '</button>' . "</td>";
                         echo "</tr>" ;  
 

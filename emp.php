@@ -130,7 +130,7 @@ if (isset($_GET['name'])) {
             <!-- 3 ไว้แสดง Menu -->
             <div class="mt-4 col-md-3">
                 <div class="row">
-                    <div class="col-6">
+                <div class="col-6">
                         <a href="contact.php">
                             <i class="fas fa-2x fa-file-signature"></i>
                             ทำสัญญา</a>
@@ -154,6 +154,12 @@ if (isset($_GET['name'])) {
                     </div>
 
                     <div class="mt-4 col-md-6">
+                        <a href="billCreate.php">
+                            <i class="fas fa-2x fa-file-invoice"></i>
+                            สร้างบิล</a>
+                    </div>
+
+                    <div class="mt-4 col-md-6">
                         <a href="data.php">
                             <i class="fas fa-2x fa-database"></i>
                             ข้อมูล</a>
@@ -163,13 +169,6 @@ if (isset($_GET['name'])) {
                         <a href="report.php">
                             <i class="far fa-2x fa-sticky-note"></i>
                             รายงาน</a>
-                    </div>
-
-                    <!-- มีเฉพาะหัวหน้าเท่านั้น -->
-                    <div class="mt-4 col-md-6">
-                        <a href="">
-                            <i class="fas fa-2x fa-users-cog"></i>
-                            แอดมิน</a>
                     </div>
 
 

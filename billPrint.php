@@ -18,12 +18,12 @@ if (isset($_GET['id'])) {
     ON ordt.service_id = sv.id left join meter_log_details as mld
     ON ord.meterlog_details_id = mld.meter_log_id left join rooms as r
     ON ord.room_id = r.id
-    WHERE ord.id = '$ord_id'";
+    WHERE ord.id = '$ord_id' and ordt.price != 0";
 
     $qrord = mysqli_query($connection, $sqlord);
 
 
-    $sqtest =   $sqlord = "SELECT ord.id,ord.month, ord.year, r.name as room_name ,ordt.amount ,ordt.unit  , ordt.price , sv.name as sv_name
+    $sqtest = "SELECT ord.id,ord.month, ord.year, r.name as room_name ,ordt.amount ,ordt.unit  , ordt.price , sv.name as sv_name
     FROm orders as ord left join order_details as ordt
     ON ord.id = ordt.order_id left JOIN services as sv
     ON ordt.service_id = sv.id left join meter_log_details as mld
@@ -87,11 +87,17 @@ if (isset($_GET['id'])) {
 </head>
 
 <body>
+    
     <div class="container">
+        
         <h2 class="mt-4" align="center"> บิลห้อง <?= $rname ?> </h2>
+
+        
         <div class="row">
 
             <div class="mt-4 col-md-12">
+            
+            <a href="billEdit.php?id=<?= $ord_id ?>" id="edt" name="edt" style="float: right" class="btn btn-danger">แก้ไขบิล</a>
                 <table class="table table-bordered table-striped" style="width: 100%">
                     <thead>
                         <tr>
@@ -186,7 +192,7 @@ if (isset($_GET['id'])) {
         <!-- '<a href="billPrint.php?id=' . $row['ord_id'] .'" class="btn btn-success">' -->
         <button id="btbill" style="float: right" class="btn btn-primary" onclick="printbill()">พิมพ์ใบเสร็จ</button>
         <!-- <a  href="bill <?= $rname . $month . $year ?>.pdf" </a> -->
-        <a id="bhome" style="float: right" href="home.php" class="btn btn-primary">กลับหน้าหลัก</a>
+        <button id="bhome" style="float: right" onclick="firm(<?=$ord_id?>);" class="btn btn-warning">ยืนยันการชำระเงิน</button>
         <a id="bbill" style="float: right" href="bill.php" class="btn btn-success">กลับไปหน้าบิล</a>
 
 
@@ -234,17 +240,29 @@ if (isset($_GET['id'])) {
         var btbill = document.getElementById("btbill");
         var bhome = document.getElementById("bhome");
         var bbill = document.getElementById("bbill");
+        var edit = document.getElementById("edt");
 
         btbill.style.visibility = 'hidden';
         bhome.style.visibility = 'hidden';
         bbill.style.visibility = 'hidden';
+        edit.style.visibility = 'hidden';
 
         window.print();
 
         btbill.style.visibility = 'visible';
         bhome.style.visibility = 'visible';
         bbill.style.visibility = 'visible';
+        edit.style.visibility = 'visible';
+        
 
 
+    }
+
+    function firm(id){
+        if (confirm('ยืนยันการชำระเงิน')) {
+            window.location.href = 'billsave.php?id=' + id;
+        }
+
+        return false;
     }
 </script>
