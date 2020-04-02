@@ -115,25 +115,25 @@ session_start();
                         </a>
                     </div>
 
-                    <!-- <div class="mb-4 col-md-6">
-                        <a href="">
-                        <i class="far fa-2x fa-file">รายงานค่าซ่อมบำรุง</i>
+                    <div class="mb-4 col-md-6">
+                        <a href="reportnotpay.php">
+                        <i class="far fa-2x fa-file">รายงานห้องค้างจ่าย</i>
                         </a>
                     </div>
 
                     <div class="mt-4 col-md-6">
-                        <a href="">
-                        <i class="far fa-2x fa-file">รายงาน</i>
+                        <a href="reportperday.php">
+                        <i class="far fa-2x fa-file">รายงานเก็บค่าเช่าในแต่ละวัน</i>
                         </a>
                     </div>
 
-                    <div class="mt-4 col-md-6">
+                    <!-- <div class="mt-4 col-md-6">
                         <a href="">
                         <i class="far fa-2x fa-file">รายงาน</i>
                         </a>
-                    </div>
+                    </div>  -->
 
-                </div> -->
+                </div>
 
 
 

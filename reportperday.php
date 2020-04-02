@@ -30,23 +30,28 @@ session_start();
     <!-- awesome Font -->
     <script src="https://kit.fontawesome.com/c1e251547b.js" crossorigin="anonymous"></script>
     <style>
-        @media print{
-            #nono{
-                display: none;
-            }       
-            #nono1{
+        @media print {
+            #nono {
                 display: none;
             }
-            .Ono{
+
+            #nono1 {
                 display: none;
             }
-            #rproom{
+
+            .Ono {
                 display: none;
             }
-            #p1{
+
+            #rproom {
                 display: none;
             }
-            #p2{
+
+            #p1 {
+                display: none;
+            }
+
+            #p2 {
                 display: none;
             }
         }
@@ -57,7 +62,7 @@ session_start();
 
 <body>
 
-    
+
 
     <div class="container" media="print" id="nono">
         <div class="row">
@@ -141,7 +146,7 @@ session_start();
 
             <!-- 9 ไว้แสดง Content -->
             <div id="md11" class="mt-4 col-md-9">
-                <h1 class="text-center"> รายงานค่าห้อง </h1>
+                <h1 class="text-center"> รายงานเก็บค่าเช่าในแต่ละวัน </h1>
 
                 <form action="" method="POST">
                     <div style="float: left" class="Ono">
@@ -178,18 +183,18 @@ session_start();
                 </form>
                 <?php
                 if (isset($_POST['rproom'])) {
-                            $month = isset($_POST['month']) ? $_POST['month'] : '';
-                            $year = isset($_POST['year']) ? $_POST['year'] : '';
+                    $month = isset($_POST['month']) ? $_POST['month'] : '';
+                    $year = isset($_POST['year']) ? $_POST['year'] : '';
 
-                        echo "<h3 class='text-center'>". $month. " " . $year."</h3>";
+                    echo "<h3 class='text-center'>" . $month . " " . $year . "</h3>";
                 }
                 ?>
                 <table class="table table-bordered table-striped" style="text-align: center">
                     <thead>
                         <tr>
-                            <th>ห้อง</th>
+                            <th>ห้องที่ชำระแล้ว</th>
                             <th>ชื่อผู้เช่า</th>
-                            <th>ราคาห้อง</th>
+                            <th>วันที่ชำระ</th>
 
                         </tr>
                     </thead>
@@ -199,37 +204,46 @@ session_start();
                             $month = isset($_POST['month']) ? $_POST['month'] : '';
                             $year = isset($_POST['year']) ? $_POST['year'] : '';
 
+                            // $date = date('Y-m-d');
                             // echo $mont .''. $year;
 
-                            $sqlorder = "SELECT od.id , r.id , r.name as r_name , cus.firstname , cus.lastname , odt.total , sv.name 
+                            $sqlorder = "SELECT od.id, od.payment_at as pay , r.id , r.name as r_name , cus.firstname , cus.lastname , odt.total , sv.name 
                                             from orders as od left join rooms as r 
                                             ON od.room_id = r.id left join order_details as odt 
                                             ON od.id = odt.order_id left join services as sv 
                                             ON odt.service_id = sv.id left join customers as cus
                                             ON od.customer_id = cus.id
-                                            WHERE sv.type = '1' and od.month = '$month' and od.year = '$year'";
+                                            WHERE sv.type = '1' and od.status = '1' and od.month = '$month' and od.year = '$year'";
 
                             $qrorder = mysqli_query($connection, $sqlorder);
 
-
-                            while ($row = mysqli_fetch_assoc($qrorder)) {
-                                $total = number_format($row['total']);
-
+                            if (mysqli_num_rows($qrorder) == 0) {
                                 echo "<tr>";
-                                echo "<td>" . $row['r_name'] . "</td>";
-                                echo "<td>" . $row['firstname'] . "</td>";
-                                echo "<td>" . $total . "</td>";
+                                echo "<td>" . "</td>";
+                                echo "<td>" . "<button class='btn btn-danger'>". "ยังไม่มีการชำระ" . "</button>"  . "</td>";
+                                echo "<td>" . "</td>";
                                 echo "</tr>";
-                                $a[] = $row['total'];
-                            }
-                            $c = array_sum($a);
+                                // echo "ไม่พบข้อมูล";
+                            } else {
 
-                            echo "<tr>";
-                            echo "<td>" . "</td>";
-                            echo "<td>" .  "<button class='btn btn-info'>". "รวมค่าห้อง" . "</button>"  . "</td>";
-                            
-                            echo "<td>" . number_format($c) . "</td>";
-                            echo  "</tr>";
+                                while ($row = mysqli_fetch_assoc($qrorder)) {
+                                    // $total = number_format($row['total']);
+
+                                    echo "<tr>";
+                                    echo "<td>" . $row['r_name'] . "</td>";
+                                    echo "<td>" . $row['firstname'] . "</td>";
+                                    echo "<td>" . $row['pay'] . "</td>";
+                                    echo "</tr>";
+                                    // $a[] = $row['total'];
+                                }
+                                // $c = array_sum($a);
+
+                            }
+                            // echo "<tr>";
+                            // echo "<td>" . "</td>";
+                            // echo "<td>" . "รวมค่าห้อง" . "</td>";
+                            // echo "<td>" . number_format($c) . "</td>";
+                            // echo  "</tr>";
                         }
                         ?>
 
@@ -256,11 +270,11 @@ session_start();
         </div>
     </div>
 
-            <!-- Optional JavaScript -->
-            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-            <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 
 <script>

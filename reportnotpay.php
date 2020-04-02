@@ -141,7 +141,7 @@ session_start();
 
             <!-- 9 ไว้แสดง Content -->
             <div id="md11" class="mt-4 col-md-9">
-                <h1 class="text-center"> รายงานค่าห้อง </h1>
+                <h1 class="text-center"> รายงานห้องค้างจ่าย </h1>
 
                 <form action="" method="POST">
                     <div style="float: left" class="Ono">
@@ -187,7 +187,7 @@ session_start();
                 <table class="table table-bordered table-striped" style="text-align: center">
                     <thead>
                         <tr>
-                            <th>ห้อง</th>
+                            <th>ห้องที่ค้างชำระ</th>
                             <th>ชื่อผู้เช่า</th>
                             <th>ราคาห้อง</th>
 
@@ -207,30 +207,40 @@ session_start();
                                             ON od.id = odt.order_id left join services as sv 
                                             ON odt.service_id = sv.id left join customers as cus
                                             ON od.customer_id = cus.id
-                                            WHERE sv.type = '1' and od.month = '$month' and od.year = '$year'";
+                                            WHERE sv.type = '1' and od.status = '0' and od.month = '$month' and od.year = '$year'";
 
                             $qrorder = mysqli_query($connection, $sqlorder);
 
-
-                            while ($row = mysqli_fetch_assoc($qrorder)) {
-                                $total = number_format($row['total']);
-
+                            if(mysqli_num_rows($qrorder) == 0){
+                                echo"<tr>" ;
+                                echo "<td>" . "</td>";
+                                echo "<td>" . "<button class='btn btn-danger'>". "ไม่พบค่าห้องที่ค้างชำระ" . "</button>"  . "</td>";
+                                echo "<td>" . "</td>";
+                                echo "</tr>" ;
+                                // echo "ไม่พบข้อมูล";
+                            } else{
+                                while ($row = mysqli_fetch_assoc($qrorder)) {
+                                    $total = number_format($row['total']);
+    
+                                    echo "<tr>";
+                                    echo "<td>" . $row['r_name'] . "</td>";
+                                    echo "<td>" . $row['firstname'] . "</td>";
+                                    echo "<td>" . $total . "</td>";
+                                    echo "</tr>";
+                                    $a[] = $row['total'];
+                                }
+                                $c = array_sum($a);
+    
                                 echo "<tr>";
-                                echo "<td>" . $row['r_name'] . "</td>";
-                                echo "<td>" . $row['firstname'] . "</td>";
-                                echo "<td>" . $total . "</td>";
-                                echo "</tr>";
-                                $a[] = $row['total'];
+                                echo "<td>" . "</td>";
+                                echo "<td>" . "<button class='btn btn-danger'>". "รวมค่าห้องที่ค้างชำระ" . "</button>"   . "</td>";
+                                echo "<td>" . number_format($c) . "</td>";
+                                echo  "</tr>";
                             }
-                            $c = array_sum($a);
 
-                            echo "<tr>";
-                            echo "<td>" . "</td>";
-                            echo "<td>" .  "<button class='btn btn-info'>". "รวมค่าห้อง" . "</button>"  . "</td>";
-                            
-                            echo "<td>" . number_format($c) . "</td>";
-                            echo  "</tr>";
-                        }
+                            }
+
+                          
                         ?>
 
                         <!--                  
