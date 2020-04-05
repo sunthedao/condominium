@@ -30,23 +30,28 @@ session_start();
     <!-- awesome Font -->
     <script src="https://kit.fontawesome.com/c1e251547b.js" crossorigin="anonymous"></script>
     <style>
-        @media print{
-            #nono{
-                display: none;
-            }       
-            #nono1{
+        @media print {
+            #nono {
                 display: none;
             }
-            .Ono{
+
+            #nono1 {
                 display: none;
             }
-            #rproom{
+
+            .Ono {
                 display: none;
             }
-            #p1{
+
+            #rproom {
                 display: none;
             }
-            #p2{
+
+            #p1 {
+                display: none;
+            }
+
+            #p2 {
                 display: none;
             }
         }
@@ -57,7 +62,7 @@ session_start();
 
 <body>
 
-    
+
 
     <div class="container" media="print" id="nono">
         <div class="row">
@@ -141,7 +146,7 @@ session_start();
 
             <!-- 9 ไว้แสดง Content -->
             <div id="md11" class="mt-4 col-md-9">
-                <h1 class="text-center"> รายงานค่าห้อง </h1>
+                <h1 class="text-center"> รายงานค่าห้องรายเดือน </h1>
 
                 <form action="" method="POST">
                     <div style="float: left" class="Ono">
@@ -178,10 +183,10 @@ session_start();
                 </form>
                 <?php
                 if (isset($_POST['rproom'])) {
-                            $month = isset($_POST['month']) ? $_POST['month'] : '';
-                            $year = isset($_POST['year']) ? $_POST['year'] : '';
+                    $month = isset($_POST['month']) ? $_POST['month'] : '';
+                    $year = isset($_POST['year']) ? $_POST['year'] : '';
 
-                        echo "<h3 class='text-center'>". $month. " " . $year."</h3>";
+                    echo "<h3 class='text-center'>" . $month . " " . $year . "</h3>";
                 }
                 ?>
                 <table class="table table-bordered table-striped" style="text-align: center">
@@ -189,7 +194,9 @@ session_start();
                         <tr>
                             <th>ห้อง</th>
                             <th>ชื่อผู้เช่า</th>
-                            <th>ราคาห้อง</th>
+                            <th>วันที่ชำระ</th>
+                            <th>รายการที่ชำระ</th>
+                            <th>จำนวนเงิน</th>
 
                         </tr>
                     </thead>
@@ -201,35 +208,104 @@ session_start();
 
                             // echo $mont .''. $year;
 
-                            $sqlorder = "SELECT od.id , r.id , r.name as r_name , cus.firstname , cus.lastname , odt.total , sv.name 
-                                            from orders as od left join rooms as r 
-                                            ON od.room_id = r.id left join order_details as odt 
-                                            ON od.id = odt.order_id left join services as sv 
-                                            ON odt.service_id = sv.id left join customers as cus
-                                            ON od.customer_id = cus.id
-                                            WHERE sv.type = '1' and od.month = '$month' and od.year = '$year'";
+                            $sqlorder = "SELECT od.id as od_id, od.payment_at as pay , r.id , od.total_price , r.name as r_name , cus.firstname , cus.lastname , odt.total , sv.name 
+                            from orders as od left join rooms as r 
+                            ON od.room_id = r.id left join order_details as odt 
+                            ON od.id = odt.order_id left join services as sv 
+                            ON odt.service_id = sv.id left join customers as cus
+                            ON od.customer_id = cus.id
+                            WHERE sv.type = '1' and od.month = '$month' and od.year = '$year'";
 
                             $qrorder = mysqli_query($connection, $sqlorder);
 
-
-                            while ($row = mysqli_fetch_assoc($qrorder)) {
-                                $total = number_format($row['total']);
-
+                            if (mysqli_num_rows($qrorder) == 0) {
                                 echo "<tr>";
-                                echo "<td>" . $row['r_name'] . "</td>";
-                                echo "<td>" . $row['firstname'] . "</td>";
-                                echo "<td>" . $total . "</td>";
-                                echo "</tr>";
-                                $a[] = $row['total'];
-                            }
-                            $c = array_sum($a);
+                                echo "<td>" . "</td>";
+                                echo "<td>" . "</td>";
+                                echo "<td>" . "</td>";
+                                echo "<td>" . "<button class='btn btn-danger'>" . "ยังไม่มีการชำระ" . "</button>"  . "</td>";
+                                echo "<td>" . "</td>";
 
+                                echo "</tr>";
+                                // echo "ไม่พบข้อมูล";
+                            } else {
+                                // 
+
+
+                                $row = mysqli_fetch_assoc($qrorder);
+                                $total = number_format($row['total_price']);
+
+                                // $okid[] = $row['od_id'];
+                                    // ค่าห้อง
+                                $sql = "SELECT od.id , od.payment_at as pay ,od.month , od.year , r.name as room_name , cus.firstname , ord.amount , ord.unit ,ord.price ,sv.name as sv_name
+                                        from orders as od left join order_details as ord
+                                        ON od.id = ord.order_id left join services as sv
+                                        ON ord.service_id = sv.id left join rooms as r
+                                        ON od.room_id = r.id left join customers as cus
+                                        ON od.customer_id = cus.id
+                                        WHERE ord.price != 0 and od.month = '$month' and od.year = '$year'
+                                        ORder by od.id";
+
+                                $qr = mysqli_query($connection, $sql);
+
+                                while ($row = mysqli_fetch_assoc($qr)) {
+                                    $dt = $row['pay'];
+                                    $total = $row['price'];
+                                    $month = $row['month'];
+                                    $year = $row['year'];
+                                    echo "<tr>";
+                                    echo "<td>" . $row['room_name'] . "</td>";
+                                    echo "<td>" . $row['firstname'] . "</td>";
+                                    echo "<td>" . $dt . "</td>";
+                                    echo "<td>" . $row['sv_name'] . "</td>";
+                                    echo "<td>" . $total . "</td>";
+                                    echo "</tr>";
+                                    $a[] = $row['price'];
+                                }
+
+                                $sqlwater = "SELECT mld.price_water , ods.id as order_id , rooms.name as room_name , cus.firstname
+                                FROM meter_log_details as mld left join orders as ods 
+                                ON mld.meter_log_id = ods.meterlog_details_id left join rooms
+                                ON ods.room_id = rooms.id left join customers as cus
+                                ON ods.customer_id = cus.id
+                                WHERE ods.month = '$month' and mld.month = '$month'";
+
+                                $qrwater = mysqli_query($connection, $sqlwater);
+
+                                while ($row = mysqli_fetch_assoc($qrwater)) {
+
+                                    echo "<tr>";
+                                    echo "<td>" . $row['room_name'] . "</td>";
+                                    echo "<td>" . $row['firstname'] . "</td>";
+                                    echo "<td>" . "$dt" . "</td>";
+                                    echo "<td>" . "ค่าน้ำ" . "</td>";
+                                    echo "<td>" . $row['price_water'] . "</td>";
+                                    echo "</tr>";
+                                    $a[] = $row['price_water'];
+                                }
+
+                                // echo $month . " " . $year;
+
+                            }
+
+
+
+
+                            $c = array_sum($a);
                             echo "<tr>";
                             echo "<td>" . "</td>";
-                            echo "<td>" .  "<button class='btn btn-info'>". "รวมค่าห้อง" . "</button>"  . "</td>";
-                            
+                            echo "<td>" . "</td>";
+                            echo "<td>" . "</td>";
+                            echo "<td>" . "รวม" . "</td>";
                             echo "<td>" . number_format($c) . "</td>";
                             echo  "</tr>";
+
+
+
+                            // $val = count($okid);
+                            // echo $val . '<br>';
+
+                            // print_r($okid);
                         }
                         ?>
 
@@ -256,11 +332,11 @@ session_start();
         </div>
     </div>
 
-            <!-- Optional JavaScript -->
-            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-            <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 
 <script>

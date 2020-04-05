@@ -4,13 +4,24 @@ $connection = DB();
 if (isset($_GET['id'])) {
     $aid = $_GET['id'];
 
-    $sqlord = "SELECT ord.id,ord.month, ord.year, r.name as room_name ,ordt.amount ,ordt.unit  , ordt.price , ordt.id as ordt_id , sv.name as sv_name
-    FROm orders as ord left join order_details as ordt
-    ON ord.id = ordt.order_id left JOIN services as sv
-    ON ordt.service_id = sv.id left join meter_log_details as mld
-    ON ord.meterlog_details_id = mld.meter_log_id left join rooms as r
-    ON ord.room_id = r.id
-    WHERE ord.id = '$aid' and ordt.price != 0";
+
+
+    $sqlord = "SELECT od.id , od.month , od.year , r.name as room_name , cus.firstname , ord.amount , ord.unit ,ord.price , ord.id as ordt_id ,sv.name as sv_name
+    from orders as od left join order_details as ord
+    ON od.id = ord.order_id left join services as sv
+    ON ord.service_id = sv.id left join rooms as r
+    ON od.room_id = r.id left join customers as cus
+    ON od.customer_id = cus.id
+    WHERE od.id = '$aid'";
+
+    //! ของเก่าที่เบิ้ล
+    // "SELECT ord.id,ord.month, ord.year, r.name as room_name ,ordt.amount ,ordt.unit  , ordt.price , ordt.id as ordt_id , sv.name as sv_name
+    // FROm orders as ord left join order_details as ordt
+    // ON ord.id = ordt.order_id left JOIN services as sv
+    // ON ordt.service_id = sv.id left join meter_log_details as mld
+    // ON ord.meterlog_details_id = mld.meter_log_id left join rooms as r
+    // ON ord.room_id = r.id
+    // WHERE ord.id = '$aid' and ordt.price != 0";
 
     $qrord = mysqli_query($connection, $sqlord);
 

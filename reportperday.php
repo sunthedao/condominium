@@ -151,100 +151,148 @@ session_start();
                 <form action="" method="POST">
                     <div style="float: left" class="Ono">
                         <label for="month"> เดือนสำหรับรายงาน </label>
-                        <select name="month" id="month">
-                            <option value="January">มกราคม</option>
-                            <option value="February">กุมพาพันธ์</option>
-                            <option value="March">มีนาคม</option>
-                            <option value="April">เมษายน</option>
-                            <option value="May">พฤษภาคม</option>
-                            <option value="June">มิถุนายน</option>
-                            <option value="July">กรกฏาคม</option>
-                            <option value="August">สิงหาคม</option>
-                            <option value="September">กันายน</option>
-                            <option value="October">ตุลาคม</option>
-                            <option value="November">พฤศจิกายน</option>
-                            <option value="December">ธันวาคม</option>
-                        </select>
+                        <input type="date" id="dt" name="dt">
                     </div>
-                    <div style="float: center" class="Ono">
-                        <label for="year"> ปี </label>
-                        <select name="year" id="year">
-                            <option value="2020">2020</option>
-                            <option value="2021">2021</option>
-                            <option value="2022">2022</option>
-                            <option value="2023">2023</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
+                    <!-- // $date = date('Y-m-d'); -->
 
-                        </select>
-                    </div>
-
-                    <button type="submit" id="rproom" name="rproom" class="btn btn-primary">ตกลง</button>
+                    <button type="submit" id="rproom" name="rproom" class="btn btn-primary ml-3">ตกลง</button>
                 </form>
+
+                <!-- <?= $_POST['dt'] ?> -->
+
                 <?php
                 if (isset($_POST['rproom'])) {
-                    $month = isset($_POST['month']) ? $_POST['month'] : '';
-                    $year = isset($_POST['year']) ? $_POST['year'] : '';
+                    $dt = isset($_POST['dt']) ? $_POST['dt'] : '';
+                    // $year = isset($_POST['year']) ? $_POST['year'] : '';
 
-                    echo "<h3 class='text-center'>" . $month . " " . $year . "</h3>";
+                    echo "<h3 class='text-center'>" . $dt .  "</h3>";
                 }
                 ?>
                 <table class="table table-bordered table-striped" style="text-align: center">
                     <thead>
                         <tr>
-                            <th>ห้องที่ชำระแล้ว</th>
+                            <th>ห้อง</th>
                             <th>ชื่อผู้เช่า</th>
                             <th>วันที่ชำระ</th>
+                            <th>รายการที่ชำระ</th>
+                            <th>จำนวนเงิน</th>
 
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         if (isset($_POST['rproom'])) {
-                            $month = isset($_POST['month']) ? $_POST['month'] : '';
-                            $year = isset($_POST['year']) ? $_POST['year'] : '';
+                            $dt = isset($_POST['dt']) ? $_POST['dt'] : '';
+                            // $month = isset($_POST['month']) ? $_POST['month'] : '';
+                            // $year = isset($_POST['year']) ? $_POST['year'] : '';
 
-                            // $date = date('Y-m-d');
+
                             // echo $mont .''. $year;
 
-                            $sqlorder = "SELECT od.id, od.payment_at as pay , r.id , r.name as r_name , cus.firstname , cus.lastname , odt.total , sv.name 
+                            $sqlorder = "SELECT od.id as od_id, od.payment_at as pay , r.id , od.total_price , r.name as r_name , cus.firstname , cus.lastname , odt.total , sv.name 
                                             from orders as od left join rooms as r 
                                             ON od.room_id = r.id left join order_details as odt 
                                             ON od.id = odt.order_id left join services as sv 
                                             ON odt.service_id = sv.id left join customers as cus
                                             ON od.customer_id = cus.id
-                                            WHERE sv.type = '1' and od.status = '1' and od.month = '$month' and od.year = '$year'";
+                                            WHERE sv.type = '1' and od.status = '1' and od.payment_at = '$dt'";
 
                             $qrorder = mysqli_query($connection, $sqlorder);
 
                             if (mysqli_num_rows($qrorder) == 0) {
                                 echo "<tr>";
                                 echo "<td>" . "</td>";
-                                echo "<td>" . "<button class='btn btn-danger'>". "ยังไม่มีการชำระ" . "</button>"  . "</td>";
                                 echo "<td>" . "</td>";
+                                echo "<td>" . "</td>";
+                                echo "<td>" . "<button class='btn btn-danger'>" . "ยังไม่มีการชำระ" . "</button>"  . "</td>";
+                                echo "<td>" . "</td>";
+
                                 echo "</tr>";
                                 // echo "ไม่พบข้อมูล";
                             } else {
+                                // 
 
-                                while ($row = mysqli_fetch_assoc($qrorder)) {
-                                    // $total = number_format($row['total']);
 
+                                $row = mysqli_fetch_assoc($qrorder);
+                                $total = number_format($row['total_price']);
+                                
+                                // $okid[] = $row['od_id'];
+
+                                $sql = "SELECT od.id , od.payment_at as pay ,od.month , od.year , r.name as room_name , cus.firstname , ord.amount , ord.unit ,ord.price ,sv.name as sv_name
+                                from orders as od left join order_details as ord
+                                ON od.id = ord.order_id left join services as sv
+                                ON ord.service_id = sv.id left join rooms as r
+                                ON od.room_id = r.id left join customers as cus
+                                ON od.customer_id = cus.id
+                                WHERE ord.price != 0 and od.payment_at = '$dt'
+                                ORder by od.id";
+
+                                $qr = mysqli_query($connection, $sql);
+
+                                while ($row = mysqli_fetch_assoc($qr)) {
+
+                                        $total = $row['price']; 
+                                        $month = $row['month'];
+                                        $year = $row['year'];
                                     echo "<tr>";
-                                    echo "<td>" . $row['r_name'] . "</td>";
+                                    echo "<td>" . $row['room_name'] . "</td>";
                                     echo "<td>" . $row['firstname'] . "</td>";
                                     echo "<td>" . $row['pay'] . "</td>";
+                                    echo "<td>" . $row['sv_name'] . "</td>";
+                                    echo "<td>" . $total . "</td>";
                                     echo "</tr>";
-                                    // $a[] = $row['total'];
-                                }
-                                // $c = array_sum($a);
+                                    $a[] = $row['price'];
 
+
+                                }
+
+                                $sqlwater = "SELECT mld.price_water , ods.id as order_id , rooms.name as room_name , cus.firstname
+                                FROM meter_log_details as mld left join orders as ods 
+                                ON mld.meter_log_id = ods.meterlog_details_id left join rooms
+                                ON ods.room_id = rooms.id left join customers as cus
+                                ON ods.customer_id = cus.id
+                                WHERE ods.payment_at = '$dt' and ods.month = '$month' and mld.month = '$month'";
+
+                                $qrwater = mysqli_query($connection,$sqlwater);
+
+                                while ($row = mysqli_fetch_assoc($qrwater)){
+                                    
+                                    echo "<tr>";
+                                    echo "<td>" . $row['room_name'] . "</td>";
+                                    echo "<td>" . $row['firstname'] . "</td>";
+                                    echo "<td>" . "$dt" . "</td>";
+                                    echo "<td>" . "ค่าน้ำ". "</td>";
+                                    echo "<td>" . $row['price_water']. "</td>";
+                                    echo "</tr>";
+                                    $a[] = $row['price_water'];
+
+
+                                }
+
+                                // echo $month . " " . $year;
+                                
                             }
-                            // echo "<tr>";
-                            // echo "<td>" . "</td>";
-                            // echo "<td>" . "รวมค่าห้อง" . "</td>";
-                            // echo "<td>" . number_format($c) . "</td>";
-                            // echo  "</tr>";
+
+
+
+
+                            $c = array_sum($a);
+                            echo "<tr>";
+                            echo "<td>" . "</td>";
+                            echo "<td>" . "</td>";
+                            echo "<td>" . "</td>";
+                            echo "<td>" . "รวม" . "</td>";
+                            echo "<td>" . number_format($c) . "</td>";
+                            echo  "</tr>";
+
+
+
+                            // $val = count($okid);
+                            // echo $val . '<br>';
+
+                            // print_r($okid);
                         }
+
                         ?>
 
                         <!--                  

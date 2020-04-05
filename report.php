@@ -128,8 +128,9 @@ session_start();
                     </div>
 
                     <!-- <div class="mt-4 col-md-6">
-                        <a href="">
-                        <i class="far fa-2x fa-file">รายงาน</i>
+                        <a href="reporttest.php"  target="print-iframe">
+                            <iframe src="" name="print-iframe" frameborder="0"></iframe>
+                        <i class="far fa-2x fa-file">LINK</i>
                         </a>
                     </div>  -->
 

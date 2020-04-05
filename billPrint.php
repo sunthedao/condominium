@@ -10,19 +10,8 @@ session_start();
 
 if (isset($_GET['id'])) {
     $ord_id = $_GET['id'];
-    // echo $ord_id;
-    // ค่าห้อง บลา บลา
-    $sqlord = "SELECT ord.id,ord.month, ord.year, r.name as room_name ,ordt.amount ,ordt.unit  , ordt.price , sv.name as sv_name
-    FROm orders as ord left join order_details as ordt
-    ON ord.id = ordt.order_id left JOIN services as sv
-    ON ordt.service_id = sv.id left join meter_log_details as mld
-    ON ord.meterlog_details_id = mld.meter_log_id left join rooms as r
-    ON ord.room_id = r.id
-    WHERE ord.id = '$ord_id' and ordt.price != 0";
 
-    $qrord = mysqli_query($connection, $sqlord);
-
-
+    // โชว์เดือน ปี และเลขห้อง
     $sqtest = "SELECT ord.id,ord.month, ord.year, r.name as room_name ,ordt.amount ,ordt.unit  , ordt.price , sv.name as sv_name
     FROm orders as ord left join order_details as ordt
     ON ord.id = ordt.order_id left JOIN services as sv
@@ -37,13 +26,30 @@ if (isset($_GET['id'])) {
     $rname = $row1['room_name'];
     $month = $row1['month'];
     $year = $row1['year'];
+   
+
+
+    // echo $ord_id;
+    // ค่าห้อง บลา บลา
+    $sqlord = "SELECT od.id , od.month , od.year , r.name as room_name , cus.firstname , ord.amount , ord.unit ,ord.price ,sv.name as sv_name
+    from orders as od left join order_details as ord
+    ON od.id = ord.order_id left join services as sv
+    ON ord.service_id = sv.id left join rooms as r
+    ON od.room_id = r.id left join customers as cus
+    ON od.customer_id = cus.id
+    WHERE od.id = '$ord_id' and ord.price != 0";
+
+    $qrord = mysqli_query($connection, $sqlord);
+
+
+
 
 
     //  ค่าน้ำ
     $sqlwater = "SELECT mld.old_number , mld.new_number , mld.price_water , ods.id as order_id , ods.room_id 
    FROM meter_log_details as mld left join orders as ods 
    ON mld.meter_log_id = ods.meterlog_details_id
-   WHERE ods.id = '$ord_id'";
+   WHERE ods.id = '$ord_id' AND mld.month = '$month'";   // 
     $qrwater = mysqli_query($connection, $sqlwater);
 }
 
@@ -81,9 +87,24 @@ if (isset($_GET['id'])) {
         div.t2 {
             margin-left: 760px;
         }
-    </style>
 
-    <title><?= "บิลห้อง" . $row1['room_name'] . ' / ' . $row1['month'] . ' / ' . $row1['year'] ?></title>
+        @media print{
+            #edt{
+                display: none;
+            }
+            #btbill{
+                display: none;
+            } 
+            #bhome{
+                display: none;
+            }
+            #bbill{
+            display: none;
+            }
+        }
+    </style>
+                
+    <title><?= "บิลห้อง" . $rname . ' / ' . $month . ' / ' . $year ?></title>
 </head>
 
 <body>
@@ -92,12 +113,14 @@ if (isset($_GET['id'])) {
         
         <h2 class="mt-4" align="center"> บิลห้อง <?= $rname ?> </h2>
 
+      
+
         
         <div class="row">
 
             <div class="mt-4 col-md-12">
             
-            <a href="billEdit.php?id=<?= $ord_id ?>" id="edt" name="edt" style="float: right" class="btn btn-danger">แก้ไขบิล</a>
+            <a href="billEdit.php?id=<?= $ord_id ?>" id="edt" name="edt" style="float: right" class="btn btn-danger" media="print">แก้ไขบิล</a>
                 <table class="table table-bordered table-striped" style="width: 100%">
                     <thead>
                         <tr>
@@ -190,14 +213,14 @@ if (isset($_GET['id'])) {
         // <title><?= "บิลห้อง" . $row1['room_name'] . ' / ' . $row1['month'] . ' / ' . $row1['year']
         ?>
         <!-- '<a href="billPrint.php?id=' . $row['ord_id'] .'" class="btn btn-success">' -->
-        <button id="btbill" style="float: right" class="btn btn-primary" onclick="printbill()">พิมพ์ใบเสร็จ</button>
+        <button id="btbill" style="float: right" class="btn btn-primary" onclick="printbill()" media="print">พิมพ์ใบเสร็จ</button>
         <!-- <a  href="bill <?= $rname . $month . $year ?>.pdf" </a> -->
-        <button id="bhome" style="float: right" onclick="firm(<?=$ord_id?>);" class="btn btn-warning">ยืนยันการชำระเงิน</button>
-        <a id="bbill" style="float: right" href="bill.php" class="btn btn-success">กลับไปหน้าบิล</a>
+        <button id="bhome" style="float: right" onclick="firm(<?=$ord_id?>);" class="btn btn-warning" media="print">ยืนยันการชำระเงิน</button>
+        <a id="bbill" style="float: right" href="bill.php" class="btn btn-success" media="print">กลับไปหน้าบิล</a>
 
 
-
-
+      
+ 
 
     </div>
 

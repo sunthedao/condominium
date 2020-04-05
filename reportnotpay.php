@@ -189,7 +189,8 @@ session_start();
                         <tr>
                             <th>ห้องที่ค้างชำระ</th>
                             <th>ชื่อผู้เช่า</th>
-                            <th>ราคาห้อง</th>
+                            <th>รายการที่ชำระ</th>
+                            <th>จำนวนเงิน</th>
 
                         </tr>
                     </thead>
@@ -201,44 +202,104 @@ session_start();
 
                             // echo $mont .''. $year;
 
-                            $sqlorder = "SELECT od.id , r.id , r.name as r_name , cus.firstname , cus.lastname , odt.total , sv.name 
-                                            from orders as od left join rooms as r 
-                                            ON od.room_id = r.id left join order_details as odt 
-                                            ON od.id = odt.order_id left join services as sv 
-                                            ON odt.service_id = sv.id left join customers as cus
-                                            ON od.customer_id = cus.id
-                                            WHERE sv.type = '1' and od.status = '0' and od.month = '$month' and od.year = '$year'";
+                          
+                            $sqlorder = "SELECT od.id as od_id, od.payment_at as pay , r.id , od.total_price , r.name as r_name , cus.firstname , cus.lastname , odt.total , sv.name 
+                            from orders as od left join rooms as r 
+                            ON od.room_id = r.id left join order_details as odt 
+                            ON od.id = odt.order_id left join services as sv 
+                            ON odt.service_id = sv.id left join customers as cus
+                            ON od.customer_id = cus.id
+                            WHERE sv.type = '1' and od.month = '$month' and od.year = '$year'";
 
                             $qrorder = mysqli_query($connection, $sqlorder);
 
-                            if(mysqli_num_rows($qrorder) == 0){
-                                echo"<tr>" ;
+                            if (mysqli_num_rows($qrorder) == 0) {
+                                echo "<tr>";
+                                
                                 echo "<td>" . "</td>";
-                                echo "<td>" . "<button class='btn btn-danger'>". "ไม่พบค่าห้องที่ค้างชำระ" . "</button>"  . "</td>";
                                 echo "<td>" . "</td>";
-                                echo "</tr>" ;
+                                echo "<td>" . "<button class='btn btn-danger'>" . "ยังไม่มีการชำระ" . "</button>"  . "</td>";
+                                echo "<td>" . "</td>";
+
+                                echo "</tr>";
                                 // echo "ไม่พบข้อมูล";
-                            } else{
-                                while ($row = mysqli_fetch_assoc($qrorder)) {
-                                    $total = number_format($row['total']);
-    
+                            } else {
+                                // 
+                                $row = mysqli_fetch_assoc($qrorder);
+                                $total = number_format($row['total_price']);
+
+                                // $okid[] = $row['od_id'];
+                                    // ค่าห้อง
+                                $sql = "SELECT od.id , od.payment_at as pay ,od.month , od.year , r.name as room_name , cus.firstname , ord.amount , ord.unit ,ord.price ,sv.name as sv_name
+                                        from orders as od left join order_details as ord
+                                        ON od.id = ord.order_id left join services as sv
+                                        ON ord.service_id = sv.id left join rooms as r
+                                        ON od.room_id = r.id left join customers as cus
+                                        ON od.customer_id = cus.id
+                                        WHERE ord.price != 0 and od.month = '$month' and od.year = '$year'
+                                        ORder by od.id";
+
+                                $qr = mysqli_query($connection, $sql);
+
+                                while ($row = mysqli_fetch_assoc($qr)) {
+                                    $dt = $row['pay'];
+                                    $total = $row['price'];
+                                    $month = $row['month'];
+                                    $year = $row['year'];
                                     echo "<tr>";
-                                    echo "<td>" . $row['r_name'] . "</td>";
+                                    echo "<td>" . $row['room_name'] . "</td>";
                                     echo "<td>" . $row['firstname'] . "</td>";
+                                    // echo "<td>" . $dt . "</td>";
+                                    echo "<td>" . $row['sv_name'] . "</td>";
                                     echo "<td>" . $total . "</td>";
                                     echo "</tr>";
-                                    $a[] = $row['total'];
+                                    $a[] = $row['price'];
                                 }
-                                $c = array_sum($a);
-    
-                                echo "<tr>";
-                                echo "<td>" . "</td>";
-                                echo "<td>" . "<button class='btn btn-danger'>". "รวมค่าห้องที่ค้างชำระ" . "</button>"   . "</td>";
-                                echo "<td>" . number_format($c) . "</td>";
-                                echo  "</tr>";
-                            }
+
+                                $sqlwater = "SELECT mld.price_water , ods.id as order_id , rooms.name as room_name , cus.firstname
+                                FROM meter_log_details as mld left join orders as ods 
+                                ON mld.meter_log_id = ods.meterlog_details_id left join rooms
+                                ON ods.room_id = rooms.id left join customers as cus
+                                ON ods.customer_id = cus.id
+                                WHERE ods.month = '$month' and mld.month = '$month'";
+
+                                $qrwater = mysqli_query($connection, $sqlwater);
+
+                                while ($row = mysqli_fetch_assoc($qrwater)) {
+
+                                    echo "<tr>";
+                                    echo "<td>" . $row['room_name'] . "</td>";
+                                    echo "<td>" . $row['firstname'] . "</td>";
+                                    // echo "<td>" . "$dt" . "</td>";
+                                    echo "<td>" . "ค่าน้ำ" . "</td>";
+                                    echo "<td>" . $row['price_water'] . "</td>";
+                                    echo "</tr>";
+                                    $a[] = $row['price_water'];
+                                }
+
+                                // echo $month . " " . $year;
 
                             }
+
+
+
+
+                            $c = array_sum($a);
+                            echo "<tr>";
+                            // echo "<td>" . "</td>";
+                            echo "<td>" . "</td>";
+                            echo "<td>" . "</td>";
+                            echo "<td>" . "รวม" . "</td>";
+                            echo "<td>" . number_format($c) . "</td>";
+                            echo  "</tr>";
+
+
+
+                            // $val = count($okid);
+                            // echo $val . '<br>';
+
+                            // print_r($okid);
+                        }
 
                           
                         ?>

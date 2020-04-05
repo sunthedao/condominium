@@ -152,7 +152,8 @@ session_start();
                     </form>
 
                     <br><br>
-
+                    
+                        
                     <thead>
                         <tr style="text-align: center" class="font-weight-bolder">
                             <th>ห้อง</th>
@@ -162,15 +163,27 @@ session_start();
                     </thead>
 
                     <tbody>
+                     <!-- <tr>
+                         <td>555</td>
+                         <td> <iframe src="billPrint.php?id=144" frameborder="0" name="iframe" ></iframe> </td>
+                         <td> <a href="" onclick="window.print()" target="iframe">Print</a> </td>
+                     </tr> -->
+
                         <?php
                         if (isset($_POST['subbill'])) {
                             $year = $_POST['year'];
                             $month = $_POST['month'];
 
-                            $sqlBill = "SELECT r.id ,r.name , ord.status , ord.month , ord.year ,ord.id as ord_id
-                                        FROM rooms as r left join orders as ord
-                                        ON r.id = ord.room_id
-                                        WHERE ord.month = '$month' and year = '$year'";
+                            $sqlBill = "SELECT ord.id as ord_id , ord.month , ord.year, ord.status , r.id , r.name
+                            FROm orders AS ord left join rooms as r
+                            ON ord.room_id = r.id 
+                            WHERE ord.month = '$month' and ord.year = '$year'";
+                            
+                            //! OLD SQL 
+                            // "SELECT r.id ,r.name , ord.status , ord.month , ord.year ,ord.id as ord_id
+                            //             FROM rooms as r left join orders as ord
+                            //             ON r.id = ord.room_id
+                            //             WHERE ord.month = '$month' and year = '$year'";
 
                             $qrBill = mysqli_query($connection, $sqlBill);
                             while ($row = mysqli_fetch_assoc($qrBill)) {
@@ -179,13 +192,14 @@ session_start();
                                 
                                 echo "<td>" . $row['name'] . "</td>";
                                 if ($row['status'] == 0) {
-                                    $notpay = "ยังไม่ชำระ";
-                                } else
-                                    $notpay = "ชำระเงินแล้ว";
-                                echo "<td>" . $notpay . "</td>";
-
+                                    $notpay = "<button class='btn btn-danger'>". "ยังไม่ชำระ"  ."</button>" ;
+                                } else {
+                                    $notpay = "<button class='btn btn-primary'>". "ชำระเงินแล้ว"  ."</button>" ; 
+                                }
+                                echo "<td>" .  $notpay . "</td>";
+                                
                                 echo "<td>" . '<a href="billPrint.php?id=' . $row['ord_id'] . '"  class="btn btn-success">' . "ชำระ" . '</a>' .
-                                    '<iframe src="bprint.php?id=' . $row['ord_id'] . '" style="display:none;" name="frame'. $row['ord_id'] .'">' . '</iframe>' .
+                                    '<iframe src="billprint.php?id=' . $row['ord_id'] . '" style="display:none;" name="frame'. $row['ord_id'] .'">' . '</iframe>' .
                                     '<button type="submit" class="btn btn-primary" onclick=' . "frames['frame".$row['ord_id']."'].print()" . '>' . "ปริ้นบิล" . '</button>' . "</td>";
                                 // '<input type="button" class="btn btn-primary" onclick='."frames['frame'].print()".' value="ปริ้นบิล">';
 
