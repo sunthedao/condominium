@@ -12,37 +12,46 @@ if (isset($_GET['id'])) {
     $ord_id = $_GET['id'];
     // echo $ord_id;
     // ค่าห้อง บลา บลา
-    $sqlord = "SELECT ord.id,ord.month, ord.year, r.name as room_name ,ordt.amount ,ordt.unit  , ordt.price , sv.name as sv_name
-    FROm orders as ord left join order_details as ordt
-    ON ord.id = ordt.order_id left JOIN services as sv
-    ON ordt.service_id = sv.id left join meter_log_details as mld
-    ON ord.meterlog_details_id = mld.meter_log_id left join rooms as r
-    ON ord.room_id = r.id
-    WHERE ord.id = '$ord_id'";
-
-    $qrord = mysqli_query($connection, $sqlord);
-
-
-    $sqtest ="SELECT ord.id,ord.month, ord.year, r.name as room_name
-    FROm orders as ord left join rooms as r
-    ON ord.room_id = r.id
-    WHERE ord.id = '$ord_id'";
-
-    $qrtest = mysqli_query($connection,$sqtest);
-
-    $row1 = mysqli_fetch_assoc($qrtest);
-    $test1 = $row1['room_name'];
-    $rname = $row1['room_name'];
-    $month = $row1['month'];
-    $year = $row1['year'];
-
-
-    //  ค่าน้ำ
-    $sqlwater = "SELECT mld.old_number , mld.new_number , mld.price_water , ods.id as order_id , ods.room_id 
-   FROM meter_log_details as mld left join orders as ods 
-   ON mld.meter_log_id = ods.meterlog_details_id
-   WHERE ods.id = '$ord_id'";
-    $qrwater = mysqli_query($connection, $sqlwater);
+     // โชว์เดือน ปี และเลขห้อง
+     $sqtest = "SELECT ord.id,ord.month, ord.year, r.name as room_name ,ordt.amount ,ordt.unit  , ordt.price , sv.name as sv_name
+     FROm orders as ord left join order_details as ordt
+     ON ord.id = ordt.order_id left JOIN services as sv
+     ON ordt.service_id = sv.id left join meter_log_details as mld
+     ON ord.meterlog_details_id = mld.meter_log_id left join rooms as r
+     ON ord.room_id = r.id
+     WHERE ord.id = '$ord_id'";
+ 
+     $qrtest = mysqli_query($connection, $sqtest);
+ 
+     $row1 = mysqli_fetch_assoc($qrtest);
+     $rname = $row1['room_name'];
+     $month = $row1['month'];
+     $year = $row1['year'];
+    
+ 
+ 
+     // echo $ord_id;
+     // ค่าห้อง บลา บลา
+     $sqlord = "SELECT od.id , od.month , od.year , r.name as room_name , cus.firstname , ord.amount , ord.unit ,ord.price ,sv.name as sv_name
+     from orders as od left join order_details as ord
+     ON od.id = ord.order_id left join services as sv
+     ON ord.service_id = sv.id left join rooms as r
+     ON od.room_id = r.id left join customers as cus
+     ON od.customer_id = cus.id
+     WHERE od.id = '$ord_id' and ord.price != 0";
+ 
+     $qrord = mysqli_query($connection, $sqlord);
+ 
+ 
+ 
+ 
+ 
+     //  ค่าน้ำ
+     $sqlwater = "SELECT mld.old_number , mld.new_number , mld.price_water , ods.id as order_id , ods.room_id 
+    FROM meter_log_details as mld left join orders as ods 
+    ON mld.meter_log_id = ods.meterlog_details_id
+    WHERE ods.id = '$ord_id' AND mld.month = '$month'";   // 
+     $qrwater = mysqli_query($connection, $sqlwater);
 }
 
 
@@ -76,7 +85,7 @@ if (isset($_GET['id'])) {
 
     <title><?= "บิลห้อง" . $row1['room_name'] . ' / ' . $row1['month'] . ' / ' . $row1['year'] ?></title>
 
-    <h2 class="mt-4" align="center"> บิลห้อง <?=$test1?> </h2>
+    <h2 class="mt-4" align="center"> บิลห้อง <?=$rname?> </h2>
     
 </head>
 

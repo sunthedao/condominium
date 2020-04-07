@@ -19,6 +19,7 @@ session_start();
 
     <!-- awesome Font -->
     <script src="https://kit.fontawesome.com/c1e251547b.js" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="css/fontawesome.css"> -->
 
 
     <title>Home</title>

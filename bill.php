@@ -199,7 +199,7 @@ session_start();
                                 echo "<td>" .  $notpay . "</td>";
                                 
                                 echo "<td>" . '<a href="billPrint.php?id=' . $row['ord_id'] . '"  class="btn btn-success">' . "ชำระ" . '</a>' .
-                                    '<iframe src="billprint.php?id=' . $row['ord_id'] . '" style="display:none;" name="frame'. $row['ord_id'] .'">' . '</iframe>' .
+                                    '<iframe src="bprint.php?id=' . $row['ord_id'] . '" style="display:none;" name="frame'. $row['ord_id'] .'">' . '</iframe>' .
                                     '<button type="submit" class="btn btn-primary" onclick=' . "frames['frame".$row['ord_id']."'].print()" . '>' . "ปริ้นบิล" . '</button>' . "</td>";
                                 // '<input type="button" class="btn btn-primary" onclick='."frames['frame'].print()".' value="ปริ้นบิล">';
 

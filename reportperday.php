@@ -29,6 +29,7 @@ session_start();
 
     <!-- awesome Font -->
     <script src="https://kit.fontawesome.com/c1e251547b.js" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="css/fontawesome.css"> -->
     <style>
         @media print {
             #nono {
@@ -174,7 +175,7 @@ session_start();
                             <th>ห้อง</th>
                             <th>ชื่อผู้เช่า</th>
                             <th>วันที่ชำระ</th>
-                            <th>รายการที่ชำระ</th>
+
                             <th>จำนวนเงิน</th>
 
                         </tr>
@@ -182,118 +183,125 @@ session_start();
                     <tbody>
                         <?php
                         if (isset($_POST['rproom'])) {
-                            $dt = isset($_POST['dt']) ? $_POST['dt'] : '';
-                            // $month = isset($_POST['month']) ? $_POST['month'] : '';
-                            // $year = isset($_POST['year']) ? $_POST['year'] : '';
+                            $month = isset($_POST['month']) ? $_POST['month'] : '';
+                            $year = isset($_POST['year']) ? $_POST['year'] : '';
+
+                            $sqlst = "SELECT id , month , year FROM orders as od WHERE od.payment_at = '$dt'";
+                            $qrst = mysqli_query($connection, $sqlst);
 
 
-                            // echo $mont .''. $year;
+                            while ($row = mysqli_fetch_assoc($qrst)) {
+                                $odst[] = $row['id'];
+                            }
 
-                            $sqlorder = "SELECT od.id as od_id, od.payment_at as pay , r.id , od.total_price , r.name as r_name , cus.firstname , cus.lastname , odt.total , sv.name 
-                                            from orders as od left join rooms as r 
-                                            ON od.room_id = r.id left join order_details as odt 
-                                            ON od.id = odt.order_id left join services as sv 
-                                            ON odt.service_id = sv.id left join customers as cus
-                                            ON od.customer_id = cus.id
-                                            WHERE sv.type = '1' and od.status = '1' and od.payment_at = '$dt'";
+                            if (mysqli_num_rows($qrst) == 0) {
+                                echo "<tr>";
+                                echo "<td>" .  "</td>";
+                                echo "<td>" .  "</td>";
+                                echo "<td>" . "ไม่พบรายการชำระในวันนี้" . "</td>";
+                                echo "<td>" . "</td>";
+                                echo "</tr>";
+                            } else {
 
-                            $qrorder = mysqli_query($connection, $sqlorder);
 
-                            if (mysqli_num_rows($qrorder) == 0) {
+
+
+
+                                // print_r($odst);
+                                // print_r($odst);
+
+                                foreach ($odst as $i) {
+
+
+                                    // $sqlwater = 
+
+                                    $sqltest = "SELECT od.meterlog_details_id , mld.price_water 
+                                    FROM orders as od left join meter_log_details as mld 
+                                    ON od.meterlog_details_id = mld.meter_log_id 
+                                    WHERE od.id = '$i' Order by mld.id DESC LIMIT 1";
+                                    //  and od.month = '$month' and od.year = '$year' 
+                                    // and mld.month ='$month' and mld.year ='$year'";
+
+                                    // echo    "SELECT mld.price_water as water , ods.id as order_id , rooms.name as room_name , cus.firstname
+                                    //                 FROM meter_log_details as mld left join orders as ods 
+                                    //                 ON mld.meter_log_id = ods.meterlog_details_id left join rooms
+                                    //                 ON ods.room_id = rooms.id left join customers as cus
+                                    //                 ON ods.customer_id = cus.id
+                                    //                 WHERE ods.month = '$month' and mld.month = '$year' and ods.id ='$i'";
+                                    // "SELECT * FROM meter_log_details WHERE meter_log_id ='14'";
+
+                                    $qrsss = mysqli_query($connection, $sqltest);
+                                    $row1 = mysqli_fetch_assoc($qrsss);
+                                    $plz = $row1['price_water'];
+                                    // $cv = (int)$plz;
+
+
+
+
+                                    // echo "ค่าน้ำ". $plz .'<br>';
+                                    //    $waer = $row['price_water'];
+
+
+                                    //    echo  "ค่าน้ำ".$waer.'<br>';
+                                    // $row = mysqli_fetch_assoc($qrorder);
+                                    // $total = number_format($row['total_price']);
+                                    // ผลรวม
+                                    $sqlsum = "SELECT sum(total) as st
+                                                FRom order_details
+                                                WHERE order_id = $i";
+
+                                    $qrsum = mysqli_query($connection, $sqlsum);
+
+                                    $row = mysqli_fetch_assoc($qrsum);
+                                    $ttt = $row['st'];
+                                    $tsum = $ttt + $plz;
+
+                                    // echo $ttt.'<br>';
+                                    // echo "ผลรวม". $tsum .'<br>';
+
+
+                                    $sql = "SELECT od.id , od.payment_at as pay , r.name as room_name , cus.firstname as firstname
+                                                FROM orders as od left join rooms as r 
+                                                ON od.room_id = r.id left join customers as cus 
+                                                ON od.customer_id = cus.id WHERE od.id = '$i'";
+                                    $qr = mysqli_query($connection, $sql);
+
+                                    $row = mysqli_fetch_assoc($qr);
+                                    $dt = $row['pay'];
+
+                                    echo "<tr>";
+                                    echo "<td>" . $row['room_name'] . "</td>";
+                                    echo "<td>" . $row['firstname'] . "</td>";
+                                    echo "<td>" . $dt . "</td>";
+                                    echo "<td>" . number_format($tsum) . "</td>";
+                                    echo "</tr>";
+
+                                    $a[] = $tsum;
+                                }
+
+                                $c = array_sum($a);
                                 echo "<tr>";
                                 echo "<td>" . "</td>";
                                 echo "<td>" . "</td>";
-                                echo "<td>" . "</td>";
-                                echo "<td>" . "<button class='btn btn-danger'>" . "ยังไม่มีการชำระ" . "</button>"  . "</td>";
-                                echo "<td>" . "</td>";
-
-                                echo "</tr>";
-                                // echo "ไม่พบข้อมูล";
-                            } else {
-                                // 
-
-
-                                $row = mysqli_fetch_assoc($qrorder);
-                                $total = number_format($row['total_price']);
-                                
-                                // $okid[] = $row['od_id'];
-
-                                $sql = "SELECT od.id , od.payment_at as pay ,od.month , od.year , r.name as room_name , cus.firstname , ord.amount , ord.unit ,ord.price ,sv.name as sv_name
-                                from orders as od left join order_details as ord
-                                ON od.id = ord.order_id left join services as sv
-                                ON ord.service_id = sv.id left join rooms as r
-                                ON od.room_id = r.id left join customers as cus
-                                ON od.customer_id = cus.id
-                                WHERE ord.price != 0 and od.payment_at = '$dt'
-                                ORder by od.id";
-
-                                $qr = mysqli_query($connection, $sql);
-
-                                while ($row = mysqli_fetch_assoc($qr)) {
-
-                                        $total = $row['price']; 
-                                        $month = $row['month'];
-                                        $year = $row['year'];
-                                    echo "<tr>";
-                                    echo "<td>" . $row['room_name'] . "</td>";
-                                    echo "<td>" . $row['firstname'] . "</td>";
-                                    echo "<td>" . $row['pay'] . "</td>";
-                                    echo "<td>" . $row['sv_name'] . "</td>";
-                                    echo "<td>" . $total . "</td>";
-                                    echo "</tr>";
-                                    $a[] = $row['price'];
-
-
-                                }
-
-                                $sqlwater = "SELECT mld.price_water , ods.id as order_id , rooms.name as room_name , cus.firstname
-                                FROM meter_log_details as mld left join orders as ods 
-                                ON mld.meter_log_id = ods.meterlog_details_id left join rooms
-                                ON ods.room_id = rooms.id left join customers as cus
-                                ON ods.customer_id = cus.id
-                                WHERE ods.payment_at = '$dt' and ods.month = '$month' and mld.month = '$month'";
-
-                                $qrwater = mysqli_query($connection,$sqlwater);
-
-                                while ($row = mysqli_fetch_assoc($qrwater)){
-                                    
-                                    echo "<tr>";
-                                    echo "<td>" . $row['room_name'] . "</td>";
-                                    echo "<td>" . $row['firstname'] . "</td>";
-                                    echo "<td>" . "$dt" . "</td>";
-                                    echo "<td>" . "ค่าน้ำ". "</td>";
-                                    echo "<td>" . $row['price_water']. "</td>";
-                                    echo "</tr>";
-                                    $a[] = $row['price_water'];
-
-
-                                }
-
-                                // echo $month . " " . $year;
-                                
+                                echo "<td>" . "รวม" . "</td>";
+                                echo "<td>" . number_format($c) . "</td>";
+    
+                                echo  "</tr>";
                             }
 
 
-
-
-                            $c = array_sum($a);
-                            echo "<tr>";
-                            echo "<td>" . "</td>";
-                            echo "<td>" . "</td>";
-                            echo "<td>" . "</td>";
-                            echo "<td>" . "รวม" . "</td>";
-                            echo "<td>" . number_format($c) . "</td>";
-                            echo  "</tr>";
-
-
-
-                            // $val = count($okid);
-                            // echo $val . '<br>';
-
-                            // print_r($okid);
+                           
                         }
 
+
+
+
+
+
+
                         ?>
+
+
 
                         <!--                  
 
