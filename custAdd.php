@@ -92,8 +92,8 @@ session_start();
 
                     <div class="mt-4 col-md-6">
                         <a href="">
-                            <i class="fas fa-2x fa-users-cog"></i>
-                            แอดมิน</a>
+                            <i class="fas fa-2x fa-tools"></i>
+                            แจ้งซ่อม</a>
                     </div>
 
 

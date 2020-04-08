@@ -185,6 +185,12 @@ if (isset($_GET['name'])) {
                             รายงาน</a>
                     </div>
 
+                    <div class="mt-4 col-md-6">
+                        <a href="">
+                            <i class="fas fa-2x fa-tools"></i>
+                            แจ้งซ่อม</a>
+                    </div>
+
 
                 </div>
             </div>

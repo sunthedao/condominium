@@ -39,8 +39,9 @@ if (isset($_POST['savewater'])) {
 
             // meter_log_details
             $water = 12 ;
-            $total = ($newnum[$i] - $oldnum[$i]) * $water ;
-            $newtotal = abs($total);
+            $total = ($newnum[$i] - $oldnum[$i]);
+            $total1 = $total * $water;
+            $newtotal = abs($total1);
             $sql1 = "INSERT INTO meter_log_details (meter_log_id,old_number,new_number,date_check,price_water,month,year)
                     VALUES ('$wid[$i]','$oldnum[$i]','$newnum[$i]','$month','$newtotal','$yearnmonth','$year')";
 

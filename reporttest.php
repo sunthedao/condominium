@@ -18,14 +18,18 @@
     <!-- awesome Font -->
     <script src="https://kit.fontawesome.com/c1e251547b.js" crossorigin="anonymous"></script>
 
-    <script>window.print() </script>
+
 </head>
 
 <body>
 
     <!-- <button type="submit" onclick="window.print()">HI</button> -->
 
-
+    <input type="number" id="ta" name="ta">
+    <input type="number" id="ts" name="ts">
+    <input type="number" id="td" name="td">
+    <br>
+    <input type="submit" id="dd" name="dd" value="CLICK">
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -34,6 +38,20 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 
+<script>
+    $(document).ready(function() {
+        $('#dd').on('click',function() {
+            // const num1 = parseInt($('#txt1').val());
+            $t1 = parseInt($('#ta').val());
+            $t2 = parseInt($('#ts').val());
+            $t3 = ($t1 - $t2) * 12;
+            $('#td').val($t3);
+            // console.log($t3);
+            
 
+        });
+
+    });
+</script>
 
 </html>

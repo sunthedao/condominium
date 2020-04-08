@@ -100,12 +100,11 @@ $qrR = mysqli_query($connection, $sqlR);
                             รายงาน</a>
                     </div>
 
-                    <!-- มีเฉพาะหัวหน้าเท่านั้น -->
-                    <!-- <div class="mt-4 col-md-6">
+                    <div class="mt-4 col-md-6">
                         <a href="">
-                            <i class="fas fa-2x fa-users-cog"></i>
-                            แอดมิน</a>
-                    </div> -->
+                            <i class="fas fa-2x fa-tools"></i>
+                            แจ้งซ่อม</a>
+                    </div>
 
 
                 </div>

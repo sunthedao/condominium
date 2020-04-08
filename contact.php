@@ -156,12 +156,12 @@ while ($row = mysqli_fetch_assoc($qrconno)){
                             <i class="far fa-2x fa-sticky-note"></i>
                             รายงาน</a>
                     </div>
-<!-- 
-                    <div class="mt-4 col-md-6">
+
+                   <div class="mt-4 col-md-6">
                         <a href="">
-                            <i class="fas fa-2x fa-users-cog"></i>
-                            แอดมิน</a>
-                    </div> -->
+                            <i class="fas fa-2x fa-tools"></i>
+                            แจ้งซ่อม</a>
+                    </div>
 
                 </div>
             </div>
