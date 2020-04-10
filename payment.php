@@ -142,7 +142,7 @@ if (isset($_POST['Fsubmit'])){
                     </div>
 
                     <div class="mt-4 col-md-6">
-                        <a href="">
+                        <a href="repair.php">
                             <i class="fas fa-2x fa-tools"></i>
                             แจ้งซ่อม</a>
                     </div>

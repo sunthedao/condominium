@@ -4,9 +4,14 @@ session_start();
 
 
 
+
+
+
+
+
+
+
 ?>
-
-
 
 <!doctype html>
 <html lang="en">
@@ -24,14 +29,43 @@ session_start();
 
     <!-- awesome Font -->
     <script src="https://kit.fontawesome.com/c1e251547b.js" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="css/fontawesome.css"> -->
+    <style>
+        @media print {
+            #nono {
+                display: none;
+            }
 
+            #nono1 {
+                display: none;
+            }
+
+            .Ono {
+                display: none;
+            }
+
+            #rproom {
+                display: none;
+            }
+
+            #p1 {
+                display: none;
+            }
+
+            #p2 {
+                display: none;
+            }
+        }
+    </style>
 
     <title>Home</title>
 </head>
 
 <body>
 
-    <div class="container">
+
+
+    <div class="container" media="print" id="nono">
         <div class="row">
             <div class="col-md-12">
                 <nav class="navbar navbar-inverse">
@@ -54,10 +88,10 @@ session_start();
     <br>
 
     <!-- vertical Menu -->
-    <div id="first" class="container">
+    <div id="first" class="container" media="print">
         <div class="row">
             <!-- 3 ไว้แสดง Menu -->
-            <div class="mt-4 col-md-3">
+            <div class="mt-4 col-md-3" id="nono1">
                 <div class="row">
                     <div class="col-6">
                         <a href="contact.php">
@@ -113,13 +147,11 @@ session_start();
 
             <!-- 9 ไว้แสดง Content -->
             <div id="md11" class="mt-4 col-md-9">
+                <h1 class="text-center"> รายงานการแจ้งซ่อม </h1>
 
-
-                <table class="table table-bordered table-striped">
-                    <form action="" method="POST">
-
-                        <!-- month -->
-                        <label for="month"> เดือน </label>
+                <form action="" method="POST">
+                    <div style="float: left" class="Ono">
+                        <label for="month"> เดือนสำหรับรายงาน </label>
                         <select name="month" id="month">
                             <option value="January">มกราคม</option>
                             <option value="February">กุมพาพันธ์</option>
@@ -130,12 +162,12 @@ session_start();
                             <option value="July">กรกฏาคม</option>
                             <option value="August">สิงหาคม</option>
                             <option value="September">กันายน</option>
-                            <option value="Octomer">ตุลาคม</option>
+                            <option value="October">ตุลาคม</option>
                             <option value="November">พฤศจิกายน</option>
                             <option value="December">ธันวาคม</option>
                         </select>
-
-                        <!-- year  -->
+                    </div>
+                    <div style="float: center" class="Ono">
                         <label for="year"> ปี </label>
                         <select name="year" id="year">
                             <option value="2020">2020</option>
@@ -144,114 +176,94 @@ session_start();
                             <option value="2023">2023</option>
                             <option value="2024">2024</option>
                             <option value="2025">2025</option>
+
                         </select>
+                    </div>
 
-                        <br><br>
+                    <button type="submit" id="rproom" name="rproom" class="btn btn-primary">ตกลง</button>
+                </form>
+                <?php
+                if (isset($_POST['rproom'])) {
+                    $month = isset($_POST['month']) ? $_POST['month'] : '';
+                    $year = isset($_POST['year']) ? $_POST['year'] : '';
 
-                        <button type="submit" name="subbill">ตกลง</button>
-                    </form>
-
-                    <br><br>
-                    
-                        
+                    echo "<h3 class='text-center'>" . $month . " " . $year . "</h3>";
+                }
+                ?>
+                <table class="table table-bordered table-striped" style="text-align: center">
                     <thead>
-                        <tr style="text-align: center" class="font-weight-bolder">
+                        <tr>
                             <th>ห้อง</th>
-                            <th>สถานะ</th>
-                            <th>Print</th>
+                            <th>วันแจ้งซ่อม</th>
+                            <th>วันที่ซ่อมเสร็จ</th>
+
                         </tr>
                     </thead>
-
                     <tbody>
-                     <!-- <tr>
-                         <td>555</td>
-                         <td> <iframe src="billPrint.php?id=144" frameborder="0" name="iframe" ></iframe> </td>
-                         <td> <a href="" onclick="window.print()" target="iframe">Print</a> </td>
-                     </tr> -->
-
                         <?php
-                        if (isset($_POST['subbill'])) {
-                            $year = $_POST['year'];
-                            $month = $_POST['month'];
+                        if (isset($_POST['rproom'])) {
+                            $month = isset($_POST['month']) ? $_POST['month'] : '';
+                            $year = isset($_POST['year']) ? $_POST['year'] : '';
 
-                            $sqlBill = "SELECT ord.id as ord_id , ord.month , ord.year, ord.status , r.id , r.name
-                            FROm orders AS ord left join rooms as r
-                            ON ord.room_id = r.id 
-                            WHERE ord.month = '$month' and ord.year = '$year'";
                             
-                            //! OLD SQL 
-                            // "SELECT r.id ,r.name , ord.status , ord.month , ord.year ,ord.id as ord_id
-                            //             FROM rooms as r left join orders as ord
-                            //             ON r.id = ord.room_id
-                            //             WHERE ord.month = '$month' and year = '$year'";
+                            $sql = "select od.month, od.year , R.name , odt.total , rp.detail , rp.date_call , rp.date_do
+                            from orders as od left join rooms as R
+                            ON od.room_id = R.id left join order_details as odt
+                            ON od.id = odt.order_id left join repair as rp
+                            ON od.room_id = rp.room_id
+                            WHERE od.month = '$month' and od.year = '$year' and odt.service_id = '5'
+                            ORder by r.id" ;
 
-                            $qrBill = mysqli_query($connection, $sqlBill);
-                            while ($row = mysqli_fetch_assoc($qrBill)) {
-                                        
-                                echo "<tr style='text-align: center'>";
-                                
-                                echo "<td>" . $row['name'] . "</td>";
-                                if ($row['status'] == 0) {
-                                    $notpay = "<button class='btn btn-danger'>". "ยังไม่ชำระ"  ."</button>" ;
-                                } else {
-                                    $notpay = "<button class='btn btn-primary'>". "ชำระเงินแล้ว"  ."</button>" ; 
-                                }
-                                echo "<td>" .  $notpay . "</td>";
-                                
-                                echo "<td>" . '<a href="billPrint.php?id=' . $row['ord_id'] . '"  class="btn btn-success">' . "ชำระ" . '</a>' .
-                                    '<iframe src="bprint.php?id=' . $row['ord_id'] . '" style="display:none;" name="frame'. $row['ord_id'] .'">' . '</iframe>' .
-                                    '<button type="submit" class="btn btn-primary" onclick=' . "frames['frame".$row['ord_id']."'].print()" . '>' . "ปริ้นบิล" . '</button>' . "</td>";
-                                // '<input type="button" class="btn btn-primary" onclick='."frames['frame'].print()".' value="ปริ้นบิล">';
+                            $qr = mysqli_query($connection,$sql);
 
-                                // '<iframe src="billPrint.php?id=1"  name="test">'.'</iframe>'.
-                                //         '<input type="button" class="btn btn-primary" onclick="frames["test"].print()" value="printletter">';
-
-
-
-                                echo "</tr>";
-                            }
                             
+                           echo "<tr>";
+                           
+                           echo "</tr>";
+
                         }
+
+
+
+
+
+                  
 
                         ?>
 
-                        
-                        <!-- <iframe src="billPrint.php?id=1" style="display:none;" name="frame"></iframe>
-                        <input type="button" class="btn btn-primary" onclick="frames['frame'].print()" value="printletter"> -->
+                        <!--                  
 
-
-                        <!-- <tr>
-                              '<iframe src="billPrint.php?id=' . $row['ord_id'] .'" style="display:none;" name="frame" >' ;
-                            '<input type="button" onclick="frames['frame'].print()"  value="printletter">' ."ปุ่ม" ;
-                            <td>1001</td>
-                            <td>ยังไม่จ่าย</td>
-                            <td><button type="submit" name="print" id="print" class="btn btn-success">ปริ้น</button></td>
+                        <tr>
+                            <td></td>
+                            <td>รวมค่าห้อง</td>
+                            <td> <?= number_format($c)  ?> </td>
                         </tr> -->
                     </tbody>
-                    
 
-                    
+
                 </table>
 
-                <!-- <div class="container">
-                    <button style="float: right;" class="btn btn-primary">ปริ้นทั้งหมด</button>
-                </div> -->
 
-                
+                <button style="float: right" onclick="print()" class="btn btn-success" id="p1"> ปริ้น </button>
+                <a href="home.php" class="btn btn-primary" style="float:right" id="p2"> กลับหน้าหลัก</a>
+
             </div>
 
 
 
+        </div>
+    </div>
 
-
-            <!-- Optional JavaScript -->
-            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-            <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 
+<script>
 
+</script>
 
 
 <?php

@@ -157,8 +157,8 @@ while ($row = mysqli_fetch_assoc($qrconno)){
                             รายงาน</a>
                     </div>
 
-                   <div class="mt-4 col-md-6">
-                        <a href="">
+                    <div class="mt-4 col-md-6">
+                        <a href="repair.php">
                             <i class="fas fa-2x fa-tools"></i>
                             แจ้งซ่อม</a>
                     </div>
