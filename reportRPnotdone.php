@@ -149,7 +149,7 @@ session_start();
             <div id="md11" class="mt-4 col-md-9">
                 <h1 class="text-center"> รายงานการแจ้งซ่อม </h1>
 
-                <form action="" method="POST">
+                <!-- <form action="" method="POST">
                     <div style="float: left" class="Ono">
                         <label for="month"> เดือนสำหรับรายงาน </label>
                         <select name="month" id="month">
@@ -181,36 +181,36 @@ session_start();
                     </div>
 
                     <button type="submit" id="rproom" name="rproom" class="btn btn-primary">ตกลง</button>
-                </form>
+                </form> -->
                 <?php
-                if (isset($_POST['rproom'])) {
-                    $month = isset($_POST['month']) ? $_POST['month'] : '';
-                    $year = isset($_POST['year']) ? $_POST['year'] : '';
+                // if (isset($_POST['rproom'])) {
+                //     $month = isset($_POST['month']) ? $_POST['month'] : '';
+                //     $year = isset($_POST['year']) ? $_POST['year'] : '';
 
-                    echo "<h3 class='text-center'>" . $month . " " . $year . "</h3>";
-                }
-                ?>
+                //     echo "<h3 class='text-center'>" . $month . " " . $year . "</h3>";
+                // }
+                // ?>
                 <table class="table table-bordered table-striped" style="text-align: center">
                     <thead>
                         <tr>
                             <th>ห้อง</th>
                             <th>รายการแจ้งซ่อม</th>
                             <th>วันแจ้งซ่อม</th>
-                            <th>วันที่ซ่อมเสร็จ</th>
+                            <th>สถานะ</th>
 
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        if (isset($_POST['rproom'])) {
-                            $month = isset($_POST['month']) ? $_POST['month'] : '';
-                            $year = isset($_POST['year']) ? $_POST['year'] : '';
+                        // if (isset($_POST['rproom'])) {
+                            // $month = isset($_POST['month']) ? $_POST['month'] : '';
+                            // $year = isset($_POST['year']) ? $_POST['year'] : '';
 
 
                             $sql =  "SELECT rp.id , rp.detail , rp.date_call , rp.date_do , rp.price , r.name as r_name
                             FROM repair as rp left join rooms as r
                             ON rp.room_id = r.id
-                            WHERE rp.month = '$month' and rp.year = '$year' and rp.price != 0
+                            WHERE rp.price = 0
                             ORder by rp.date_call";
                             
                             // "select od.month, od.year , R.name as r_name , odt.total , rp.detail , rp.date_call , rp.date_do
@@ -229,7 +229,7 @@ session_start();
                                 echo "<tr>";
                                 echo "<td>" . "</td>";
                                 echo "<td>" . "</td>";
-                                echo "<td>" . " เดือนนี้ไม่มีการแจ้งซ่อม " . "</td>";
+                                echo "<td>" . " ไม่มีการแจ้งซ่อม " . "</td>";
                                 echo "<td>" . "</td>";
                                 echo "</tr>";
                             } else {
@@ -238,11 +238,11 @@ session_start();
                                     echo "<td>" . $row['r_name'] . "</td>";
                                     echo "<td>" . $row['detail'] . "</td>";
                                     echo "<td>" . $row['date_call'] . "</td>";
-                                    echo "<td>" . $row['date_do'] . "</td>";
+                                    echo "<td>" . "<button class='btn btn-danger'>ยังไม่ทำการซ่อม</button>" . "</td>";
                                     echo "</tr>";
                                 }
                             }
-                        }
+                        // }
 
 
 
@@ -251,7 +251,7 @@ session_start();
 
 
                         ?>
-
+        
                         <!--                  
 
                         <tr>

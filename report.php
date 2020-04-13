@@ -129,8 +129,14 @@ session_start();
                     </div>
 
                     <div class="mt-4 col-md-6">
-                        <a href="reportRP.php">
+                        <a href="reportRPnotdone.php">
                         <i class="far fa-2x fa-file">รายงานการแจ้งซ่อม</i>
+                        </a>
+                    </div>
+
+                    <div class="mt-4 col-md-6">
+                        <a href="reportRP.php">
+                        <i class="far fa-2x fa-file">รายงานการซ่อม</i>
                         </a>
                     </div>
 

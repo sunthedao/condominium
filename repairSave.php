@@ -8,8 +8,11 @@ if (isset($_POST['OK'])) {
     $Idrooms = (isset($_POST['sl']) ? $_POST['sl'] : '');
     $dt = (isset($_POST['detail']) ? $_POST['detail'] : '');
 
+    $month = strftime('%B',strtotime($datecall));
+    $year  = strftime('%Y',strtotime($datecall));
 
-    $sql = "INSERT INTO repair (service_id , room_id , detail , date_call) VALUES ('5','$Idrooms' ,'$dt','$datecall')";
+
+    $sql = "INSERT INTO repair (service_id , room_id , detail , date_call , month , year) VALUES ('5','$Idrooms' ,'$dt','$datecall','$month','$year')";
     $qr  = mysqli_query($connection, $sql);
 
 
