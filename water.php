@@ -152,7 +152,7 @@ if (isset($_POST['okie'])) {
                     <input type='submit' name="okie" value="ตกลง"></input>
                 </form>
 
-                <form action="waterS.php" method="POST">
+                <form action="waterS.php" method="POST" id="tform" name="tform">
                     <div style="float: right">
                         <label for="month">เดือน / วัน / ปี</label>
                         <input type="date" id="month" name="month" value="<?= date("Y-m-d") ?>" readonly>
@@ -207,8 +207,8 @@ if (isset($_POST['okie'])) {
                                     <input type="hidden" id="wid" name="wid[]" value="<?= $row['id'] ?>">
                                     <input type="hidden" id="ynm" name="ynm" value="<? $yearnmonth ?>">
                                     <td> <input type="number" id="wname" name="wname" value="<?= $row['name'] ?>" readonly> </td>
-                                    <td> <input type="number" id="oldnum" name="oldnum[]" value="<?= $row['meter_current'] ?>" readonly> </td>
-                                    <td> <input type="number" id="newnum" name="newnum[]" value=""> </td>
+                                    <td> <input type="number" class="oldnum" id="oldnum" name="oldnum[]" value="<?= $row['meter_current'] ?>" readonly> </td>
+                                    <td> <input type="number" class="newnum" id="newnum" name="newnum[]" value=""> </td>
                                     <!-- <td> <input type="number" id="result" name="result" value="<?= ($row['new_number'] - $row['old_number']) ?>"  readonly>   </td>      -->
                                     <!-- <td> <input type="button" id="result" name="result" onclick="add_number()">   </td>       -->
                                 </tr>
@@ -239,9 +239,23 @@ if (isset($_POST['okie'])) {
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 <script>
+    $(document).ready(function() {
+
+
+        $(".newnum").change(function() {
+
+            let aa = $(this).closest('tr').find('.oldnum').val();
+            let bb = $(this).val();
+
+            // let a = $(this).val()
+            if (aa > bb || aa == bb) {
+                alert("ค่ามิตเตอร์ใหม่ต้องมากกว่า มิตเตอร์เก่า");
+            }
+        })
 
 
 
+    });
 </script>
 
 
