@@ -1,6 +1,12 @@
 <?php require_once './connect.php';
 $connection = DB();
 session_start();
+
+
+
+// echo 
+// $sqlR = "SELECT id , name FROM rooms WHERE customer_id = 0 Order by id";
+// $qrR = mysqli_query($connection, $sqlR);
 ?>
 
 
@@ -22,7 +28,7 @@ session_start();
     <!-- awesome Font -->
     <script src="https://kit.fontawesome.com/c1e251547b.js" crossorigin="anonymous"></script>
 
-    
+
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Sarabun&display=swap" rel="stylesheet">
 
@@ -41,11 +47,11 @@ session_start();
                             <a class="navbar-brand" href="#">Mollis Condo</a>
                         </div>
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="home.php">Home</a></li>
+                            <li class="active"><a href="user.php">Home</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="index.php"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-                            <li class="name"><span> ยินดีต้อนรับ <?=$_SESSION['name'] ?> </span></li>
+                            <li class="name"><span> ยินดีต้อนรับ <?= $_SESSION['name'] ?> </span></li>
                         </ul>
                     </div>
                 </nav>
@@ -60,49 +66,15 @@ session_start();
             <!-- 3 ไว้แสดง Menu -->
             <div class="mt-4 col-md-3">
                 <div class="row">
-                    <div class="col-6">
-                        <a href="contact.php">
-                            <i class="fas fa-2x fa-file-signature"></i>
-                            ทำสัญญา</a>
-                    </div>
-                    <div class="col-md-6">
-                        <a href="payment.php">
-                            <i class="fas fa-2x fa-clipboard"></i>
-                            บันทึกค่าใช้จ่าย</a><br>
-                    </div>
 
                     <div class="mt-4 col-md-6">
-                        <a href="water.php">
-                            <i class="fas fa-2x fa-tint"></i>
-                            บันทึกค่าน้ำ</a>
-                    </div>
-
-                    <div class="mt-4 col-md-6">
-                        <a href="bill.php">
-                            <i class="fas fa-2x fa-file-invoice"></i>
-                            บิล</a>
-                    </div>
-
-                    <div class="mt-4 col-md-6">
-                        <a href="billCreate.php">
-                            <i class="fas fa-2x fa-file-invoice"></i>
-                            สร้างบิล</a>
-                    </div>
-
-                    <div class="mt-4 col-md-6">
-                        <a href="data.php">
-                            <i class="fas fa-2x fa-database"></i>
-                            ข้อมูล</a>
-                    </div>
-
-                    <div class="mt-4 col-md-6">
-                        <a href="report.php">
+                        <a href="userReport.php">
                             <i class="far fa-2x fa-sticky-note"></i>
                             รายงาน</a>
                     </div>
 
                     <div class="mt-4 col-md-6">
-                        <a href="repair.php">
+                        <a href="userMtn.php">
                             <i class="fas fa-2x fa-tools"></i>
                             แจ้งซ่อม</a>
                     </div>
@@ -113,36 +85,22 @@ session_start();
 
 
             <!-- 9 ไว้แสดง Content -->
-            <div id="md11" class="mt-4 col-md-9">
+            <div id="md11" class="mt-4 col-md-9" style="text-align: center">
 
-                <div class="row">
-                    <div class="mb-4 col-md-6">
-                        <a href="emp.php">
-                        <i class="fas fa-2x fa-user-friends">ข้อมูลพนักงาน</i>
-                        </a>
-                    </div>
-                    <div class="mb-4 col-md-6">
-                    <a href="cust.php">
-                        <i class="fas fa-2x fa-user-friends">ข้อมูลลูกค้า</i>
-                        </a>
-                    </div>
-                    
-                    <div class="mt-4 col-md-6">
-                        <a href="building.php">
-                        <i class="fas fa-2x fa-building">ข้อมูลตึก</i>
-                        </a>
-                    </div>
-                    <div class="mt-4 col-md-6">
-                    <a href="room.php">
-                    <i class="fas fa-2x fa-person-booth">ข้อมูลห้องพัก</i>
-                        </a>
-                    </div>
-                </div>
-            
-            
+                    <h1>บริการแจ้งซ่อมของคุณ <?= $_SESSION['name'] ?> </h1>
 
-
+                   
+           
             </div>
+
+            
+
+        </div>
+    </div>
+
+
+
+
 
 
 

@@ -96,6 +96,15 @@ if (isset($_GET['name'])) {
     <!-- awesome Font -->
     <script src="https://kit.fontawesome.com/c1e251547b.js" crossorigin="anonymous"></script>
 
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Sarabun&display=swap" rel="stylesheet">
+
+    <!-- <style>
+        body{
+            font-family: 'Sarabun', sans-serif;
+        }
+    </style> -->
+
 
     <title>Employee</title>
 </head>
@@ -319,6 +328,7 @@ if (isset($_GET['name'])) {
                             <select name="degree" id="degree">
                                 <option value="Admin">Admin</option>
                                 <option value="user">user</option>
+                                <option value="cus">cus</option>
                             </select>
                         </div>
                     </div>

@@ -96,6 +96,10 @@ if (isset($_GET['name'])) {
     <!-- awesome Font -->
     <script src="https://kit.fontawesome.com/c1e251547b.js" crossorigin="anonymous"></script>
 
+    
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Sarabun&display=swap" rel="stylesheet">
+
 
     <title>Home</title>
 </head>

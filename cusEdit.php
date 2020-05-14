@@ -29,6 +29,10 @@ if (isset($_GET['id'])) {
     <!-- awesome Font -->
     <script src="https://kit.fontawesome.com/c1e251547b.js" crossorigin="anonymous"></script>
 
+    
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Sarabun&display=swap" rel="stylesheet">
+
 
     <title>Main Index</title>
 </head>

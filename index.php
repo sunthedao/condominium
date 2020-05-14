@@ -11,11 +11,23 @@ if (isset($_POST['submit'])) {
     $result = mysqli_query($con, $sql);
     if ($row = mysqli_fetch_array($result)) {
         
-        if ($password == $row['password']) {
+        if ($password == $row['password'] && $row['degree'] == 'cus'){
+            // $_SESSION['id'] = $row['id'];
+            $_SESSION['name'] = $row['name'];
+            $_SESSION['idcard'] = $row['idcardno'];
+
+            header("location:user.php");
+            
+            
+
+        } else  if ($password == $row['password'] && $row['degree' != 'cus']) {
             $_SESSION['id'] = $row['id'];
             $_SESSION['name'] = $row['name'];
             header("location:home.php");
             exit();
+
+        
+        
         } else{
             echo "Invalid Password";
         }
@@ -56,6 +68,11 @@ if (isset($_POST['submit'])) {
     <link rel="stylesheet" type="text/css" href="css/util.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <!--===============================================================================================-->
+
+    
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Sarabun&display=swap" rel="stylesheet">
+
 </head>
 
 <body>

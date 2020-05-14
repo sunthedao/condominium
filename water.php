@@ -49,6 +49,10 @@ if (isset($_POST['okie'])) {
     <!-- awesome Font -->
     <script src="https://kit.fontawesome.com/c1e251547b.js" crossorigin="anonymous"></script>
 
+    
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Sarabun&display=swap" rel="stylesheet">
+
 
     <title>Water</title>
 </head>

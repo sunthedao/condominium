@@ -23,6 +23,16 @@ th {
     text-align: inherit
 }
 
+body {
+    font-family: 'Sarabun', sans-serif;
+}
+
+select{
+    /* width: 150; */
+    text-align-last:right;
+    padding-right: 29px;
+    direction: rtl;
+}
 /* div.test {
    
 } */
