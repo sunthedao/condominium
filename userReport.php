@@ -51,6 +51,9 @@ $qrR = mysqli_query($connection, $sqlR);
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Sarabun&display=swap" rel="stylesheet">
 
+    <!-- SweetAlert -->
+    <link rel="stylesheet" href="/condominium/Sweetalert/dist/sweetalert2.min.css">
+
 
     <title>Home</title>
 </head>
@@ -114,9 +117,9 @@ $qrR = mysqli_query($connection, $sqlR);
                 <form action="/condominium/api/userapi.php" method="POST" class="UserRp">
                     <div class="card">
                         <div class="card-header">
-                            <h4>กรุณาเลือกปี สำหรับดูค่าใช้จ่าย</h4>
+                            <h4>กรุณาเลือกเดือนและปี สำหรับดูค่าใช้จ่าย</h4>
 
-                            <div class="container text-left">
+                            <div class="mt-3 container text-left">
                                 <input type="hidden" id="Cusid" name="Cusid" value="<?= $CusId ?>">
                                 <input type="hidden" id="Od" name="Od" value="CallOd">
                                 <?php
@@ -138,8 +141,8 @@ $qrR = mysqli_query($connection, $sqlR);
 
                                 ?>
 
-                                <label for="month"> เดือน </label>
-                                <select name="month" id="month">
+                                <label class="ml-2" for="month"> เดือน </label>
+                                <select class="ml-2" name="month" id="month">
                                     <option value="January">มกราคม</option>
                                     <option value="February">กุมพาพันธ์</option>
                                     <option value="March">มีนาคม</option>
@@ -172,9 +175,10 @@ $qrR = mysqli_query($connection, $sqlR);
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>เดือน</th>
-                                        <th>ค่าใช้จ่าย</th>
-                                        <th>สถานะ</th>
+                                        <th>รายการ</th>
+                                        <th>จำนวน</th>
+                                        <th>ราคา</th>
+                                        <th>รวม</th>
                                     </tr>
                                 </thead>
 
@@ -213,15 +217,19 @@ $qrR = mysqli_query($connection, $sqlR);
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <!-- sweetalert -->
+    <script src="/condominium/Sweetalert/dist/sweetalert2.all.min.js"></script>
 </body>
 <script>
     $(document).ready(function() {
         $(".UserRp").change(function() {
-            let t1 = $("#room").val();
-            let t2 = $("#year").val();
-            let t3 = $("#month").val();
-            let t4 = $("#Cusid").val();
-            let t5 = $("#Od").val();
+            // let t1 = $("#room").val();
+            // let t2 = $("#year").val();
+            // let t3 = $("#month").val();
+            // let t4 = $("#Cusid").val();
+            // let t5 = $("#Od").val();
+            $(".UserRp").submit();
+
 
 
 
@@ -240,7 +248,7 @@ $qrR = mysqli_query($connection, $sqlR);
             let CallOr = $("#Od").val();
             let month = $("#month").val();
 
-            console.log(CallOr);
+            // console.log(CallOr);
 
 
             $.ajax({
@@ -255,7 +263,60 @@ $qrR = mysqli_query($connection, $sqlR);
                 },
                 success: (res) => {
 
+                    // console.log(res.data);
+
+
+                    // Price room and water monthly
+                    // .toLocaleString() << make commas for 10000
+                    if (res.data[0].status == false) {
+                        // console.log("false");
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'ขออภัย',
+                            text: 'ยังไม่มีค่าใช้จ่ายสำหรับเดือนและปีที่ท่านเลือก',
+                        })
+
+                        // $("tbody").remove();
+
+                    } else {
+
+
+                        let rows;
+                        $.each(res.data, function(k, v) {
+                            rows +=
+                                "<tr>" +
+                                "<td>" + res.data[k].sv_name + "</td>" +
+                                "<td>" + res.data[k].amount.toLocaleString() + "</td>" +
+                                "<td>" + res.data[k].price.toLocaleString() + "</td>" +
+                                "<td>" + res.data[k].price.toLocaleString() + "</td>" +
+                                "</tr>"
+                        })
+
+
+                        // Sum total
+                        let total = 0;
+                        for (let i = 0; i < res.data.length; i++) {
+
+                            total += res.data[i].price;
+                        }
+
+                        rows +=
+                            "<tr>" +
+                            "<td>" + '' + "</td>" +
+                            "<td>" + '' + "</td>" +
+                            "<td>" + "รวมทั้งสิ้น" + "</td>" +
+                            "<td>" + total.toLocaleString() + "</td>" +
+                            "</tr>";
+
+                        // console.log(a);
+
+
+
+                        $("tbody").html(rows);
+
+                    }
                 }
+
             })
 
 

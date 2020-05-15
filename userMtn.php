@@ -89,6 +89,16 @@ session_start();
 
                     <h1>บริการแจ้งซ่อมของคุณ <?= $_SESSION['name'] ?> </h1>
 
+                    <div class="card">
+                        <div class="card-header">
+                        <h1>test</h1>
+                        </div>
+
+                        <div class="card-body">
+                        <h1>Test </h1>
+                        </div>
+                    </div>
+
                    
            
             </div>

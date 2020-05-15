@@ -29,7 +29,7 @@ body {
 
 select{
     /* width: 150; */
-    text-align-last:right;
+    text-align-last:center;
     padding-right: 29px;
     direction: rtl;
 }
