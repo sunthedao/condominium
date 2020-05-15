@@ -124,29 +124,158 @@ session_start();
                         <!-- month -->
                         <label for="month"> เดือน </label>
                         <select name="month" id="month">
-                            <option value="January">มกราคม</option>
-                            <option value="February">กุมพาพันธ์</option>
-                            <option value="March">มีนาคม</option>
-                            <option value="April">เมษายน</option>
-                            <option value="May">พฤษภาคม</option>
-                            <option value="June">มิถุนายน</option>
-                            <option value="July">กรกฏาคม</option>
-                            <option value="August">สิงหาคม</option>
-                            <option value="September">กันายน</option>
-                            <option value="Octomer">ตุลาคม</option>
-                            <option value="November">พฤศจิกายน</option>
-                            <option value="December">ธันวาคม</option>
+                            <option value="January"
+                            <?php 
+                            if (isset($_POST['month'])){
+                                if($_POST['month'] == 'January'){
+                                    echo "selected";
+                                }
+                            }
+                            ?>
+                            >มกราคม</option>
+                            <option value="February"
+                            <?php 
+                             if (isset($_POST['month'])){
+                                if($_POST['month'] == 'February'){
+                                    echo "selected";
+                                }
+                            }
+                            
+                             ?> >กุมพาพันธ์</option>
+                            
+                            <option value="March"
+                            <?php 
+                             if (isset($_POST['month'])){
+                                if($_POST['month'] == 'March'){
+                                    echo "selected";
+                                }
+                            }
+                            ?> >มีนาคม</option>
+                            <option value="April"
+                            <?php 
+                             if (isset($_POST['month'])){
+                                if($_POST['month'] == 'April'){
+                                    echo "selected";
+                                }
+                            }
+                            ?>>เมษายน</option>
+                            <option value="May"
+                            <?php 
+                             if (isset($_POST['month'])){
+                                if($_POST['month'] == 'May'){
+                                    echo "selected";
+                                }
+                            }
+                            ?>>พฤษภาคม</option>
+                            <option value="June"
+                            <?php 
+                             if (isset($_POST['month'])){
+                                if($_POST['month'] == 'June'){
+                                    echo "selected";
+                                }
+                            }
+                            ?> >มิถุนายน</option>
+                            <option value="July"
+                            <?php 
+                             if (isset($_POST['month'])){
+                                if($_POST['month'] == 'July'){
+                                    echo "selected";
+                                }
+                            }
+                            ?> >กรกฏาคม</option>
+                            <option value="August"
+                            <?php 
+                             if (isset($_POST['month'])){
+                                if($_POST['month'] == 'August'){
+                                    echo "selected";
+                                }
+                            }
+                            ?> >สิงหาคม</option>
+                            <option value="September"
+                            <?php 
+                             if (isset($_POST['month'])){
+                                if($_POST['month'] == 'September'){
+                                    echo "selected";
+                                }
+                            }
+                            ?> >กันายน</option>
+                            <option value="October"
+                            <?php 
+                             if (isset($_POST['month'])){
+                                if($_POST['month'] == 'October'){
+                                    echo "selected";
+                                }
+                            }
+                            ?> >ตุลาคม</option>
+                            <option value="November"
+                            <?php 
+                             if (isset($_POST['month'])){
+                                if($_POST['month'] == 'November'){
+                                    echo "selected";
+                                }
+                            }
+                            ?> >พฤศจิกายน</option>
+                            <option value="December"
+                            <?php 
+                             if (isset($_POST['month'])){
+                                if($_POST['month'] == 'December'){
+                                    echo "selected";
+                                }
+                            }
+                            ?> >ธันวาคม</option>
                         </select>
 
                         <!-- year  -->
                         <label for="year"> ปี </label>
                         <select name="year" id="year">
-                            <option value="2020">2020</option>
-                            <option value="2021">2021</option>
-                            <option value="2022">2022</option>
-                            <option value="2023">2023</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
+                            <option value="2020"
+                            <?php 
+                             if (isset($_POST['month'])){
+                                if($_POST['year'] == '2020'){
+                                    echo "selected";
+                                }
+                            }
+                            ?>>2020</option>
+                            <option value="2021"
+                            <?php 
+                             if (isset($_POST['month'])){
+                                if($_POST['year'] == '2021'){
+                                    echo "selected";
+                                }
+                            }
+                            ?>>2021</option>
+                            <option value="2022"
+                            <?php 
+                             if (isset($_POST['month'])){
+                                if($_POST['year'] == '2022'){
+                                    echo "selected";
+                                }
+                            }
+                            ?>>2022</option>
+                            <option value="2023"
+                            <?php 
+                             if (isset($_POST['month'])){
+                                if($_POST['year'] == '2023'){
+                                    echo "selected";
+                                }
+                            }
+                            ?>>2023</option>
+                            <option value="2024"
+                            <?php 
+                             if (isset($_POST['month'])){
+                                if($_POST['year'] == '2024'){
+                                    echo "selected";
+                                }
+                            }
+                            ?>>2024</option>
+                            <option value="2025"
+                            <?php 
+                             if (isset($_POST['month'])){
+                                if($_POST['month'] == 'December'){
+                                    echo "selected";
+                                }
+                            }
+                            ?>>2025</option>
                         </select>
 
                         <br><br>

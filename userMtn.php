@@ -3,6 +3,29 @@ $connection = DB();
 session_start();
 
 
+$cusname = $_SESSION['name'];
+$idcard = $_SESSION['idcard'];
+
+// find id customer with cusname and IDcard
+$sql = "SELECT id from customers WHERE firstname = '$cusname' and idcard = '$idcard'";
+$qr = mysqli_query($connection, $sql);
+
+if ($qr) {
+    if (mysqli_num_rows($qr) > 0) {
+        while ($row = mysqli_fetch_assoc($qr)) {
+            $CusId = $row['id'];
+        }
+    }
+} else {
+    echo "NO " . mysqli_error($connection);
+}
+
+
+// find rooms's id with CusId
+$sqlR = "SELECT id , name from rooms WHERE customer_id = '$CusId'";
+$qrR = mysqli_query($connection, $sqlR);
+
+
 
 // echo 
 // $sqlR = "SELECT id , name FROM rooms WHERE customer_id = 0 Order by id";
@@ -87,23 +110,60 @@ session_start();
             <!-- 9 ไว้แสดง Content -->
             <div id="md11" class="mt-4 col-md-9" style="text-align: center">
 
-                    <h1>บริการแจ้งซ่อมของคุณ <?= $_SESSION['name'] ?> </h1>
+                <!-- <h1>บริการแจ้งซ่อมของคุณ <?= $_SESSION['name'] ?> </h1> -->
 
-                    <div class="card">
-                        <div class="card-header">
-                        <h1>test</h1>
-                        </div>
-
-                        <div class="card-body">
-                        <h1>Test </h1>
-                        </div>
+                <div class="card">
+                    <div class="card-header bg-primary text-light">
+                        <h2>แจ้งซ่อม</h2>
                     </div>
 
-                   
-           
+                    <div class="card-body">
+                        <form action="repairSave.php" method="POST" id="UserForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="room">ห้อง</label>
+                                    <select class="custom-select" name="sl" id="sl">
+                                        <option value="test">
+                                            <--- เลือกห้อง ---->
+                                        </option>
+                                        <?php
+                                        while ($row = mysqli_fetch_assoc($qrR)) {
+                                            echo "<option value=" . $row['id'] . ">" .
+                                                $row['name'] .
+                                                "</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="room">วันที่แจ้งซ่อม</label>
+                                    <input type="date" class="custom-select" name="datecall" required>
+                                </div>
+
+                                <div class="col-md-12 mt-4">
+
+                                    <label for="room">รายละเอียด</label>
+                                    <input type="text" class="custom-select col-xs-4" name="detail" required>
+                                </div>
+
+                                <div class="col-md-12 text-right mt-4">
+
+                                    <button  id="userOK" name="userOK" class="btn btn-primary float-right" >OK</button>
+                                </div>
+
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+
+
+
             </div>
 
-            
+
 
         </div>
     </div>
@@ -123,7 +183,13 @@ session_start();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 
-
+<script>
+    $(document).ready(function(){
+        $("#UserForm").submit(function(){
+            alert("ระบบทำการ Save เรียบร้อยครับ");
+        })
+    })
+</script>
 
 <?php
 mysqli_close($connection);

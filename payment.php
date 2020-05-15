@@ -15,24 +15,24 @@ $qrService = mysqli_query($connection, $sqlservice);
 
 
 
-if (isset($_POST['Fsubmit'])){
-   $ord_id = $_POST['test'];
+if (isset($_POST['Fsubmit'])) {
+    $ord_id = $_POST['test'];
     $Stype = $_POST['Stype'];
     $amount = $_POST['amount'];
     $price = $_POST['price'];
 
     $sql = "INSERT into order_details (service_id,amount,price,total,order_id) VALUES ('$Stype','$amount','$price','$price','$ord_id')";
-    
-    $qr = mysqli_query($connection,$sql);
+
+    $qr = mysqli_query($connection, $sql);
 
     // if($qr){
     //     echo "<tbody>" ;
     //     echo "<tr>";
     //     echo "<td>" . "test" . "</td>";
-         
+
     //     echo "</tr>";
     //     echo  "</tbody>";
-       
+
     // }
 }
 
@@ -66,7 +66,7 @@ if (isset($_POST['Fsubmit'])){
     <!-- awesome Font -->
     <script src="https://kit.fontawesome.com/c1e251547b.js" crossorigin="anonymous"></script>
 
-    
+
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Sarabun&display=swap" rel="stylesheet">
 
@@ -164,36 +164,152 @@ if (isset($_POST['Fsubmit'])){
                         <label for="room"></label>
                         <select class="form-control" name="room" id="room">
                             <?php while ($row = mysqli_fetch_assoc($qrR)) : ?>
-                                <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                                <option value="<?= $row['id'] ?>" <?php
+                                                                    if (isset($_POST['room'])) {
+                                                                        if ($_POST['room'] == $row['id']) {
+                                                                            echo "selected";
+                                                                        }
+                                                                    }
+                                                                    ?>><?= $row['name'] ?></option>
                             <?php endwhile; ?>
                         </select><br>
 
                         <!-- month -->
                         <label for="month"> เดือน </label>
                         <select name="month" id="month">
-                            <option value="January">มกราคม</option>
-                            <option value="February">กุมพาพันธ์</option>
-                            <option value="March">มีนาคม</option>
-                            <option value="April">เมษายน</option>
-                            <option value="May">พฤษภาคม</option>
-                            <option value="June">มิถุนายน</option>
-                            <option value="July">กรกฏาคม</option>
-                            <option value="August">สิงหาคม</option>
-                            <option value="September">กันายน</option>
-                            <option value="Octomer">ตุลาคม</option>
-                            <option value="November">พฤศจิกายน</option>
-                            <option value="December">ธันวาคม</option>
+                            <option value="January" <?php
+                                                    if (isset($_POST['month'])) {
+                                                        if ($_POST['month'] == 'January') {
+                                                            echo "selected";
+                                                        }
+                                                    }
+                                                    ?>>มกราคม</option>
+                            <option value="February" <?php
+                                                        if (isset($_POST['month'])) {
+                                                            if ($_POST['month'] == 'February') {
+                                                                echo "selected";
+                                                            }
+                                                        }
+
+                                                        ?>>กุมพาพันธ์</option>
+
+                            <option value="March" <?php
+                                                    if (isset($_POST['month'])) {
+                                                        if ($_POST['month'] == 'March') {
+                                                            echo "selected";
+                                                        }
+                                                    }
+                                                    ?>>มีนาคม</option>
+                            <option value="April" <?php
+                                                    if (isset($_POST['month'])) {
+                                                        if ($_POST['month'] == 'April') {
+                                                            echo "selected";
+                                                        }
+                                                    }
+                                                    ?>>เมษายน</option>
+                            <option value="May" <?php
+                                                if (isset($_POST['month'])) {
+                                                    if ($_POST['month'] == 'May') {
+                                                        echo "selected";
+                                                    }
+                                                }
+                                                ?>>พฤษภาคม</option>
+                            <option value="June" <?php
+                                                    if (isset($_POST['month'])) {
+                                                        if ($_POST['month'] == 'June') {
+                                                            echo "selected";
+                                                        }
+                                                    }
+                                                    ?>>มิถุนายน</option>
+                            <option value="July" <?php
+                                                    if (isset($_POST['month'])) {
+                                                        if ($_POST['month'] == 'July') {
+                                                            echo "selected";
+                                                        }
+                                                    }
+                                                    ?>>กรกฏาคม</option>
+                            <option value="August" <?php
+                                                    if (isset($_POST['month'])) {
+                                                        if ($_POST['month'] == 'August') {
+                                                            echo "selected";
+                                                        }
+                                                    }
+                                                    ?>>สิงหาคม</option>
+                            <option value="September" <?php
+                                                        if (isset($_POST['month'])) {
+                                                            if ($_POST['month'] == 'September') {
+                                                                echo "selected";
+                                                            }
+                                                        }
+                                                        ?>>กันายน</option>
+                            <option value="October" <?php
+                                                    if (isset($_POST['month'])) {
+                                                        if ($_POST['month'] == 'October') {
+                                                            echo "selected";
+                                                        }
+                                                    }
+                                                    ?>>ตุลาคม</option>
+                            <option value="November" <?php
+                                                        if (isset($_POST['month'])) {
+                                                            if ($_POST['month'] == 'November') {
+                                                                echo "selected";
+                                                            }
+                                                        }
+                                                        ?>>พฤศจิกายน</option>
+                            <option value="December" <?php
+                                                        if (isset($_POST['month'])) {
+                                                            if ($_POST['month'] == 'December') {
+                                                                echo "selected";
+                                                            }
+                                                        }
+                                                        ?>>ธันวาคม</option>
                         </select>
 
                         <!-- year  -->
                         <label for="year"> ปี </label>
                         <select name="year" id="year">
-                            <option value="2020">2020</option>
-                            <option value="2021">2021</option>
-                            <option value="2022">2022</option>
-                            <option value="2023">2023</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
+                            <option value="2020" <?php
+                                                    if (isset($_POST['month'])) {
+                                                        if ($_POST['year'] == '2020') {
+                                                            echo "selected";
+                                                        }
+                                                    }
+                                                    ?>>2020</option>
+                            <option value="2021" <?php
+                                                    if (isset($_POST['month'])) {
+                                                        if ($_POST['year'] == '2021') {
+                                                            echo "selected";
+                                                        }
+                                                    }
+                                                    ?>>2021</option>
+                            <option value="2022" <?php
+                                                    if (isset($_POST['month'])) {
+                                                        if ($_POST['year'] == '2022') {
+                                                            echo "selected";
+                                                        }
+                                                    }
+                                                    ?>>2022</option>
+                            <option value="2023" <?php
+                                                    if (isset($_POST['month'])) {
+                                                        if ($_POST['year'] == '2023') {
+                                                            echo "selected";
+                                                        }
+                                                    }
+                                                    ?>>2023</option>
+                            <option value="2024" <?php
+                                                    if (isset($_POST['month'])) {
+                                                        if ($_POST['year'] == '2024') {
+                                                            echo "selected";
+                                                        }
+                                                    }
+                                                    ?>>2024</option>
+                            <option value="2025" <?php
+                                                    if (isset($_POST['month'])) {
+                                                        if ($_POST['year'] == '2025') {
+                                                            echo "selected";
+                                                        }
+                                                    }
+                                                    ?>>2025</option>
                         </select>
 
 
@@ -213,7 +329,7 @@ if (isset($_POST['Fsubmit'])){
                                 <th style="font-size: 20px">รายละเอียด</th>
                                 <th style="font-size: 20px">จำนวน</th>
                                 <th style="font-size: 20px">ราคา</th>
-                                
+
 
                             </tr>
                         </thead>
@@ -232,7 +348,7 @@ if (isset($_POST['Fsubmit'])){
                                             ON ord.id = od.order_id left join services as ser
                                             ON od.service_id = ser.id
                                             WHERE r.id = '$room' and ord.month = '$month' and ord.year = '$year' and od.price != 0";
-                                            // 
+                                // 
 
                                 $qrRoom = mysqli_query($connection, $sql);
 
@@ -247,20 +363,19 @@ if (isset($_POST['Fsubmit'])){
                                     echo "</tr>";
 
                                     $test = $row["ord_id"];
-                                   
                                 }
-                                
+
                                 $sqlwater = "select mld.old_number , mld.new_number , mld.price_water , mld.month , mld.year , r.name as room_name , r.id
                                             from meter_log_details as mld left join meter_logs as ml
                                             ON mld.meter_log_id = ml.id left join rooms as r
                                             ON ml.id = r.id
                                             WHERE r.id = '$room' and month = '$month' and year = '$year'";
-                                $qrwater = mysqli_query($connection,$sqlwater);
+                                $qrwater = mysqli_query($connection, $sqlwater);
 
-                                while ($row = mysqli_fetch_assoc($qrwater)){
+                                while ($row = mysqli_fetch_assoc($qrwater)) {
 
                                     $amount = $row['new_number'] - $row['old_number'];
-                                    $price = $amount * 12 ;
+                                    $price = $amount * 12;
 
                                     echo "<tr style='text-align: center'>";
                                     echo "<td style='font-size: 20px'>" . $row["room_name"] . "</td>";
@@ -269,41 +384,40 @@ if (isset($_POST['Fsubmit'])){
                                     echo "<td style='font-size: 20px'>" . $price . "</td>";
                                     echo "</tr>";
                                 }
-                                
                             }
 
-                                // if (isset($_POST['Fsubmit'])){
-                                //     $month = isset($_POST['month']) ? $_POST['month'] : '';
-                                //     $year = isset($_POST['year']) ? $_POST['year'] : '';
-                                //     $room = isset($_POST['room']) ? $_POST['room'] : '';
-    
-                                //     $sql = "SELECT r.id , r.name as room_name , ord.room_id, ord.id as ord_id , od.amount , od.price , ser.name as service_name
-                                //                 FROM rooms as r left join orders as ord
-                                //                 ON r.id = ord.room_id left join order_details as od
-                                //                 ON ord.id = od.order_id left join services as ser
-                                //                 ON od.service_id = ser.id
-                                //                 WHERE r.id = '$room' and ord.month = '$month' and ord.year = '$year'";
-    
-                                //     $qrRoom = mysqli_query($connection, $sql);
-    
-                                //     // print_r($qrRoom);
-    
-                                //     while ($row = mysqli_fetch_assoc($qrRoom)) {
-                                //         echo "<tr style='text-align: center'>";
-                                //         echo "<td style='font-size: 20px'>" . $row["room_name"] . "</td>";
-                                //         echo "<td style='font-size: 20px'>" . $row["service_name"] . "</td>";
-                                //         echo "<td style='font-size: 20px'>" . $row["amount"] . "</td>";
-                                //         echo "<td style='font-size: 20px'>" . $row["price"] . "</td>";
-    
-                                //         echo "</tr>";
-    
-                                //         $test = $row["ord_id"];
-                                       
-                                //     }
-                                    
-                                // }
+                            // if (isset($_POST['Fsubmit'])){
+                            //     $month = isset($_POST['month']) ? $_POST['month'] : '';
+                            //     $year = isset($_POST['year']) ? $_POST['year'] : '';
+                            //     $room = isset($_POST['room']) ? $_POST['room'] : '';
 
-                            
+                            //     $sql = "SELECT r.id , r.name as room_name , ord.room_id, ord.id as ord_id , od.amount , od.price , ser.name as service_name
+                            //                 FROM rooms as r left join orders as ord
+                            //                 ON r.id = ord.room_id left join order_details as od
+                            //                 ON ord.id = od.order_id left join services as ser
+                            //                 ON od.service_id = ser.id
+                            //                 WHERE r.id = '$room' and ord.month = '$month' and ord.year = '$year'";
+
+                            //     $qrRoom = mysqli_query($connection, $sql);
+
+                            //     // print_r($qrRoom);
+
+                            //     while ($row = mysqli_fetch_assoc($qrRoom)) {
+                            //         echo "<tr style='text-align: center'>";
+                            //         echo "<td style='font-size: 20px'>" . $row["room_name"] . "</td>";
+                            //         echo "<td style='font-size: 20px'>" . $row["service_name"] . "</td>";
+                            //         echo "<td style='font-size: 20px'>" . $row["amount"] . "</td>";
+                            //         echo "<td style='font-size: 20px'>" . $row["price"] . "</td>";
+
+                            //         echo "</tr>";
+
+                            //         $test = $row["ord_id"];
+
+                            //     }
+
+                            // }
+
+
 
                             ?>
 
@@ -391,7 +505,7 @@ if (isset($_POST['Fsubmit'])){
                                     <!-- <?= $year; ?> -->
                                     <!-- <?= $room; ?> -->
 
-                                     <!-- <? $_POST['test'] = $test; ?> -->
+                                    <!-- <? $_POST['test'] = $test; ?> -->
                                 </tr>
                             </tbody>
 

@@ -156,6 +156,7 @@ if (isset($_POST['okie'])) {
                     <input type='submit' name="okie" value="ตกลง"></input>
                 </form>
 
+                <!--  -->
                 <form action="waterS.php" method="POST" id="tform" name="tform">
                     <div style="float: right">
                         <label for="month">เดือน / วัน / ปี</label>
@@ -210,8 +211,8 @@ if (isset($_POST['okie'])) {
                                     <input type="hidden" id="test" name="test" value="<?= $row['floor'] ?>">
                                     <input type="hidden" id="wid" name="wid[]" value="<?= $row['id'] ?>">
                                     <input type="hidden" id="ynm" name="ynm" value="<? $yearnmonth ?>">
-                                    <td> <input type="number" id="wname" name="wname" value="<?= $row['name'] ?>" readonly> </td>
-                                    <td> <input type="number" class="oldnum" id="oldnum" name="oldnum[]" value="<?= $row['meter_current'] ?>" readonly> </td>
+                                    <td> <input type="number" id="wname" name="wname" value="<?= $row['name'] ?>" disabled > </td>
+                                    <td> <input type="number" class="oldnum" id="oldnum" name="oldnum[]" value="<?= $row['meter_current'] ?>" disabled> </td>
                                     <td> <input type="number" class="newnum" id="newnum" name="newnum[]" value=""> </td>
                                     <!-- <td> <input type="number" id="result" name="result" value="<?= ($row['new_number'] - $row['old_number']) ?>"  readonly>   </td>      -->
                                     <!-- <td> <input type="button" id="result" name="result" onclick="add_number()">   </td>       -->
@@ -255,6 +256,11 @@ if (isset($_POST['okie'])) {
             if (aa > bb || aa == bb) {
                 alert("ค่ามิตเตอร์ใหม่ต้องมากกว่า มิตเตอร์เก่า");
             }
+        })
+
+        
+        $("#tform").submit(function(){
+            alert("บันทึกค่าน้ำเรียบร้อยครับ");
         })
 
 

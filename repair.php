@@ -163,7 +163,7 @@ $qrRP = mysqli_query($connection, $sqlRP);
 
 
                                     <div class="mt-4 col-md-12">
-                                        <button name="OK" i class="btn btn-success float-right">OK</button>
+                                        <button name="OK"  class="btn btn-success float-right">OK</button>
                                     </div>
 
                                     </form>

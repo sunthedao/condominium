@@ -175,7 +175,7 @@ while ($row = mysqli_fetch_assoc($qrconno)){
             <div id="md11" class="mt-4 col-md-9">
                 <h3 class="text-center">สัญญา</h3>
                 <div class="container">
-                    <form action="contactSave.php" method="POST">
+                    <form action="contactSave.php" method="POST" id="cForm">
                         <div class="form-group">
                         <label for="month"> เดือน </label>
                         <select name="month" id="month">
@@ -294,7 +294,13 @@ while ($row = mysqli_fetch_assoc($qrconno)){
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 
-
+<script>
+    $(document).ready(function(){
+        $("#cForm").submit(function(){
+            alert("ระบบทำการอนุมัติสัญญาเรียบร้อยแล้วครับ");
+        })
+    })
+</script>
 
 <?php
 mysqli_close($connection);
