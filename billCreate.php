@@ -131,7 +131,8 @@ $qrsql = mysqli_query($connection, $sql);
 
 
                 <table class="table table-bordered table-striped">
-                    <form action="billsave.php" method="POST">
+                    <form action="billsave.php" method="POST" id="CreB">
+                    <!--  -->
 
                         <!-- month -->
                         <label for="month"> เดือน </label>
@@ -234,7 +235,13 @@ $qrsql = mysqli_query($connection, $sql);
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 
-
+<script>
+$(document).ready(function(){
+    $("#CreB").submit(function(){
+        alert("ทำการสร้างบิลเรียบร้อยครับ");
+    })
+})
+</script>
 
 <?php
 mysqli_close($connection);

@@ -138,11 +138,11 @@ session_start();
                         </a>
                     </div>
 
-                    <div class="mt-4 col-md-6">
+                    <!-- <div class="mt-4 col-md-6">
                         <a href="reportRP.php">
                         <i class="far fa-2x fa-file">รายงานการซ่อม</i>
                         </a>
-                    </div>
+                    </div> -->
 
                     <!-- <div class="mt-4 col-md-6">
                         <a href="reporttest.php"  target="print-iframe">

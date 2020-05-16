@@ -155,7 +155,9 @@ session_start();
                 <form action="" method="POST">
                     <div style="float: left" class="Ono">
                         <label for="month"> เดือนสำหรับรายงาน </label>
-                        <input type="date" id="dt" name="dt">
+                        <input type="date" id="dt" name="dt" value="<?php echo isset($_POST['dt']) ? $_POST['dt'] : '';?>">
+
+                        
                     </div>
                     <!-- // $date = date('Y-m-d'); -->
 
