@@ -27,7 +27,7 @@ session_start();
     <!-- css -->
     <link rel="stylesheet" href="style.css">
 
-    
+
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Sarabun&display=swap" rel="stylesheet">
 
@@ -57,6 +57,10 @@ session_start();
             }
 
             #p2 {
+                display: none;
+            }
+
+            #md12 {
                 display: none;
             }
         }
@@ -153,13 +157,18 @@ session_start();
             <div id="md11" class="mt-4 col-md-9">
                 <h1 class="text-center"> รายงานการแจ้งซ่อม </h1>
 
-                <div class="mt-3 col-md-12">
-                    <label for="mtn">กรุณาเลือก</label>
-                    <select name="Mtn" id="Mtn">
-                        <option value="0"> ห้องที่ยังไม่ได้ทำการซ่อม </option>
-                        <option value="1"> ห้องที่ซ่อมเสร็จแล้ว </option>
-                    </select>
-                </div>
+                <form action="" id="Fmtn">
+                    <div class="mt-3 col-md-12" id="md12">
+                        <label for="mtn">รายงาน</label>
+                        <select name="Mtn" id="Mtn">
+                            <option value="0">
+                                < ----------------->
+                            </option>
+                            <option value="1"> ห้องที่ยังไม่ได้ทำการซ่อม </option>
+                            <option value="2"> ห้องที่ซ่อมเสร็จแล้ว </option>
+                        </select>
+                    </div>
+                </form>
 
                 <!-- <form action="" method="POST">
                     <div style="float: left" class="Ono">
@@ -201,7 +210,8 @@ session_start();
 
                 //     echo "<h3 class='text-center'>" . $month . " " . $year . "</h3>";
                 // }
-                // ?>
+                // 
+                ?>
                 <table class="table table-bordered table-striped mt-3" style="text-align: center">
                     <thead>
                         <tr>
@@ -214,47 +224,47 @@ session_start();
                     </thead>
                     <tbody>
                         <!-- <?php
-                        // if (isset($_POST['rproom'])) {
-                            // $month = isset($_POST['month']) ? $_POST['month'] : '';
-                            // $year = isset($_POST['year']) ? $_POST['year'] : '';
+                                // if (isset($_POST['rproom'])) {
+                                // $month = isset($_POST['month']) ? $_POST['month'] : '';
+                                // $year = isset($_POST['year']) ? $_POST['year'] : '';
 
 
-                            $sql =  "SELECT rp.id , rp.detail , rp.date_call , rp.date_do , rp.price , r.name as r_name
+                                $sql =  "SELECT rp.id , rp.detail , rp.date_call , rp.date_do , rp.price , r.name as r_name
                             FROM repair as rp left join rooms as r
                             ON rp.room_id = r.id
                             WHERE rp.price = 0
                             ORder by rp.date_call";
-                            
-                            // "select od.month, od.year , R.name as r_name , odt.total , rp.detail , rp.date_call , rp.date_do
-                            // from orders as od left join rooms as R
-                            // ON od.room_id = R.id left join order_details as odt
-                            // ON od.id = odt.order_id left join repair as rp
-                            // ON od.room_id = rp.room_id
-                            // WHERE od.month = '$month' and od.year = '$year' and odt.service_id = '5' and rp.price != '0'
-                            // ORder by r.id";
 
-                            $qr = mysqli_query($connection, $sql);
+                                // "select od.month, od.year , R.name as r_name , odt.total , rp.detail , rp.date_call , rp.date_do
+                                // from orders as od left join rooms as R
+                                // ON od.room_id = R.id left join order_details as odt
+                                // ON od.id = odt.order_id left join repair as rp
+                                // ON od.room_id = rp.room_id
+                                // WHERE od.month = '$month' and od.year = '$year' and odt.service_id = '5' and rp.price != '0'
+                                // ORder by r.id";
+
+                                $qr = mysqli_query($connection, $sql);
 
 
 
-                            if (mysqli_num_rows($qr) == 0) {
-                                echo "<tr>";
-                                echo "<td>" . "</td>";
-                                echo "<td>" . "</td>";
-                                echo "<td>" . " ไม่มีการแจ้งซ่อม " . "</td>";
-                                echo "<td>" . "</td>";
-                                echo "</tr>";
-                            } else {
-                                while ($row = mysqli_fetch_assoc($qr)) {
+                                if (mysqli_num_rows($qr) == 0) {
                                     echo "<tr>";
-                                    echo "<td>" . $row['r_name'] . "</td>";
-                                    echo "<td>" . $row['detail'] . "</td>";
-                                    echo "<td>" . $row['date_call'] . "</td>";
-                                    echo "<td>" . "<button class='btn btn-danger'>ยังไม่ทำการซ่อม</button>" . "</td>";
+                                    echo "<td>" . "</td>";
+                                    echo "<td>" . "</td>";
+                                    echo "<td>" . " ไม่มีการแจ้งซ่อม " . "</td>";
+                                    echo "<td>" . "</td>";
                                     echo "</tr>";
+                                } else {
+                                    while ($row = mysqli_fetch_assoc($qr)) {
+                                        echo "<tr>";
+                                        echo "<td>" . $row['r_name'] . "</td>";
+                                        echo "<td>" . $row['detail'] . "</td>";
+                                        echo "<td>" . $row['date_call'] . "</td>";
+                                        echo "<td>" . "<button class='btn btn-danger'>ยังไม่ทำการซ่อม</button>" . "</td>";
+                                        echo "</tr>";
+                                    }
                                 }
-                            }
-                        // }
+                                // }
 
 
 
@@ -262,8 +272,8 @@ session_start();
 
 
 
-                        ?> -->
-        
+                                ?> -->
+
                         <!--                  
 
                         <tr>
@@ -295,7 +305,42 @@ session_start();
 </body>
 
 <script>
+    $(document).ready(function() {
 
+        $("#Mtn").change(function() {
+            let a = $("#Mtn").val();
+
+            // console.log(a);
+            $.ajax({
+                url: '/condominium/api/mtnapi.php',
+                method: 'POST',
+                data: {
+                    // action: "mtn",
+                    action: a
+                },
+                success: (res) => {
+
+                    // console.log(res.data);
+
+                  let rows ;
+                  $.each(res.data , function(k,v){
+                      rows +=
+                      "<tr>"+
+                      "<td>"+ res.data[k].room +"</td>"+
+                      "<td>"+ res.data[k].detail +"</td>"+
+                      "<td>"+ res.data[k].DayCall +"</td>"+
+                      "<td>"+ res.data[k].status +"</td>"+
+                      "</tr>"
+                  })
+                  $("tbody").html(rows);
+                    
+
+                }
+            })
+
+        })
+
+    })
 </script>
 
 
