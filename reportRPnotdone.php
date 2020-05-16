@@ -153,6 +153,14 @@ session_start();
             <div id="md11" class="mt-4 col-md-9">
                 <h1 class="text-center"> รายงานการแจ้งซ่อม </h1>
 
+                <div class="mt-3 col-md-12">
+                    <label for="mtn">กรุณาเลือก</label>
+                    <select name="Mtn" id="Mtn">
+                        <option value="0"> ห้องที่ยังไม่ได้ทำการซ่อม </option>
+                        <option value="1"> ห้องที่ซ่อมเสร็จแล้ว </option>
+                    </select>
+                </div>
+
                 <!-- <form action="" method="POST">
                     <div style="float: left" class="Ono">
                         <label for="month"> เดือนสำหรับรายงาน </label>
@@ -194,7 +202,7 @@ session_start();
                 //     echo "<h3 class='text-center'>" . $month . " " . $year . "</h3>";
                 // }
                 // ?>
-                <table class="table table-bordered table-striped" style="text-align: center">
+                <table class="table table-bordered table-striped mt-3" style="text-align: center">
                     <thead>
                         <tr>
                             <th>ห้อง</th>
@@ -205,7 +213,7 @@ session_start();
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
+                        <!-- <?php
                         // if (isset($_POST['rproom'])) {
                             // $month = isset($_POST['month']) ? $_POST['month'] : '';
                             // $year = isset($_POST['year']) ? $_POST['year'] : '';
@@ -254,7 +262,7 @@ session_start();
 
 
 
-                        ?>
+                        ?> -->
         
                         <!--                  
 
